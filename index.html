@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hemant Bhadke - DevOps Engineer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --matrix-green: #00ff41;
+            --matrix-dark-green: #008f11;
+            --matrix-bg: #0d0208;
+            --matrix-card: #1a1a1a;
+            --matrix-accent: #00ff41;
+            --text-primary: #00ff41;
+            --text-secondary: #39ff14;
+            --glow: 0 0 10px #00ff41;
+        }
+        
+        [data-theme="light"] {
+            --matrix-bg: #0a0a0a;
+            --matrix-card: #1a1a1a;
+            --text-primary: #00ff41;
+            --text-secondary: #39ff14;
+        }
+        
+        body {
+            font-family: 'Courier New', monospace;
+            line-height: 1.6;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            background: var(--matrix-bg);
+            position: relative;
+        }
+
+        /* Matrix Rain Background */
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.15;
+        }
+
+        /* Scanline Effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 255, 65, 0.03) 0px,
+                transparent 1px,
+                transparent 2px,
+                rgba(0, 255, 65, 0.03) 3px
+            );
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(13, 2, 8, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 255, 65, 0.3);
+            z-index: 1000;
+            padding: 1rem 0;
+            border-bottom: 2px solid var(--matrix-green);
+        }
+        
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--matrix-green);
+            text-shadow: var(--glow);
+            font-family: 'Courier New', monospace;
+        }
+
+        nav .logo::before {
+            content: '> ';
+            color: var(--matrix-green);
+        }
+        
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--matrix-green);
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        nav a::before {
+            content: '[';
+            margin-right: 3px;
+        }
+
+        nav a::after {
+            content: ']';
+            margin-left: 3px;
+        }
+        
+        nav a:hover {
+            text-shadow: var(--glow);
+            transform: scale(1.05);
+        }
+        
+        /* Theme Toggle */
+        .theme-toggle {
+            background: transparent;
+            border: 2px solid var(--matrix-green);
+            color: var(--matrix-green);
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+        
+        .theme-toggle:hover {
+            box-shadow: var(--glow);
+            background: rgba(0, 255, 65, 0.1);
+        }
+
+        /* Terminal Float Button */
+        .terminal-float-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--matrix-card);
+            border: 2px solid var(--matrix-green);
+            border-radius: 4px;
+            color: var(--matrix-green);
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
+            z-index: 999;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 65, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(0, 255, 65, 0.8); }
+        }
+
+        .terminal-float-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 40px rgba(0, 255, 65, 0.8);
+        }
+
+        /* Terminal Container */
+        .terminal-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 600px;
+            height: 450px;
+            background: #000000;
+            border: 2px solid var(--matrix-green);
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.5);
+            z-index: 1001;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .terminal-container.active {
+            display: flex;
+            animation: terminalSlideIn 0.3s ease;
+        }
+
+        @keyframes terminalSlideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .terminal-header {
+            background: var(--matrix-card);
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--matrix-green);
+        }
+
+        .terminal-title {
+            color: var(--matrix-green);
+            font-size: 14px;
+            font-family: 'Courier New', monospace;
+            text-shadow: var(--glow);
+        }
+
+        .terminal-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .terminal-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 0;
+            border: 1px solid var(--matrix-green);
+            cursor: pointer;
+            background: transparent;
+        }
+
+        .terminal-btn:hover {
+            background: var(--matrix-green);
+        }
+
+        .terminal-output {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: var(--matrix-green);
+            line-height: 1.5;
+        }
+
+        .terminal-output::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .terminal-output::-webkit-scrollbar-track {
+            background: #000000;
+        }
+
+        .terminal-output::-webkit-scrollbar-thumb {
+            background: var(--matrix-green);
+        }
+
+        .terminal-line {
+            margin-bottom: 5px;
+        }
+
+        .terminal-command {
+            color: #ffffff;
+        }
+
+        .terminal-error {
+            color: #ff0000;
+            text-shadow: 0 0 5px #ff0000;
+        }
+
+        .terminal-info {
+            color: var(--matrix-green);
+        }
+
+        .terminal-input-container {
+            background: #000000;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            border-top: 2px solid var(--matrix-green);
+        }
+
+        .terminal-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--matrix-green);
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .terminal-input::placeholder {
+            color: rgba(0, 255, 65, 0.4);
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 6rem 2rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-content h1 {
+            font-size: 3.5rem;
+            color: var(--matrix-green);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            text-shadow: 0 0 20px rgba(0, 255, 65, 0.8);
+            animation: glitch 3s infinite;
+        }
+
+        @keyframes glitch {
+            0%, 98% { transform: translate(0); }
+            99% { transform: translate(-2px, 2px); }
+            100% { transform: translate(2px, -2px); }
+        }
+        
+        .hero-content .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            text-shadow: var(--glow);
+        }
+
+        .hero-content .subtitle::before {
+            content: '> ';
+            color: var(--matrix-green);
+        }
+        
+        .hero-content p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-block;
+            border: 2px solid var(--matrix-green);
+            color: var(--matrix-green);
+            background: transparent;
+            font-family: 'Courier New', monospace;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--matrix-green);
+            transition: left 0.3s;
+            z-index: -1;
+        }
+
+        .btn:hover::before {
+            left: 0;
+        }
+
+        .btn:hover {
+            color: #000;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.8);
+        }
+        
+        .hero-image {
+            position: relative;
+        }
+        
+        .hero-image img {
+            width: 100%;
+            max-width: 400px;
+            height: 400px;
+            object-fit: cover;
+            margin: 0 auto;
+            display: block;
+            border: 3px solid var(--matrix-green);
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.5);
+            filter: contrast(1.2) brightness(1.1);
+        }
+        
+        /* Section Styles */
+        section {
+            padding: 6rem 2rem;
+            position: relative;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--matrix-green);
+            font-weight: 700;
+            text-shadow: 0 0 20px rgba(0, 255, 65, 0.8);
+            position: relative;
+        }
+
+        .section-title::before {
+            content: '// ';
+            color: var(--matrix-dark-green);
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: var(--matrix-green);
+            margin: 1rem auto;
+            box-shadow: var(--glow);
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        
+        .about-images {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .about-images img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border: 2px solid var(--matrix-green);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+            transition: all 0.3s;
+            filter: contrast(1.2) brightness(1.1);
+        }
+        
+        .about-images img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(0, 255, 65, 0.6);
+        }
+        
+        .about-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--matrix-green);
+            font-weight: 600;
+            text-shadow: var(--glow);
+        }
+        
+        .about-text p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        /* Certifications */
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .cert-card {
+            background: var(--matrix-card);
+            padding: 2rem;
+            border: 2px solid var(--matrix-green);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+            transition: all 0.3s;
+            text-align: center;
+            position: relative;
+        }
+
+        .cert-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: var(--matrix-green);
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: -1;
+        }
+
+        .cert-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 40px rgba(0, 255, 65, 0.6);
+        }
+
+        .cert-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .cert-badge {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            border: 2px solid var(--matrix-green);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+        }
+
+        .cert-badge img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .cert-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--matrix-green);
+            font-weight: 600;
+        }
+
+        .cert-card .cert-issuer {
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .cert-card .cert-date {
+            color: var(--matrix-dark-green);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .cert-card .cert-id {
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            background: rgba(0, 255, 65, 0.05);
+            padding: 0.5rem;
+            border: 1px solid var(--matrix-dark-green);
+        }
+        
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .skill-card {
+            background: var(--matrix-card);
+            padding: 2rem;
+            border: 2px solid var(--matrix-green);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+            transition: all 0.3s;
+            border-left: 4px solid var(--matrix-green);
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 40px rgba(0, 255, 65, 0.5);
+        }
+        
+        .skill-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--matrix-green);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            text-shadow: var(--glow);
+        }
+        
+        .skill-card ul {
+            list-style: none;
+        }
+        
+        .skill-card li {
+            padding: 0.5rem 0;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .skill-card li::before {
+            content: '> ';
+            color: var(--matrix-green);
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        
+        /* Timeline */
+        .timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 3rem auto;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: var(--matrix-green);
+            box-shadow: 0 0 10px var(--matrix-green);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        .timeline-content {
+            background: var(--matrix-card);
+            padding: 2rem;
+            border: 2px solid var(--matrix-green);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .timeline-content:hover {
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.5);
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-content {
+            grid-column: 1;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-content {
+            grid-column: 2;
+        }
+        
+        .timeline-date {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--matrix-card);
+            color: var(--matrix-green);
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--matrix-green);
+            font-weight: 600;
+            white-space: nowrap;
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.5);
+        }
+        
+        .timeline-content h3 {
+            color: var(--matrix-green);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            text-shadow: var(--glow);
+        }
+        
+        .timeline-content h4 {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+        
+        .timeline-content ul {
+            list-style: none;
+            color: var(--text-secondary);
+        }
+        
+        .timeline-content li {
+            padding: 0.3rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        .timeline-content li::before {
+            content: '>';
+            position: absolute;
+            left: 0;
+            color: var(--matrix-green);
+        }
+        
+        /* Projects */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .project-card {
+            background: var(--matrix-card);
+            padding: 2rem;
+            transition: all 0.3s;
+            border: 2px solid var(--matrix-green);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .project-card:hover::before {
+            left: 100%;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 40px rgba(0, 255, 65, 0.6);
+        }
+        
+        .project-card h3 {
+            color: var(--matrix-green);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-shadow: var(--glow);
+        }
+        
+        .project-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .tag {
+            background: transparent;
+            color: var(--matrix-green);
+            padding: 0.3rem 0.8rem;
+            border: 1px solid var(--matrix-green);
+            font-size: 0.85rem;
+            font-family: 'Courier New', monospace;
+        }
+        
+        /* Contact Section */
+        .contact {
+            padding: 6rem 2rem;
+            background: var(--matrix-card);
+            border-top: 2px solid var(--matrix-green);
+            border-bottom: 2px solid var(--matrix-green);
+        }
+        
+        .contact-content {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .contact h2 {
+            color: var(--matrix-green);
+            margin-bottom: 2rem;
+            text-shadow: 0 0 20px rgba(0, 255, 65, 0.8);
+        }
+
+        .contact p {
+            color: var(--text-secondary);
+        }
+        
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .contact-link {
+            background: transparent;
+            color: var(--matrix-green);
+            padding: 1rem 2rem;
+            border: 2px solid var(--matrix-green);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .contact-link:hover {
+            background: var(--matrix-green);
+            color: #000;
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.8);
+        }
+        
+        /* Footer */
+        footer {
+            background: #000000;
+            color: var(--matrix-green);
+            text-align: center;
+            padding: 2rem;
+            border-top: 2px solid var(--matrix-green);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero .container,
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .timeline::before {
+                left: 0;
+            }
+            
+            .timeline-item {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline-item .timeline-content {
+                grid-column: 1 !important;
+                margin-left: 2rem;
+            }
+            
+            .timeline-date {
+                left: 0;
+                transform: translateX(0);
+            }
+            
+            nav ul {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .terminal-container {
+                width: 95%;
+                height: 400px;
+                right: 2.5%;
+                bottom: 10px;
+            }
+
+            .terminal-float-btn {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Matrix Rain Canvas -->
+    <canvas id="matrix-canvas"></canvas>
+
+    <div class="content-wrapper">
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="logo">HEMANT.SYS</div>
+            <ul>
+                <li><a href="#home">home</a></li>
+                <li><a href="#about">about</a></li>
+                <li><a href="#certifications">certs</a></li>
+                <li><a href="#skills">skills</a></li>
+                <li><a href="#experience">exp</a></li>
+                <li><a href="#projects">projects</a></li>
+                <li><a href="#contact">contact</a></li>
+                <li><button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">◉</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Terminal Float Button -->
+    <button class="terminal-float-btn" id="terminalBtn" aria-label="Open Terminal">
+        &gt;_
+    </button>
+
+    <!-- Terminal Container -->
+    <div class="terminal-container" id="terminalContainer">
+        <div class="terminal-header">
+            <span class="terminal-title">[HEMANT@DEVOPS]~$</span>
+            <div class="terminal-controls">
+                <button class="terminal-btn close" id="terminalClose"></button>
+                <button class="terminal-btn minimize"></button>
+                <button class="terminal-btn maximize"></button>
+            </div>
+        </div>
+        <div class="terminal-output" id="terminalOutput">
+            <div class="terminal-line">&gt; SYSTEM INITIALIZED...</div>
+            <div class="terminal-line terminal-info">&gt; TYPE 'help' FOR AVAILABLE COMMANDS</div>
+            <div class="terminal-line"> </div>
+        </div>
+        <div class="terminal-input-container">
+            <span class="terminal-prompt">[HEMANT@DEVOPS]~$ </span>
+            <input type="text" class="terminal-input" id="terminalInput" placeholder="enter command..." autocomplete="off">
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>HEMANT_BHADKE</h1>
+                <div class="subtitle">DEVOPS_ENGINEER</div>
+                <p>> Architecting scalable cloud infrastructure<br>
+                   > Automating deployment pipelines<br>
+                   > Building robust CI/CD systems<br>
+                   > Optimizing cloud operations</p>
+                <div class="cta-buttons">
+                    <a href="#contact" class="btn">[CONNECT]</a>
+                    <a href="#projects" class="btn">[PROJECTS]</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img id="heroImg" alt="Hemant Bhadke">
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">ABOUT.exe</h2>
+            <div class="about-content">
+                <div class="about-images">
+                    <img id="aboutImg1" alt="Hemant" style="grid-column: span 2;">
+                    <img id="aboutImg2" alt="Hemant at work">
+                </div>
+                <div class="about-text">
+                    <h3>&gt; SYSTEM_PROFILE</h3>
+                    <p>> Results-driven DevOps Engineer with 3+ years of experience at Infosys</p>
+                    <p>> Specializing in cloud-native solutions, CI/CD automation, and infrastructure as code</p>
+                    <p>> Background in Environmental Engineering - applying sustainable systems thinking to cloud infrastructure</p>
+                    <p>> Led cross-functional teams, reduced MTTR by 60%, architected CI/CD pipelines for Ricoh and Harley-Davidson</p>
+                    <p><strong>&gt; LOCATION:</strong> Amravati, Maharashtra, India</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications Section -->
+    <section id="certifications" class="certifications">
+        <div class="container">
+            <h2 class="section-title">CERTIFICATIONS.log</h2>
+            <div class="cert-grid">
+                <div class="cert-card">
+                    <div class="cert-badge">
+                        <img id="oracleBadge" alt="Oracle Certification">
+                    </div>
+                    <div class="cert-issuer">[ORACLE]</div>
+                    <h3>Cloud Infrastructure 2025 DevOps Professional</h3>
+                    <div class="cert-date">ISSUED: 2025-09-17</div>
+                    <div class="cert-id">ID: 322432197OCI25DOPOCP</div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-badge">
+                        <img id="redhatBadge" alt="Red Hat Training">
+                    </div>
+                    <div class="cert-issuer">[RED_HAT]</div>
+                    <h3>Linux Fundamentals (RH104)</h3>
+                    <div class="cert-date">ISSUED: 2025-09-19 | 16 HRS</div>
+                    <div class="cert-id">VERSION: 9.1</div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-badge">🎓</div>
+                    <div class="cert-issuer">[INFOSYS]</div>
+                    <h3>Kubernetes Administrator - Associate</h3>
+                    <div class="cert-date">ISSUED: 2024</div>
+                </div>
+
+                <div class="cert-card">
+                    <div class="cert-badge">⚙️</div>
+                    <div class="cert-issuer">[INFOSYS]</div>
+                    <h3>Ansible Automation Associate</h3>
+                    <div class="cert-date">ISSUED: 2024</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <h2 class="section-title">SKILLS.json</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <h3>☁️ CLOUD_PLATFORMS</h3>
+                    <ul>
+                        <li>Amazon Web Services (AWS)</li>
+                        <li>Microsoft Azure</li>
+                        <li>Google Cloud Platform (GCP)</li>
+                        <li>Oracle Cloud Infrastructure</li>
+                    </ul>
+                </div>
+                
+                <div class="skill-card">
+                    <h3>🔧 DEVOPS_TOOLS</h3>
+                    <ul>
+                        <li>Jenkins CI/CD</li>
+                        <li>Terraform (IaC)</li>
+                        <li>Docker & Kubernetes</li>
+                        <li>Git & GitHub</li>
+                        <li>Ansible Automation</li>
+                    </ul>
+                </div>
+                
+                <div class="skill-card">
+                    <h3>📊 MONITORING_STACK</h3>
+                    <ul>
+                        <li>Nagios</li>
+                        <li>Prometheus & Grafana</li>
+                        <li>ELK Stack</li>
+                        <li>AWS CloudWatch</li>
+                    </ul>
+                </div>
+                
+                <div class="skill-card">
+                    <h3>🌐 INFRASTRUCTURE</h3>
+                    <ul>
+                        <li>EKS/AKS/GKE Clusters</li>
+                        <li>VPC & Networking</li>
+                        <li>Load Balancers</li>
+                        <li>IAM & Security Groups</li>
+                        <li>EC2, S3, Lambda</li>
+                    </ul>
+                </div>
+                
+                <div class="skill-card">
+                    <h3>🖥️ SERVERS_OS</h3>
+                    <ul>
+                        <li>Apache Tomcat</li>
+                        <li>NGINX</li>
+                        <li>CentOS & Ubuntu</li>
+                        <li>Windows Server</li>
+                    </ul>
+                </div>
+                
+                <div class="skill-card">
+                    <h3>🔐 BEST_PRACTICES</h3>
+                    <ul>
+                        <li>Blue-Green Deployments</li>
+                        <li>Infrastructure as Code</li>
+                        <li>Disaster Recovery</li>
+                        <li>Security & Compliance</li>
+                        <li>Cost Optimization</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="experience">
+        <div class="container">
+            <h2 class="section-title">EXPERIENCE.timeline</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">[2023-07 - PRESENT]</div>
+                    <div class="timeline-content">
+                        <h3>&gt; DEVOPS_ENGINEER</h3>
+                        <h4>INFOSYS | CLIENT: RICOH</h4>
+                        <ul>
+                            <li>Architected Jenkins CI/CD pipelines for containerized applications</li>
+                            <li>Developed Terraform modules for AWS infrastructure (EKS, VPC, IAM)</li>
+                            <li>Implemented blue-green deployment strategies</li>
+                            <li>Mentored junior engineers on DevOps best practices</li>
+                            <li>Led Harley-Davidson's cloud automation initiative</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">[2022-06 - 2023-06]</div>
+                    <div class="timeline-content">
+                        <h3>&gt; DEVOPS_ENGINEER</h3>
+                        <h4>INFOSYS | CLIENT: SYEMONS_ENERGY</h4>
+                        <ul>
+                            <li>Led end-to-end setup of Nagios monitoring system</li>
+                            <li>Collaborated with infrastructure and network teams</li>
+                            <li>Automated monitoring configurations using Bash</li>
+                            <li>Reduced MTTR by 60% through proactive alerting</li>
+                            <li>Designed dashboards for incident response</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2 class="section-title">PROJECTS.dir</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3>&gt; HARLEY_DAVIDSON_AUTOMATION</h3>
+                    <p>Designed and implemented comprehensive Jenkins CI/CD pipelines for microservices deployment on AWS, integrating Git workflows and automated testing for reliable deployments.</p>
+                    <div class="project-tags">
+                        <span class="tag">[JENKINS]</span>
+                        <span class="tag">[TERRAFORM]</span>
+                        <span class="tag">[AWS]</span>
+                        <span class="tag">[MICROSERVICES]</span>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <h3>&gt; DISASTER_RECOVERY_AUTO</h3>
+                    <p>Automated AMI snapshots and S3 archiving using Lambda and CloudWatch Events, achieving a 50% reduction in Recovery Time Objective (RTO).</p>
+                    <div class="project-tags">
+                        <span class="tag">[LAMBDA]</span>
+                        <span class="tag">[CLOUDWATCH]</span>
+                        <span class="tag">[S3]</span>
+                        <span class="tag">[AUTOMATION]</span>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <h3>&gt; SELF_SERVICE_PORTAL</h3>
+                    <p>Built a Jenkins + Terraform solution enabling developers to provision isolated AWS environments on demand, improving team velocity and reducing manual provisioning time.</p>
+                    <div class="project-tags">
+                        <span class="tag">[JENKINS]</span>
+                        <span class="tag">[TERRAFORM]</span>
+                        <span class="tag">[SELF-SERVICE]</span>
+                        <span class="tag">[PORTAL]</span>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <h3>&gt; ENTERPRISE_MONITORING</h3>
+                    <p>Established robust Nagios monitoring across production and staging environments, with custom service checks and automated alerting workflows.</p>
+                    <div class="project-tags">
+                        <span class="tag">[NAGIOS]</span>
+                        <span class="tag">[MONITORING]</span>
+                        <span class="tag">[BASH]</span>
+                        <span class="tag">[ALERTING]</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="contact-content">
+                <h2>&gt; CONNECT.init</h2>
+                <p>&gt; Open to new opportunities, collaborations, and connecting with fellow DevOps engineers</p>
+                <div class="contact-links">
+                    <a href="mailto:hemantrbhadke@gmail.com" class="contact-link">
+                        [EMAIL]
+                    </a>
+                    <a href="https://www.linkedin.com/in/hemantrbhadke" target="_blank" class="contact-link">
+                        [LINKEDIN]
+                    </a>
+                    <a href="tel:+919766670282" class="contact-link">
+                        [PHONE]
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&gt; © 2025 HEMANT_BHADKE.SYS | BUILD_VERSION: 1.0.0 | STATUS: OPERATIONAL</p>
+    </footer>
+    </div>
+
+    <script>
+        // Matrix Rain Effect
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const matrixChars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+
+        for (let i = 0; i < columns; i++) {
+            drops[i] = Math.random() * -100;
+        }
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(13, 2, 8, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#00ff41';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = matrixChars[Math.floor(Math.random() * matrixChars.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 50);
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Image placeholders
+        document.getElementById('heroImg').style.background = 'linear-gradient(135deg, #00ff41 0%, #008f11 100%)';
+        document.getElementById('aboutImg1').style.background = 'linear-gradient(135deg, #00ff41 0%, #008f11 100%)';
+        document.getElementById('aboutImg2').style.background = 'linear-gradient(135deg, #008f11 0%, #00ff41 100%)';
+        document.getElementById('oracleBadge').innerHTML = '🏆';
+        document.getElementById('redhatBadge').innerHTML = '🎖️';
+
+        // Theme Toggle (Matrix theme is always on, but toggle for brightness)
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            canvas.style.opacity = canvas.style.opacity === '0.3' ? '0.15' : '0.3';
+        });
+
+        // Terminal Functionality
+        const terminalBtn = document.getElementById('terminalBtn');
+        const terminalContainer = document.getElementById('terminalContainer');
+        const terminalClose = document.getElementById('terminalClose');
+        const terminalInput = document.getElementById('terminalInput');
+        const terminalOutput = document.getElementById('terminalOutput');
+
+        const commands = {
+            help: `AVAILABLE_COMMANDS:
+  help          - Display this message
+  about         - System profile
+  skills        - Technical skills
+  certifications- View certifications
+  experience    - Work history
+  projects      - View projects
+  contact       - Contact information
+  clear         - Clear terminal
+  whoami        - Current user
+  date          - System date
+  pwd           - Working directory
+  ls            - List files
+  cat [file]    - Read file
+  neofetch      - System info`,
+            
+            about: `SYSTEM_PROFILE:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+> NAME: Hemant Bhadke
+> ROLE: DevOps Engineer
+> LOCATION: Amravati, Maharashtra, IN
+> EXPERIENCE: 3+ years @ Infosys
+> SPECIALIZATION: CI/CD, K8s, Terraform, AWS
+> STATUS: [OPERATIONAL]`,
+
+            skills: `TECHNICAL_SKILLS:
+━━━━━━━━━━━━━━━━━━
+[CLOUD] AWS | Azure | GCP | Oracle Cloud
+[DEVOPS] Jenkins | Terraform | Docker | Kubernetes
+[MONITORING] Nagios | Prometheus | Grafana | ELK
+[INFRASTRUCTURE] EKS | VPC | IAM | LoadBalancers
+[OS] CentOS | Ubuntu | Windows Server`,
+
+            certifications: `CERTIFICATIONS_LOG:
+━━━━━━━━━━━━━━━━━━━━━━━━
+[1] Oracle Cloud Infrastructure 2025 DevOps Pro
+    DATE: 2025-09-17 | ID: 322432197OCI25DOPOCP
+
+[2] Red Hat Linux Fundamentals (RH104)
+    DATE: 2025-09-19 | HOURS: 16
+
+[3] Infosys Kubernetes Administrator - Associate
+    DATE: 2024
+
+[4] Infosys Ansible Automation Associate
+    DATE: 2024`,
+
+            experience: `WORK_HISTORY:
+━━━━━━━━━━━━━━━━━━
+[CURRENT] DevOps Engineer @ Infosys (Ricoh)
+  PERIOD: 2023-07 to PRESENT
+  > Architected Jenkins CI/CD pipelines
+  > Terraform modules for AWS infrastructure
+  > Led Harley-Davidson cloud automation
+
+[PREVIOUS] DevOps Engineer @ Infosys (Syemons)  
+  PERIOD: 2022-06 to 2023-06
+  > Nagios monitoring system setup
+  > Reduced MTTR by 60%`,
+
+            projects: `PROJECTS_DIRECTORY:
+━━━━━━━━━━━━━━━━━━
+[1] HARLEY_DAVIDSON_CLOUD_AUTOMATION
+[2] DISASTER_RECOVERY_AUTOMATION
+[3] SELF_SERVICE_AWS_PORTAL
+[4] ENTERPRISE_MONITORING_SYSTEM`,
+
+            contact: `CONTACT_INFO:
+━━━━━━━━━━━━━━━━━━
+EMAIL: hemantrbhadke@gmail.com
+LINKEDIN: linkedin.com/in/hemantrbhadke
+PHONE: +91-9766670282`,
+
+            clear: 'CLEAR',
+            
+            whoami: 'hemant',
+            
+            date: '> ' + new Date().toString(),
+            
+            pwd: '/home/hemant/portfolio',
+            
+            ls: `total 12
+-rw-r--r-- 1 hemant hemant  123 Nov 02 resume.pdf
+-rw-r--r-- 1 hemant hemant  456 Nov 02 projects.md
+-rw-r--r-- 1 hemant hemant  789 Nov 02 skills.yml
+-rw-r--r-- 1 hemant hemant  234 Nov 02 certs.txt
+drwxr-xr-x 2 hemant hemant 4096 Nov 02 aws-configs/
+drwxr-xr-x 2 hemant hemant 4096 Nov 02 terraform-modules/
+drwxr-xr-x 2 hemant hemant 4096 Nov 02 jenkins-pipelines/`,
+
+            neofetch: `
+    ╔══════════════════════╗
+    ║  HEMANT_BHADKE.SYS   ║
+    ╚══════════════════════╝
+    
+    OS: DevOps_Engineer_v3.0
+    Kernel: Cloud_Native
+    Uptime: 3+ years
+    Shell: bash/zsh
+    IDE: vim/vscode
+    Cloud: AWS/Azure/GCP
+    Tools: Jenkins/Terraform/K8s
+    Status: [OPERATIONAL]`,
+
+            cat: `USAGE: cat [filename]
+Available: resume.pdf, projects.md, skills.yml, certs.txt`
+        };
+
+        const catFiles = {
+            'resume.pdf': `HEMANT_BHADKE - DevOps Engineer
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EMAIL: hemantrbhadke@gmail.com
+PHONE: +91-9766670282
+LINKEDIN: linkedin.com/in/hemantrbhadke
+
+SUMMARY:
+Results-driven DevOps Engineer with 3+ years
+experience in CI/CD, cloud automation, and IaC`,
+
+            'projects.md': `# PROJECTS
+
+## HARLEY_DAVIDSON_CLOUD_AUTOMATION
+Jenkins CI/CD for microservices on AWS
+
+## DISASTER_RECOVERY_AUTOMATION  
+AMI snapshots automation - 50% RTO reduction
+
+## SELF_SERVICE_AWS_PORTAL
+Jenkins + Terraform on-demand environments`,
+
+            'skills.yml': `cloud_platforms:
+  - AWS
+  - Azure
+  - GCP
+  - Oracle_Cloud
+
+devops_tools:
+  - Jenkins
+  - Terraform
+  - Docker
+  - Kubernetes
+  - Ansible`,
+
+            'certs.txt': `CERTIFICATIONS:
+[1] Oracle Cloud Infrastructure 2025 DevOps Professional
+    ID: 322432197OCI25DOPOCP
+[2] Red Hat Linux Fundamentals (RH104)
+[3] Infosys Kubernetes Administrator
+[4] Infosys Ansible Automation`
+        };
+
+        let commandHistory = [];
+        let historyIndex = -1;
+
+        function addToTerminal(text, className = '') {
+            const line = document.createElement('div');
+            line.className = `terminal-line ${className}`;
+            line.textContent = text;
+            terminalOutput.appendChild(line);
+            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+        }
+
+        function processCommand(cmd) {
+            const trimmedCmd = cmd.trim().toLowerCase();
+            const parts = trimmedCmd.split(' ');
+            const command = parts[0];
+            const args = parts.slice(1);
+
+            addToTerminal(`[HEMANT@DEVOPS]~$ ${cmd}`, 'terminal-command');
+
+            if (command === '') {
+                return;
+            }
+
+            if (command === 'cat' && args.length > 0) {
+                const fileName = args[0];
+                if (catFiles[fileName]) {
+                    catFiles[fileName].split('\n').forEach(line => {
+                        addToTerminal(line, 'terminal-info');
+                    });
+                } else {
+                    addToTerminal(`ERROR: ${fileName}: No such file`, 'terminal-error');
+                }
+            } else if (commands[command]) {
+                if (command === 'clear') {
+                    terminalOutput.innerHTML = '';
+                } else {
+                    commands[command].split('\n').forEach(line => {
+                        addToTerminal(line, 'terminal-info');
+                    });
+                }
+            } else {
+                addToTerminal(`ERROR: Command '${command}' not found`, 'terminal-error');
+                addToTerminal(`Type 'help' for available commands`, 'terminal-info');
+            }
+
+            addToTerminal(' ');
+        }
+
+        terminalBtn.addEventListener('click', () => {
+            terminalContainer.classList.toggle('active');
+            if (terminalContainer.classList.contains('active')) {
+                terminalInput.focus();
+            }
+        });
+
+        terminalClose.addEventListener('click', () => {
+            terminalContainer.classList.remove('active');
+        });
+
+        terminalInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const command = terminalInput.value;
+                if (command.trim()) {
+                    commandHistory.push(command);
+                    historyIndex = commandHistory.length;
+                    processCommand(command);
+                }
+                terminalInput.value = '';
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (historyIndex > 0) {
+                    historyIndex--;
+                    terminalInput.value = commandHistory[historyIndex];
+                }
+            } else if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (historyIndex < commandHistory.length - 1) {
+                    historyIndex++;
+                    terminalInput.value = commandHistory[historyIndex];
+                } else {
+                    historyIndex = commandHistory.length;
+                    terminalInput.value = '';
+                }
+            }
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
