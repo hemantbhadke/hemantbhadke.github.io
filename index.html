@@ -196,6 +196,8 @@
             color: var(--matrix-green);
             text-shadow: var(--glow);
             font-family: 'Courier New', monospace;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         nav .logo::before {
@@ -205,9 +207,10 @@
         
         nav ul {
             display: flex;
-            gap: 2rem;
+            gap: 1.4rem;
             list-style: none;
             align-items: center;
+            font-size: 0.92rem;
         }
         
         nav a {
@@ -659,21 +662,6 @@
             50% { opacity: 0.5; }
         }
 
-        /* GitHub Stats */
-        .github-stats {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .github-stats img {
-            max-width: 100%;
-            border-radius: 8px;
-            border: 1px solid var(--matrix-green);
-        }
-
         /* Certifications */
         .cert-grid {
             display: grid;
@@ -1089,6 +1077,35 @@
         }
         
         /* Responsive */
+        @media (max-width: 1150px) {
+            .nav-toggle {
+                display: flex;
+            }
+
+            nav ul {
+                position: fixed;
+                top: 64px;
+                right: 0;
+                width: 70%;
+                max-width: 280px;
+                height: calc(100vh - 64px);
+                background: var(--matrix-bg);
+                border-left: 2px solid var(--matrix-green);
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1.25rem;
+                padding: 2rem;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+                overflow-y: auto;
+                font-size: 1rem;
+            }
+
+            nav ul.open {
+                transform: translateX(0);
+            }
+        }
+
         @media (max-width: 768px) {
             .hero .container,
             .about-content {
@@ -1114,32 +1131,6 @@
             
             .timeline-date {
                 left: 0;
-                transform: translateX(0);
-            }
-            
-            .nav-toggle {
-                display: flex;
-            }
-
-            nav ul {
-                position: fixed;
-                top: 64px;
-                right: 0;
-                width: 70%;
-                max-width: 280px;
-                height: calc(100vh - 64px);
-                background: var(--matrix-bg);
-                border-left: 2px solid var(--matrix-green);
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1.25rem;
-                padding: 2rem;
-                transform: translateX(100%);
-                transition: transform 0.3s ease;
-                overflow-y: auto;
-            }
-
-            nav ul.open {
                 transform: translateX(0);
             }
 
@@ -1178,7 +1169,6 @@
                 <li><a href="#about">about</a></li>
                 <li><a href="#certifications">certs</a></li>
                 <li><a href="#skills">skills</a></li>
-                <li><a href="#github">github</a></li>
                 <li><a href="#experience">exp</a></li>
                 <li><a href="#projects">projects</a></li>
                 <li><a href="#blog">blog</a></li>
@@ -1373,19 +1363,6 @@
                     </ul>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- GitHub Activity Section -->
-    <section id="github" class="skills">
-        <div class="container">
-            <h2 class="section-title">GITHUB.stats</h2>
-            <div class="github-stats">
-                <img src="https://github-readme-stats.vercel.app/api?username=hemantbhadke&show_icons=true&theme=dark&hide_border=true&bg_color=0d0208&title_color=00ff41&icon_color=00ff41&text_color=c9d1d9" alt="GitHub stats" loading="lazy">
-                <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=hemantbhadke&layout=compact&theme=dark&hide_border=true&bg_color=0d0208&title_color=00ff41&text_color=c9d1d9" alt="Top languages" loading="lazy">
-                <img src="https://github-readme-streak-stats.herokuapp.com/?user=hemantbhadke&theme=dark&hide_border=true&background=0d0208&ring=00ff41&fire=00ff41&currStreakLabel=00ff41" alt="GitHub streak" loading="lazy">
-            </div>
-            <p style="text-align:center; margin-top:1.5rem; opacity:0.6; font-size:0.85rem;">&gt; Live data pulled directly from github.com/hemantbhadke</p>
         </div>
     </section>
 
