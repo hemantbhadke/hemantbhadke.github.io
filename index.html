@@ -503,6 +503,58 @@
             line-height: 1.8;
         }
 
+        .live-status {
+            margin-top: 1.5rem;
+            padding: 1.2rem 1.5rem;
+            border: 1px solid var(--matrix-green);
+            border-radius: 6px;
+            background: rgba(0, 255, 65, 0.04);
+            font-family: 'Courier New', monospace;
+        }
+
+        .live-status-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 0.6rem;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .live-status-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .live-status-row span:first-child {
+            color: var(--matrix-green);
+        }
+
+        .status-online {
+            color: #00ff41;
+            text-shadow: var(--glow);
+            animation: statusPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes statusPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* GitHub Stats */
+        .github-stats {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .github-stats img {
+            max-width: 100%;
+            border-radius: 8px;
+            border: 1px solid var(--matrix-green);
+        }
+
         /* Certifications */
         .cert-grid {
             display: grid;
@@ -924,8 +976,10 @@
                 <li><a href="#about">about</a></li>
                 <li><a href="#certifications">certs</a></li>
                 <li><a href="#skills">skills</a></li>
+                <li><a href="#github">github</a></li>
                 <li><a href="#experience">exp</a></li>
                 <li><a href="#projects">projects</a></li>
+                <li><a href="#homelab">homelab</a></li>
                 <li><a href="#contact">contact</a></li>
                 <li><button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">◉</button></li>
             </ul>
@@ -995,6 +1049,11 @@
                     <p>> Background in Environmental Engineering - applying sustainable systems thinking to cloud infrastructure</p>
                     <p>> Reduced MTTR by 60%, cut pipeline failures 40%, achieved 100% zero-downtime deployments for Ricoh and Siemens Energy</p>
                     <p><strong>&gt; LOCATION:</strong> Nagpur, Maharashtra, India</p>
+                    <div id="liveStatus" class="live-status">
+                        <div class="live-status-row"><span>&gt; LOCAL_TIME:</span> <span id="liveClock">--:--:--</span></div>
+                        <div class="live-status-row"><span>&gt; CAREER_UPTIME:</span> <span id="careerUptime">calculating...</span></div>
+                        <div class="live-status-row"><span>&gt; STATUS:</span> <span class="status-online">● ONLINE</span></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1113,6 +1172,19 @@
         </div>
     </section>
 
+    <!-- GitHub Activity Section -->
+    <section id="github" class="skills">
+        <div class="container">
+            <h2 class="section-title">GITHUB.stats</h2>
+            <div class="github-stats">
+                <img src="https://github-readme-stats.vercel.app/api?username=hemantbhadke&show_icons=true&theme=dark&hide_border=true&bg_color=0d0208&title_color=00ff41&icon_color=00ff41&text_color=c9d1d9" alt="GitHub stats" loading="lazy">
+                <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=hemantbhadke&layout=compact&theme=dark&hide_border=true&bg_color=0d0208&title_color=00ff41&text_color=c9d1d9" alt="Top languages" loading="lazy">
+                <img src="https://github-readme-streak-stats.herokuapp.com/?user=hemantbhadke&theme=dark&hide_border=true&background=0d0208&ring=00ff41&fire=00ff41&currStreakLabel=00ff41" alt="GitHub streak" loading="lazy">
+            </div>
+            <p style="text-align:center; margin-top:1.5rem; opacity:0.6; font-size:0.85rem;">&gt; Live data pulled directly from github.com/hemantbhadke</p>
+        </div>
+    </section>
+
     <!-- Experience Section -->
     <section id="experience" class="experience">
         <div class="container">
@@ -1205,6 +1277,61 @@
         </div>
     </section>
 
+    <!-- Homelab & Self-Research Section -->
+    <section id="homelab" class="projects">
+        <div class="container">
+            <h2 class="section-title">HOMELAB_AND_RESEARCH.sys</h2>
+            <p style="text-align:center; max-width:700px; margin:0 auto 40px; opacity:0.8;">
+                &gt; Not bound by ticket queues. Independent build-and-break lab for testing tools,
+                breaking prod-like setups on purpose, and staying ahead of what clients will ask for next.
+            </p>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3>&gt; HEADLESS_HOME_SERVER</h3>
+                    <p>Repurposed an i3 7th-gen PC into a dedicated headless server running Docker and Portainer, with Nextcloud and MinIO self-hosted services in progress — a personal sandbox for container orchestration outside client environments.</p>
+                    <div class="project-tags">
+                        <span class="tag">[DOCKER]</span>
+                        <span class="tag">[PORTAINER]</span>
+                        <span class="tag">[SELF-HOSTED]</span>
+                        <span class="tag">[LINUX]</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <h3>&gt; MULTI_VM_CI_CD_LAB</h3>
+                    <p>Built a multi-VM VirtualBox environment replicating a real CI/CD topology — two RHEL 9 nodes (Jenkins Master and Jenkins Slave/Ansible hybrid) plus an Ubuntu Ansible Controller. Configured Jenkins master-slave architecture on AWS EC2 with SSH key-based auth, and debugged real pipeline failures: Maven stage errors, Git fork integration issues, and EC2 /tmp disk space exhaustion.</p>
+                    <div class="project-tags">
+                        <span class="tag">[JENKINS]</span>
+                        <span class="tag">[ANSIBLE]</span>
+                        <span class="tag">[RHEL9]</span>
+                        <span class="tag">[EC2]</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <h3>&gt; DEVSECOPS_ROADMAP</h3>
+                    <p>Running a self-structured 12-week DevSecOps study plan covering Linux, Git, Docker, Kubernetes, Jenkins CI/CD, and Terraform/Ansible alongside dedicated security tooling — SonarQube, Trivy, OWASP ZAP, and Burp Suite — to close the gap between DevOps and application security.</p>
+                    <div class="project-tags">
+                        <span class="tag">[DEVSECOPS]</span>
+                        <span class="tag">[TRIVY]</span>
+                        <span class="tag">[OWASP_ZAP]</span>
+                        <span class="tag">[BURP_SUITE]</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <h3>&gt; SECURITY_TESTING_VM</h3>
+                    <p>Kali Linux VM added to the lab for hands-on offensive security practice, alongside ongoing OverTheWire Bandit wargame progression covering encoding, filtering, and SSH-based privilege challenges — building the attacker's-eye view that makes DevSecOps guardrails actually effective.</p>
+                    <div class="project-tags">
+                        <span class="tag">[KALI_LINUX]</span>
+                        <span class="tag">[OVERTHEWIRE]</span>
+                        <span class="tag">[SECURITY]</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Contact Section -->
     <section id="contact" class="contact">
         <div class="container">
@@ -1274,6 +1401,38 @@
             canvas.height = window.innerHeight;
         });
 
+        // Live IST clock + career uptime counter
+        const careerStart = new Date('2022-06-01T00:00:00');
+
+        function updateLiveStatus() {
+            const now = new Date();
+
+            const clockEl = document.getElementById('liveClock');
+            if (clockEl) {
+                clockEl.textContent = now.toLocaleTimeString('en-IN', {
+                    timeZone: 'Asia/Kolkata', hour12: false
+                }) + ' IST';
+            }
+
+            const uptimeEl = document.getElementById('careerUptime');
+            if (uptimeEl) {
+                let diff = now - careerStart;
+                const years = Math.floor(diff / (365.25 * 24 * 3600 * 1000));
+                diff -= years * 365.25 * 24 * 3600 * 1000;
+                const days = Math.floor(diff / (24 * 3600 * 1000));
+                diff -= days * 24 * 3600 * 1000;
+                const hrs = Math.floor(diff / (3600 * 1000));
+                diff -= hrs * 3600 * 1000;
+                const mins = Math.floor(diff / (60 * 1000));
+                diff -= mins * 60 * 1000;
+                const secs = Math.floor(diff / 1000);
+                uptimeEl.textContent = `${years}y ${days}d ${String(hrs).padStart(2,'0')}:${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+            }
+        }
+
+        updateLiveStatus();
+        setInterval(updateLiveStatus, 1000);
+
         // Image placeholders
         document.getElementById('heroImg').style.background = 'linear-gradient(135deg, #00ff41 0%, #008f11 100%)';
         document.getElementById('aboutImg1').style.background = 'linear-gradient(135deg, #00ff41 0%, #008f11 100%)';
@@ -1308,6 +1467,7 @@
   certifications- View certifications
   experience    - Work history
   projects      - View projects
+  homelab       - View homelab & self-research
   contact       - Contact information
   clear         - Clear terminal
   whoami        - Current user
@@ -1315,7 +1475,11 @@
   pwd           - Working directory
   ls            - List files
   cat [file]    - Read file
-  neofetch      - System info`,
+  neofetch      - System info
+  uptime        - Career uptime
+  github        - GitHub stats link
+  ping          - Ping recruiter network
+  sudo [cmd]    - Try it and see`,
             
             about: `SYSTEM_PROFILE:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1375,6 +1539,15 @@ EMAIL: hemantrbhadke@gmail.com
 LINKEDIN: linkedin.com/in/hemantrbhadke
 PHONE: +91-9766670282`,
 
+            homelab: `HOMELAB_AND_RESEARCH:
+━━━━━━━━━━━━━━━━━━━━━━━━
+[1] Headless home server - i3 7th-gen, Docker/Portainer, Nextcloud/MinIO
+[2] Multi-VM CI/CD lab - RHEL9 Jenkins Master/Slave + Ubuntu Ansible Controller
+[3] Jenkins master-slave on AWS EC2 - SSH key auth, real pipeline debugging
+[4] DevSecOps roadmap - 12-week plan: SonarQube, Trivy, OWASP ZAP, Burp Suite
+[5] Kali Linux VM + OverTheWire Bandit wargame progression
+> STATUS: Not bound by ticket queues. Always building something.`,
+
             clear: 'CLEAR',
             
             whoami: 'hemant',
@@ -1407,7 +1580,26 @@ drwxr-xr-x 2 hemant hemant 4096 Nov 02 jenkins-pipelines/`,
     Status: [OPERATIONAL]`,
 
             cat: `USAGE: cat [filename]
-Available: resume.pdf, projects.md, skills.yml, certs.txt`
+Available: resume.pdf, projects.md, skills.yml, certs.txt`,
+
+            uptime: `> CAREER_UPTIME: since 2022-06-01
+> Load average: 40% fewer pipeline failures, 60% lower MTTR
+> Process: hemant --role=devops --status=hiring_ready`,
+
+            github: `> github.com/hemantbhadke
+> Live stats loaded above in the GITHUB.stats section
+> git log --author="Hemant Bhadke" --oneline | wc -l
+  ...still counting`,
+
+            ping: `PING recruiter.network (127.0.0.1): 56 data bytes
+64 bytes: icmp_seq=0 ttl=64 time=0.04ms  status=OPEN_TO_WORK
+64 bytes: icmp_seq=1 ttl=64 time=0.03ms  status=RESPONSIVE
+--- recruiter.network ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss`,
+
+            sudo: `[sudo] password for hemant: 
+Nice try. This user already has root on their own infrastructure.
+Permission granted anyway - you seem cool.`
         };
 
         const catFiles = {
