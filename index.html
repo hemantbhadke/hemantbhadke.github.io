@@ -3,7 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hemant Bhadke - DevOps Engineer</title>
+    <title>Hemant Bhadke - DevOps & Cloud Engineer | CI/CD, Kubernetes, AWS/Azure</title>
+    <meta name="description" content="Hemant Bhadke is a DevOps/DevSecOps Engineer with 4+ years at Infosys, specializing in CI/CD, GitOps, Kubernetes, Terraform, and AWS/Azure cloud automation.">
+    <meta name="keywords" content="Hemant Bhadke, DevOps Engineer, Cloud Engineer, SRE, Kubernetes, Terraform, AWS, Azure, CI/CD, GitOps, Infosys">
+    <meta name="author" content="Hemant Bhadke">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://hemantbhadke.github.io/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="profile">
+    <meta property="og:title" content="Hemant Bhadke - DevOps & Cloud Engineer">
+    <meta property="og:description" content="4+ years building CI/CD pipelines, GitOps workflows, and cloud infrastructure on AWS, Azure & Kubernetes.">
+    <meta property="og:image" content="https://hemantbhadke.github.io/hero.jpg">
+    <meta property="og:url" content="https://hemantbhadke.github.io/">
+    <meta property="og:site_name" content="Hemant Bhadke - Portfolio">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Hemant Bhadke - DevOps & Cloud Engineer">
+    <meta name="twitter:description" content="4+ years building CI/CD pipelines, GitOps workflows, and cloud infrastructure on AWS, Azure & Kubernetes.">
+    <meta name="twitter:image" content="https://hemantbhadke.github.io/hero.jpg">
+
+    <meta name="theme-color" content="#0d0208" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#eef1ec" media="(prefers-color-scheme: light)">
+
+    <!-- Favicon: inline SVG terminal glyph, no extra file needed -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230d0208'/%3E%3Ctext x='50' y='68' font-size='60' font-family='monospace' fill='%2300ff41' text-anchor='middle'%3E%3E_%3C/text%3E%3C/svg%3E">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Hemant Bhadke",
+      "jobTitle": "DevOps / Cloud Engineer",
+      "url": "https://hemantbhadke.github.io/",
+      "email": "mailto:hemantrbhadke@gmail.com",
+      "sameAs": ["https://www.linkedin.com/in/hemantrbhadke", "https://github.com/hemantbhadke"],
+      "worksFor": { "@type": "Organization", "name": "Infosys" },
+      "address": { "@type": "PostalAddress", "addressLocality": "Nagpur", "addressRegion": "Maharashtra", "addressCountry": "IN" },
+      "knowsAbout": ["AWS", "Azure", "Kubernetes", "Terraform", "CI/CD", "GitOps", "DevSecOps"]
+    }
+    </script>
     <style>
         * {
             margin: 0;
@@ -20,15 +60,69 @@
             --text-primary: #00ff41;
             --text-secondary: #39ff14;
             --glow: 0 0 10px #00ff41;
+            --glow-strong: 0 0 20px rgba(var(--glow-rgb), 0.8);
+            --border-glow: 0 0 20px rgba(var(--glow-rgb), 0.2);
+            --border-glow-hover: 0 0 40px rgba(var(--glow-rgb), 0.6);
+            --canvas-opacity: 0.15;
+            --scanline-color: rgba(var(--glow-rgb), 0.03);
+            --rain-color: #00ff41;
+            --rain-fade: rgba(13, 2, 8, 0.05);
+            --glow-rgb: 0, 255, 65;
         }
-        
+
+        /* DAYLIGHT_OPS: a genuinely distinct light mode — printed system-log
+           on paper, amber signal ink instead of a simple color-inversion. */
         [data-theme="light"] {
-            --matrix-bg: #0a0a0a;
-            --matrix-card: #1a1a1a;
-            --text-primary: #00ff41;
-            --text-secondary: #39ff14;
+            --matrix-green: #b45309;
+            --matrix-dark-green: #92400e;
+            --matrix-bg: #eef1ec;
+            --matrix-card: #ffffff;
+            --matrix-accent: #b45309;
+            --text-primary: #1c1917;
+            --text-secondary: #44403c;
+            --glow: none;
+            --glow-strong: none;
+            --border-glow: 0 2px 10px rgba(28, 25, 23, 0.08);
+            --border-glow-hover: 0 8px 24px rgba(28, 25, 23, 0.14);
+            --canvas-opacity: 0.05;
+            --scanline-color: rgba(28, 25, 23, 0.015);
+            --rain-color: #a8a29e;
+            --rain-fade: rgba(238, 241, 236, 0.06);
+            --glow-rgb: 180, 83, 9;
         }
-        
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.001ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 1rem;
+            background: var(--matrix-card);
+            color: var(--matrix-green);
+            border: 2px solid var(--matrix-green);
+            padding: 0.75rem 1.25rem;
+            z-index: 10000;
+            font-family: 'Courier New', monospace;
+            text-decoration: none;
+            transition: top 0.2s;
+        }
+
+        .skip-link:focus {
+            top: 1rem;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--matrix-green);
+            outline-offset: 3px;
+        }
+
         body {
             font-family: 'Courier New', monospace;
             line-height: 1.6;
@@ -36,6 +130,7 @@
             overflow-x: hidden;
             background: var(--matrix-bg);
             position: relative;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         /* Matrix Rain Background */
@@ -59,10 +154,10 @@
             height: 100%;
             background: repeating-linear-gradient(
                 0deg,
-                rgba(0, 255, 65, 0.03) 0px,
+                rgba(var(--glow-rgb), 0.03) 0px,
                 transparent 1px,
                 transparent 2px,
-                rgba(0, 255, 65, 0.03) 3px
+                rgba(var(--glow-rgb), 0.03) 3px
             );
             pointer-events: none;
             z-index: 1;
@@ -80,7 +175,7 @@
             width: 100%;
             background: rgba(13, 2, 8, 0.95);
             backdrop-filter: blur(10px);
-            box-shadow: 0 2px 20px rgba(0, 255, 65, 0.3);
+            box-shadow: 0 2px 20px rgba(var(--glow-rgb), 0.3);
             z-index: 1000;
             padding: 1rem 0;
             border-bottom: 2px solid var(--matrix-green);
@@ -137,6 +232,30 @@
             text-shadow: var(--glow);
             transform: scale(1.05);
         }
+
+        .nav-resume-link::before { content: '['; margin-right: 3px; }
+        .nav-resume-link::after { content: ']'; margin-left: 3px; }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            width: 40px;
+            height: 40px;
+            background: transparent;
+            border: 2px solid var(--matrix-green);
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .nav-toggle span {
+            display: block;
+            height: 2px;
+            width: 20px;
+            margin: 0 auto;
+            background: var(--matrix-green);
+        }
         
         /* Theme Toggle */
         .theme-toggle {
@@ -156,7 +275,7 @@
         
         .theme-toggle:hover {
             box-shadow: var(--glow);
-            background: rgba(0, 255, 65, 0.1);
+            background: rgba(var(--glow-rgb), 0.1);
         }
 
         /* Terminal Float Button */
@@ -172,7 +291,7 @@
             color: var(--matrix-green);
             font-size: 1.5rem;
             cursor: pointer;
-            box-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
+            box-shadow: 0 0 20px rgba(var(--glow-rgb), 0.5);
             z-index: 999;
             transition: all 0.3s;
             display: flex;
@@ -182,13 +301,13 @@
         }
 
         @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 65, 0.5); }
-            50% { box-shadow: 0 0 40px rgba(0, 255, 65, 0.8); }
+            0%, 100% { box-shadow: 0 0 20px rgba(var(--glow-rgb), 0.5); }
+            50% { box-shadow: 0 0 40px rgba(var(--glow-rgb), 0.8); }
         }
 
         .terminal-float-btn:hover {
             transform: scale(1.1);
-            box-shadow: 0 0 40px rgba(0, 255, 65, 0.8);
+            box-shadow: 0 0 40px rgba(var(--glow-rgb), 0.8);
         }
 
         /* Terminal Container */
@@ -200,7 +319,7 @@
             height: 450px;
             background: #000000;
             border: 2px solid var(--matrix-green);
-            box-shadow: 0 0 30px rgba(0, 255, 65, 0.5);
+            box-shadow: 0 0 30px rgba(var(--glow-rgb), 0.5);
             z-index: 1001;
             display: none;
             flex-direction: column;
@@ -309,7 +428,7 @@
         }
 
         .terminal-input::placeholder {
-            color: rgba(0, 255, 65, 0.4);
+            color: rgba(var(--glow-rgb), 0.4);
         }
         
         /* Hero Section */
@@ -338,7 +457,7 @@
             color: var(--matrix-green);
             margin-bottom: 1rem;
             line-height: 1.2;
-            text-shadow: 0 0 20px rgba(0, 255, 65, 0.8);
+            text-shadow: 0 0 20px rgba(var(--glow-rgb), 0.8);
             animation: glitch 3s infinite;
         }
 
@@ -404,7 +523,7 @@
 
         .btn:hover {
             color: #000;
-            box-shadow: 0 0 20px rgba(0, 255, 65, 0.8);
+            box-shadow: 0 0 20px rgba(var(--glow-rgb), 0.8);
         }
         
         .hero-image {
@@ -419,7 +538,7 @@
             margin: 0 auto;
             display: block;
             border: 3px solid var(--matrix-green);
-            box-shadow: 0 0 30px rgba(0, 255, 65, 0.5);
+            box-shadow: 0 0 30px rgba(var(--glow-rgb), 0.5);
             filter: contrast(1.2) brightness(1.1);
         }
         
@@ -440,7 +559,7 @@
             margin-bottom: 3rem;
             color: var(--matrix-green);
             font-weight: 700;
-            text-shadow: 0 0 20px rgba(0, 255, 65, 0.8);
+            text-shadow: 0 0 20px rgba(var(--glow-rgb), 0.8);
             position: relative;
         }
 
@@ -478,14 +597,14 @@
             height: 280px;
             object-fit: cover;
             border: 2px solid var(--matrix-green);
-            box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+            box-shadow: 0 0 20px rgba(var(--glow-rgb), 0.3);
             transition: all 0.3s;
             filter: contrast(1.2) brightness(1.1);
         }
         
         .about-images img:hover {
             transform: scale(1.05);
-            box-shadow: 0 0 40px rgba(0, 255, 65, 0.6);
+            box-shadow: 0 0 40px rgba(var(--glow-rgb), 0.6);
         }
         
         .about-text h3 {
@@ -508,7 +627,7 @@
             padding: 1.2rem 1.5rem;
             border: 1px solid var(--matrix-green);
             border-radius: 6px;
-            background: rgba(0, 255, 65, 0.04);
+            background: rgba(var(--glow-rgb), 0.04);
             font-family: 'Courier New', monospace;
         }
 
@@ -530,7 +649,7 @@
         }
 
         .status-online {
-            color: #00ff41;
+            color: var(--matrix-green);
             text-shadow: var(--glow);
             animation: statusPulse 2s ease-in-out infinite;
         }
@@ -567,7 +686,7 @@
             background: var(--matrix-card);
             padding: 2rem;
             border: 2px solid var(--matrix-green);
-            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+            box-shadow: 0 0 20px rgba(var(--glow-rgb), 0.2);
             transition: all 0.3s;
             text-align: center;
             position: relative;
@@ -588,7 +707,7 @@
 
         .cert-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 0 40px rgba(0, 255, 65, 0.6);
+            box-shadow: 0 0 40px rgba(var(--glow-rgb), 0.6);
         }
 
         .cert-card:hover::before {
@@ -604,7 +723,7 @@
             justify-content: center;
             font-size: 3rem;
             border: 2px solid var(--matrix-green);
-            box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+            box-shadow: 0 0 20px rgba(var(--glow-rgb), 0.3);
         }
 
         .cert-badge img {
@@ -636,7 +755,7 @@
             font-family: 'Courier New', monospace;
             font-size: 0.85rem;
             color: var(--text-secondary);
-            background: rgba(0, 255, 65, 0.05);
+            background: rgba(var(--glow-rgb), 0.05);
             padding: 0.5rem;
             border: 1px solid var(--matrix-dark-green);
         }
@@ -653,14 +772,14 @@
             background: var(--matrix-card);
             padding: 2rem;
             border: 2px solid var(--matrix-green);
-            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+            box-shadow: 0 0 20px rgba(var(--glow-rgb), 0.2);
             transition: all 0.3s;
             border-left: 4px solid var(--matrix-green);
         }
         
         .skill-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 0 40px rgba(0, 255, 65, 0.5);
+            box-shadow: 0 0 40px rgba(var(--glow-rgb), 0.5);
         }
         
         .skill-card h3 {
@@ -722,13 +841,13 @@
             background: var(--matrix-card);
             padding: 2rem;
             border: 2px solid var(--matrix-green);
-            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+            box-shadow: 0 0 20px rgba(var(--glow-rgb), 0.2);
             position: relative;
             transition: all 0.3s;
         }
 
         .timeline-content:hover {
-            box-shadow: 0 0 30px rgba(0, 255, 65, 0.5);
+            box-shadow: 0 0 30px rgba(var(--glow-rgb), 0.5);
         }
         
         .timeline-item:nth-child(odd) .timeline-content {
@@ -749,7 +868,7 @@
             border: 2px solid var(--matrix-green);
             font-weight: 600;
             white-space: nowrap;
-            box-shadow: 0 0 15px rgba(0, 255, 65, 0.5);
+            box-shadow: 0 0 15px rgba(var(--glow-rgb), 0.5);
         }
         
         .timeline-content h3 {
@@ -796,7 +915,7 @@
             padding: 2rem;
             transition: all 0.3s;
             border: 2px solid var(--matrix-green);
-            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+            box-shadow: 0 0 20px rgba(var(--glow-rgb), 0.2);
             position: relative;
             overflow: hidden;
         }
@@ -808,7 +927,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.1), transparent);
+            background: linear-gradient(90deg, transparent, rgba(var(--glow-rgb), 0.1), transparent);
             transition: left 0.5s;
         }
 
@@ -818,7 +937,7 @@
         
         .project-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 0 40px rgba(0, 255, 65, 0.6);
+            box-shadow: 0 0 40px rgba(var(--glow-rgb), 0.6);
         }
         
         .project-card h3 {
@@ -851,6 +970,63 @@
             font-family: 'Courier New', monospace;
         }
         
+        /* Blog Section */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .blog-card {
+            background: var(--matrix-card);
+            padding: 1.75rem;
+            border: 2px solid var(--matrix-green);
+            box-shadow: var(--border-glow);
+            transition: all 0.3s;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--border-glow-hover);
+        }
+
+        .blog-card-empty {
+            border-style: dashed;
+            opacity: 0.75;
+        }
+
+        .blog-meta {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+        }
+
+        .blog-tag {
+            border: 1px solid var(--matrix-green);
+            padding: 0.15rem 0.5rem;
+            color: var(--matrix-green);
+        }
+
+        .blog-card h3 {
+            color: var(--matrix-green);
+            margin-bottom: 0.6rem;
+            font-size: 1.15rem;
+        }
+
+        .blog-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .blog-card a {
+            color: var(--matrix-green);
+        }
+
         /* Contact Section */
         .contact {
             padding: 6rem 2rem;
@@ -868,7 +1044,7 @@
         .contact h2 {
             color: var(--matrix-green);
             margin-bottom: 2rem;
-            text-shadow: 0 0 20px rgba(0, 255, 65, 0.8);
+            text-shadow: 0 0 20px rgba(var(--glow-rgb), 0.8);
         }
 
         .contact p {
@@ -900,7 +1076,7 @@
         .contact-link:hover {
             background: var(--matrix-green);
             color: #000;
-            box-shadow: 0 0 30px rgba(0, 255, 65, 0.8);
+            box-shadow: 0 0 30px rgba(var(--glow-rgb), 0.8);
         }
         
         /* Footer */
@@ -941,9 +1117,30 @@
                 transform: translateX(0);
             }
             
+            .nav-toggle {
+                display: flex;
+            }
+
             nav ul {
-                gap: 1rem;
-                font-size: 0.9rem;
+                position: fixed;
+                top: 64px;
+                right: 0;
+                width: 70%;
+                max-width: 280px;
+                height: calc(100vh - 64px);
+                background: var(--matrix-bg);
+                border-left: 2px solid var(--matrix-green);
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1.25rem;
+                padding: 2rem;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+                overflow-y: auto;
+            }
+
+            nav ul.open {
+                transform: translateX(0);
             }
 
             .terminal-container {
@@ -963,15 +1160,20 @@
     </style>
 </head>
 <body>
-    <!-- Matrix Rain Canvas -->
-    <canvas id="matrix-canvas"></canvas>
+    <a href="#home" class="skip-link">Skip to content</a>
+
+    <!-- Matrix Rain Canvas (decorative) -->
+    <canvas id="matrix-canvas" aria-hidden="true"></canvas>
 
     <div class="content-wrapper">
     <!-- Navigation -->
-    <nav>
+    <nav aria-label="Primary">
         <div class="container">
             <div class="logo">HEMANT.SYS</div>
-            <ul>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navLinks">
+                <span></span><span></span><span></span>
+            </button>
+            <ul id="navLinks">
                 <li><a href="#home">home</a></li>
                 <li><a href="#about">about</a></li>
                 <li><a href="#certifications">certs</a></li>
@@ -979,9 +1181,11 @@
                 <li><a href="#github">github</a></li>
                 <li><a href="#experience">exp</a></li>
                 <li><a href="#projects">projects</a></li>
+                <li><a href="#blog">blog</a></li>
                 <li><a href="#homelab">homelab</a></li>
                 <li><a href="#contact">contact</a></li>
-                <li><button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">◉</button></li>
+                <li><a href="resume.pdf" class="nav-resume-link" download>résumé</a></li>
+                <li><button class="theme-toggle" id="themeToggle" aria-label="Switch to light theme">◉</button></li>
             </ul>
         </div>
     </nav>
@@ -992,28 +1196,28 @@
     </button>
 
     <!-- Terminal Container -->
-    <div class="terminal-container" id="terminalContainer">
+    <div class="terminal-container" id="terminalContainer" role="dialog" aria-label="Interactive terminal" aria-modal="false">
         <div class="terminal-header">
             <span class="terminal-title">[HEMANT@DEVOPS]~$</span>
             <div class="terminal-controls">
-                <button class="terminal-btn close" id="terminalClose"></button>
-                <button class="terminal-btn minimize"></button>
-                <button class="terminal-btn maximize"></button>
+                <button class="terminal-btn close" id="terminalClose" aria-label="Close terminal"></button>
+                <button class="terminal-btn minimize" aria-hidden="true" tabindex="-1"></button>
+                <button class="terminal-btn maximize" aria-hidden="true" tabindex="-1"></button>
             </div>
         </div>
-        <div class="terminal-output" id="terminalOutput">
+        <div class="terminal-output" id="terminalOutput" role="log" aria-live="polite" aria-label="Terminal output">
             <div class="terminal-line">&gt; SYSTEM INITIALIZED...</div>
             <div class="terminal-line terminal-info">&gt; TYPE 'help' FOR AVAILABLE COMMANDS</div>
             <div class="terminal-line"> </div>
         </div>
         <div class="terminal-input-container">
-            <span class="terminal-prompt">[HEMANT@DEVOPS]~$ </span>
-            <input type="text" class="terminal-input" id="terminalInput" placeholder="enter command..." autocomplete="off">
+            <label for="terminalInput" class="terminal-prompt">[HEMANT@DEVOPS]~$ </label>
+            <input type="text" class="terminal-input" id="terminalInput" placeholder="enter command..." autocomplete="off" aria-label="Terminal command input">
         </div>
     </div>
 
     <!-- Hero Section -->
-    <section id="home" class="hero">
+    <section id="home" class="hero" tabindex="-1">
         <div class="container">
             <div class="hero-content">
                 <h1>HEMANT_BHADKE</h1>
@@ -1028,7 +1232,7 @@
                 </div>
             </div>
             <div class="hero-image">
-                <img id="heroImg" alt="Hemant Bhadke">
+                <img id="heroImg" src="hero.jpg" width="400" height="400" alt="Portrait of Hemant Bhadke" fetchpriority="high" decoding="async">
             </div>
         </div>
     </section>
@@ -1039,8 +1243,8 @@
             <h2 class="section-title">ABOUT.exe</h2>
             <div class="about-content">
                 <div class="about-images">
-                    <img id="aboutImg1" alt="Hemant" style="grid-column: span 2;">
-                    <img id="aboutImg2" alt="Hemant at work">
+                    <img id="aboutImg1" src="about1.jpg" width="600" height="280" alt="Hemant Bhadke" style="grid-column: span 2;" loading="lazy" decoding="async">
+                    <img id="aboutImg2" src="about2.jpg" width="290" height="280" alt="Hemant Bhadke at work" loading="lazy" decoding="async">
                 </div>
                 <div class="about-text">
                     <h3>&gt; SYSTEM_PROFILE</h3>
@@ -1066,7 +1270,7 @@
             <div class="cert-grid">
                 <div class="cert-card">
                     <div class="cert-badge">
-                        <img id="oracleBadge" alt="Oracle Certification">
+                        <img id="oracleBadge" src="oracle-cert.png" width="120" height="120" alt="Oracle Cloud Infrastructure certification badge" loading="lazy" decoding="async">
                     </div>
                     <div class="cert-issuer">[ORACLE]</div>
                     <h3>Cloud Infrastructure 2025 DevOps Professional</h3>
@@ -1076,7 +1280,7 @@
 
                 <div class="cert-card">
                     <div class="cert-badge">
-                        <img id="redhatBadge" alt="Red Hat Training">
+                        <img id="redhatBadge" src="redhat-cert.png" width="120" height="120" alt="Red Hat Training certification badge" loading="lazy" decoding="async">
                     </div>
                     <div class="cert-issuer">[RED_HAT]</div>
                     <h3>Linux Fundamentals (RH104)</h3>
@@ -1085,14 +1289,14 @@
                 </div>
 
                 <div class="cert-card">
-                    <div class="cert-badge">🎓</div>
+                    <div class="cert-badge" aria-hidden="true">🎓</div>
                     <div class="cert-issuer">[INFOSYS]</div>
                     <h3>Kubernetes Administrator - Associate</h3>
                     <div class="cert-date">ISSUED: 2024</div>
                 </div>
 
                 <div class="cert-card">
-                    <div class="cert-badge">⚙️</div>
+                    <div class="cert-badge" aria-hidden="true">⚙️</div>
                     <div class="cert-issuer">[INFOSYS]</div>
                     <h3>Ansible Automation Associate</h3>
                     <div class="cert-date">ISSUED: 2024</div>
@@ -1277,6 +1481,33 @@
         </div>
     </section>
 
+    <!-- Blog / Notes Section -->
+    <section id="blog" class="blog">
+        <div class="container">
+            <h2 class="section-title">BLOG.log</h2>
+            <p style="text-align:center; max-width:700px; margin:0 auto 2.5rem; opacity:0.8;">
+                &gt; Field notes from the homelab and production incidents. New entries posted as they're written.
+            </p>
+            <div class="blog-grid">
+                <article class="blog-card">
+                    <div class="blog-meta"><span class="blog-tag">[DRAFT]</span> <time datetime="2026-08-01">2026-08-01</time></div>
+                    <h3>&gt; Cutting Pipeline Failures 40% With Terraform + Ansible</h3>
+                    <p>A field-notes writeup on the provisioning changes behind the 40% failure-rate drop mentioned in the experience log — coming soon.</p>
+                </article>
+                <article class="blog-card">
+                    <div class="blog-meta"><span class="blog-tag">[DRAFT]</span> <time datetime="2026-08-01">2026-08-01</time></div>
+                    <h3>&gt; What Actually Moved MTTR From Hours to Minutes</h3>
+                    <p>Breaking down the Nagios + Grafana alerting rework that cut MTTR 60% — coming soon.</p>
+                </article>
+                <article class="blog-card blog-card-empty">
+                    <div class="blog-meta"><span class="blog-tag">[SLOT_OPEN]</span></div>
+                    <h3>&gt; Next post loading...</h3>
+                    <p>This slot is reserved for the next homelab write-up. Check back soon, or <a href="#contact">reach out</a> with topics you'd like covered.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
     <!-- Homelab & Self-Research Section -->
     <section id="homelab" class="projects">
         <div class="container">
@@ -1360,27 +1591,70 @@
     </div>
 
     <script>
-        // Matrix Rain Effect
+        // ---- Theme: real light/dark switch, persisted, OS-aware default ----
+        const root = document.documentElement;
+        const themeToggle = document.getElementById('themeToggle');
+        const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+        const savedTheme = localStorage.getItem('theme');
+        const initialTheme = savedTheme || (prefersLight ? 'light' : 'dark');
+
+        function applyTheme(theme) {
+            if (theme === 'light') {
+                root.setAttribute('data-theme', 'light');
+                themeToggle.textContent = '☀';
+                themeToggle.setAttribute('aria-label', 'Switch to dark theme');
+            } else {
+                root.removeAttribute('data-theme');
+                themeToggle.textContent = '◉';
+                themeToggle.setAttribute('aria-label', 'Switch to light theme');
+            }
+        }
+
+        applyTheme(initialTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const isLight = root.getAttribute('data-theme') === 'light';
+            const next = isLight ? 'dark' : 'light';
+            applyTheme(next);
+            localStorage.setItem('theme', next);
+        });
+
+        // ---- Matrix Rain Effect: theme-aware, paused when tab hidden, skipped for reduced motion ----
         const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
         const matrixChars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
         const fontSize = 14;
-        const columns = canvas.width / fontSize;
-        const drops = [];
+        let columns = canvas.width / fontSize;
+        let drops = [];
 
-        for (let i = 0; i < columns; i++) {
-            drops[i] = Math.random() * -100;
+        function resetDrops() {
+            columns = canvas.width / fontSize;
+            drops = [];
+            for (let i = 0; i < columns; i++) {
+                drops[i] = Math.random() * -100;
+            }
+        }
+        resetDrops();
+
+        function currentRainColors() {
+            const styles = getComputedStyle(root);
+            return {
+                fade: styles.getPropertyValue('--rain-fade').trim() || 'rgba(13, 2, 8, 0.05)',
+                ink: styles.getPropertyValue('--rain-color').trim() || '#00ff41'
+            };
         }
 
         function drawMatrix() {
-            ctx.fillStyle = 'rgba(13, 2, 8, 0.05)';
+            const { fade, ink } = currentRainColors();
+            ctx.fillStyle = fade;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            ctx.fillStyle = '#00ff41';
+            ctx.fillStyle = ink;
             ctx.font = fontSize + 'px monospace';
 
             for (let i = 0; i < drops.length; i++) {
@@ -1394,11 +1668,31 @@
             }
         }
 
-        setInterval(drawMatrix, 50);
+        let matrixTimer = null;
+        function startMatrix() {
+            if (matrixTimer || prefersReducedMotion) return;
+            matrixTimer = setInterval(drawMatrix, 50);
+        }
+        function stopMatrix() {
+            clearInterval(matrixTimer);
+            matrixTimer = null;
+        }
+
+        if (!prefersReducedMotion) {
+            startMatrix();
+        } else {
+            canvas.style.display = 'none';
+        }
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) stopMatrix();
+            else startMatrix();
+        });
 
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
+            resetDrops();
         });
 
         // Live IST clock + career uptime counter
@@ -1433,24 +1727,21 @@
         updateLiveStatus();
         setInterval(updateLiveStatus, 1000);
 
-        // Image placeholders
-        document.getElementById('heroImg').style.background = 'linear-gradient(135deg, #00ff41 0%, #008f11 100%)';
-        document.getElementById('aboutImg1').style.background = 'linear-gradient(135deg, #00ff41 0%, #008f11 100%)';
-        document.getElementById('aboutImg2').style.background = 'linear-gradient(135deg, #008f11 0%, #00ff41 100%)';
-        document.getElementById('oracleBadge').innerHTML = '🏆';
-        document.getElementById('redhatBadge').innerHTML = '🎖️';
-
-        document.getElementById('heroImg').src = 'hero.jpg';
-        document.getElementById('aboutImg1').src = 'about1.jpg';
-        document.getElementById('aboutImg2').src = 'about2.jpg';
-        document.getElementById('oracleBadge').src = 'oracle-cert.png';
-        document.getElementById('redhatBadge').src = 'redhat-cert.png';
-        
-        // Theme Toggle (Matrix theme is always on, but toggle for brightness)
-        const themeToggle = document.getElementById('themeToggle');
-        themeToggle.addEventListener('click', () => {
-            canvas.style.opacity = canvas.style.opacity === '0.3' ? '0.15' : '0.3';
-        });
+        // ---- Mobile nav toggle ----
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        if (navToggle && navLinks) {
+            navToggle.addEventListener('click', () => {
+                const isOpen = navLinks.classList.toggle('open');
+                navToggle.setAttribute('aria-expanded', String(isOpen));
+            });
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('open');
+                    navToggle.setAttribute('aria-expanded', 'false');
+                });
+            });
+        }
 
         // Terminal Functionality
         const terminalBtn = document.getElementById('terminalBtn');
@@ -1468,6 +1759,8 @@
   experience    - Work history
   projects      - View projects
   homelab       - View homelab & self-research
+  blog          - View blog / notes
+  resume        - Download resume PDF
   contact       - Contact information
   clear         - Clear terminal
   whoami        - Current user
@@ -1538,6 +1831,12 @@
 EMAIL: hemantrbhadke@gmail.com
 LINKEDIN: linkedin.com/in/hemantrbhadke
 PHONE: +91-9766670282`,
+
+            blog: `BLOG.log:
+━━━━━━━━━━━━━━━━━━
+[DRAFT] Cutting Pipeline Failures 40% With Terraform + Ansible
+[DRAFT] What Actually Moved MTTR From Hours to Minutes
+[SLOT_OPEN] Next post loading... see #blog section above`,
 
             homelab: `HOMELAB_AND_RESEARCH:
 ━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1668,7 +1967,15 @@ devops_tools:
                 return;
             }
 
-            if (command === 'cat' && args.length > 0) {
+            if (command === 'resume') {
+                addToTerminal('> Downloading resume.pdf ...', 'terminal-info');
+                const a = document.createElement('a');
+                a.href = 'resume.pdf';
+                a.download = 'Hemant_Bhadke_Resume.pdf';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            } else if (command === 'cat' && args.length > 0) {
                 const fileName = args[0];
                 if (catFiles[fileName]) {
                     catFiles[fileName].split('\n').forEach(line => {
