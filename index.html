@@ -308,9 +308,50 @@
             50% { box-shadow: 0 0 40px rgba(var(--glow-rgb), 0.8); }
         }
 
+        .terminal-float-btn img {
+            width: 40px;
+            height: 40px;
+            image-rendering: pixelated;
+        }
+
         .terminal-float-btn:hover {
             transform: scale(1.1);
             box-shadow: 0 0 40px rgba(var(--glow-rgb), 0.8);
+        }
+
+        .terminal-boot {
+            position: absolute;
+            inset: 0;
+            background: #000000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            z-index: 10;
+        }
+
+        .terminal-boot.active {
+            display: flex;
+        }
+
+        .terminal-boot img {
+            image-rendering: pixelated;
+        }
+
+        .terminal-boot p {
+            color: var(--matrix-green);
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        .boot-dots {
+            animation: blink 0.8s steps(1) infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
         }
 
         /* Terminal Container */
@@ -397,6 +438,11 @@
 
         .terminal-line {
             margin-bottom: 5px;
+        }
+
+        .terminal-image-line img {
+            image-rendering: pixelated;
+            margin: 4px 0;
         }
 
         .terminal-command {
@@ -1015,6 +1061,70 @@
             color: var(--matrix-green);
         }
 
+        /* Crew Section */
+        .crew {
+            padding: 6rem 2rem;
+        }
+
+        /* Crew Section */
+        .crew-hero {
+            display: block;
+            margin: 0 auto 2.5rem;
+            image-rendering: pixelated;
+        }
+
+        .crew-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1.5rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .crew-card {
+            background: var(--matrix-card);
+            border: 2px solid var(--matrix-green);
+            box-shadow: var(--border-glow);
+            padding: 1.25rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .crew-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--border-glow-hover);
+        }
+
+        .crew-card img {
+            image-rendering: pixelated;
+            margin-bottom: 0.5rem;
+        }
+
+        .crew-card h3 {
+            color: var(--matrix-green);
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            margin-bottom: 0.25rem;
+        }
+
+        .crew-card p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .crew-hint {
+            text-align: center;
+            margin-top: 2rem;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        .crew-hint code {
+            color: var(--matrix-green);
+            border: 1px solid var(--matrix-green);
+            padding: 0.1rem 0.5rem;
+        }
+
         /* Contact Section */
         .contact {
             padding: 6rem 2rem;
@@ -1047,6 +1157,12 @@
             flex-wrap: wrap;
         }
         
+        .contact-mascot {
+            display: block;
+            margin: 0 auto 1rem;
+            image-rendering: pixelated;
+        }
+
         .contact-link {
             background: transparent;
             color: var(--matrix-green);
@@ -1173,6 +1289,7 @@
                 <li><a href="#projects">projects</a></li>
                 <li><a href="#blog">blog</a></li>
                 <li><a href="#homelab">homelab</a></li>
+                <li><a href="#crew">crew</a></li>
                 <li><a href="#contact">contact</a></li>
                 <li><a href="resume.pdf" class="nav-resume-link" download>résumé</a></li>
                 <li><button class="theme-toggle" id="themeToggle" aria-label="Switch to light theme">◉</button></li>
@@ -1182,11 +1299,15 @@
 
     <!-- Terminal Float Button -->
     <button class="terminal-float-btn" id="terminalBtn" aria-label="Open Terminal">
-        &gt;_
+        <img src="robot.gif" alt="" width="40" height="40" aria-hidden="true">
     </button>
 
     <!-- Terminal Container -->
     <div class="terminal-container" id="terminalContainer" role="dialog" aria-label="Interactive terminal" aria-modal="false">
+        <div class="terminal-boot" id="terminalBoot" aria-hidden="true">
+            <img src="boot-crt.gif" alt="" width="72" height="72">
+            <p>BOOTING HEMANT.SYS<span class="boot-dots">...</span></p>
+        </div>
         <div class="terminal-header">
             <span class="terminal-title">[HEMANT@DEVOPS]~$</span>
             <div class="terminal-controls">
@@ -1540,10 +1661,40 @@
         </div>
     </section>
 
+    <!-- Crew Section (fun / easter egg) -->
+    <section id="crew" class="crew">
+        <div class="container">
+            <h2 class="section-title">CREW.sys</h2>
+            <p style="text-align:center; max-width:700px; margin:0 auto 2rem; opacity:0.8;">
+                &gt; The infrastructure doesn't run itself. Meet the process behind the pipelines.
+            </p>
+            <img src="winners.gif" alt="Pixel-art trio celebrating: a girl, a boy, and a robot mascot" width="280" height="200" class="crew-hero" loading="lazy">
+            <div class="crew-grid">
+                <div class="crew-card">
+                    <img src="girl.gif" alt="Girl mascot sprite" width="80" height="80" loading="lazy">
+                    <h3>OBSERVABILITY</h3>
+                    <p>watches every metric</p>
+                </div>
+                <div class="crew-card">
+                    <img src="robot.gif" alt="Robot mascot sprite" width="80" height="80" loading="lazy">
+                    <h3>AUTOMATION</h3>
+                    <p>never sleeps, never complains</p>
+                </div>
+                <div class="crew-card">
+                    <img src="boy.gif" alt="Boy mascot sprite" width="80" height="80" loading="lazy">
+                    <h3>DEVOPS</h3>
+                    <p>ships it, owns it</p>
+                </div>
+            </div>
+            <p class="crew-hint">&gt; psst — open the terminal and type <code>hatch</code></p>
+        </div>
+    </section>
+
     <!-- Contact Section -->
     <section id="contact" class="contact">
         <div class="container">
             <div class="contact-content">
+                <img src="letter.gif" alt="" width="150" height="133" class="contact-mascot" aria-hidden="true">
                 <h2>&gt; CONNECT.init</h2>
                 <p>&gt; Open to new opportunities, collaborations, and connecting with fellow DevOps engineers</p>
                 <div class="contact-links">
@@ -1749,6 +1900,7 @@
   uptime        - Career uptime
   github        - GitHub stats link
   ping          - Ping recruiter network
+  hatch         - ???
   sudo [cmd]    - Try it and see`,
             
             about: `SYSTEM_PROFILE:
@@ -1863,7 +2015,6 @@ Available: resume.pdf, projects.md, skills.yml, certs.txt`,
 > Process: hemant --role=devops --status=hiring_ready`,
 
             github: `> github.com/hemantbhadke
-> Live stats loaded above in the GITHUB.stats section
 > git log --author="Hemant Bhadke" --oneline | wc -l
   ...still counting`,
 
@@ -1932,6 +2083,19 @@ devops_tools:
             terminalOutput.scrollTop = terminalOutput.scrollHeight;
         }
 
+        function addImageToTerminal(src, alt) {
+            const line = document.createElement('div');
+            line.className = 'terminal-line terminal-image-line';
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = alt;
+            img.width = 90;
+            img.height = 90;
+            line.appendChild(img);
+            terminalOutput.appendChild(line);
+            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+        }
+
         function processCommand(cmd) {
             const trimmedCmd = cmd.trim().toLowerCase();
             const parts = trimmedCmd.split(' ');
@@ -1944,7 +2108,20 @@ devops_tools:
                 return;
             }
 
-            if (command === 'resume') {
+            if (command === 'hatch') {
+                addToTerminal('> incubating...', 'terminal-info');
+                addImageToTerminal('egg-1.gif', 'An egg');
+                setTimeout(() => {
+                    addToTerminal('> something is moving...', 'terminal-info');
+                    addImageToTerminal('egg-2.gif', 'A hatching chick next to an apple');
+                }, 1000);
+                setTimeout(() => {
+                    addToTerminal("> IT'S OUT!", 'terminal-info');
+                    addImageToTerminal('egg-3.gif', 'A hatched duckling');
+                    addToTerminal('🐣 deployed successfully.', 'terminal-info');
+                    addToTerminal(' ');
+                }, 2200);
+            } else if (command === 'resume') {
                 addToTerminal('> Downloading resume.pdf ...', 'terminal-info');
                 const a = document.createElement('a');
                 a.href = 'resume.pdf';
@@ -1981,6 +2158,14 @@ devops_tools:
             terminalContainer.classList.toggle('active');
             if (terminalContainer.classList.contains('active')) {
                 terminalInput.focus();
+                if (!sessionStorage.getItem('hemantsys_booted')) {
+                    const boot = document.getElementById('terminalBoot');
+                    boot.classList.add('active');
+                    setTimeout(() => {
+                        boot.classList.remove('active');
+                    }, 1100);
+                    sessionStorage.setItem('hemantsys_booted', '1');
+                }
             }
         });
 
