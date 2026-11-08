@@ -78,6 +78,133 @@ class AstralAudioEngine {
     });
   }
 
+  maceImpact() {
+    if (!this.enabled) return;
+    this.init();
+    if (!this.ctx) return;
+    this.tone(55, 'sine', 0.28, 0.14, 25);
+    setTimeout(() => this.tone(1350, 'triangle', 0.18, 0.09, 320), 10);
+    setTimeout(() => this.tone(850, 'sawtooth', 0.12, 0.06, 120), 20);
+  }
+
+  ahabDrone() {
+    if (!this.enabled) return;
+    this.init();
+    if (!this.ctx) return;
+    this.tone(55, 'sine', 0.45, 0.08);
+    this.tone(58, 'triangle', 0.45, 0.07);
+  }
+
+  alayaVijnanaSynapse() {
+    if (!this.enabled) return;
+    this.init();
+    if (!this.ctx) return;
+    this.tone(1480, 'sine', 0.14, 0.06, 2960);
+    setTimeout(() => this.tone(2200, 'triangle', 0.16, 0.05, 1100), 50);
+  }
+
+  toggleIboTheme() {
+    this.init();
+    if (!this.ctx) return false;
+    if (this.iboThemeActive) {
+      this.stopIboTheme();
+      return false;
+    }
+    this.iboThemeActive = true;
+
+    // Frequencies (Hz) for Masaru Yokoyama's IBO Main Theme / 'Crescent Moon' in E minor
+    const N = {
+      E2: 82.41, G2: 98.00, B2: 123.47,
+      E3: 164.81, G3: 196.00, A3: 220.00, B3: 246.94, D4: 293.66,
+      E4: 329.63, Fs4: 369.99, G4: 392.00, A4: 440.00, B4: 493.88,
+      D5: 587.33, E5: 659.25, Fs5: 739.99, G5: 783.99, A5: 880.00, B5: 987.77
+    };
+
+    const melody = [
+      { note: N.E3, dur: 0.22, delay: 0.00, type: 'triangle', vol: 0.08 },
+      { note: N.B3, dur: 0.22, delay: 0.22, type: 'triangle', vol: 0.08 },
+      { note: N.E4, dur: 0.22, delay: 0.44, type: 'triangle', vol: 0.09 },
+      { note: N.G4, dur: 0.44, delay: 0.66, type: 'triangle', vol: 0.10 },
+      { note: N.Fs4, dur: 0.22, delay: 1.10, type: 'triangle', vol: 0.09 },
+      { note: N.E4, dur: 0.44, delay: 1.32, type: 'triangle', vol: 0.09 },
+
+      { note: N.E2, dur: 0.18, delay: 0.00, type: 'sine', vol: 0.14 },
+      { note: N.E2, dur: 0.18, delay: 0.88, type: 'sine', vol: 0.14 },
+      { note: N.E2, dur: 0.18, delay: 1.76, type: 'sine', vol: 0.14 },
+      { note: N.E2, dur: 0.18, delay: 2.64, type: 'sine', vol: 0.14 },
+      { note: N.E2, dur: 0.18, delay: 3.52, type: 'sine', vol: 0.14 },
+      { note: N.E2, dur: 0.18, delay: 4.40, type: 'sine', vol: 0.14 },
+      { note: N.E2, dur: 0.18, delay: 5.28, type: 'sine', vol: 0.14 },
+      { note: N.E2, dur: 0.18, delay: 6.16, type: 'sine', vol: 0.14 },
+      { note: N.E2, dur: 0.18, delay: 7.04, type: 'sine', vol: 0.14 },
+      { note: N.E2, dur: 0.18, delay: 7.92, type: 'sine', vol: 0.14 },
+      { note: N.E2, dur: 0.18, delay: 8.80, type: 'sine', vol: 0.14 },
+      { note: N.E2, dur: 0.18, delay: 9.68, type: 'sine', vol: 0.14 },
+
+      { note: N.B4, dur: 0.44, delay: 1.76, type: 'sawtooth', vol: 0.07 },
+      { note: N.D5, dur: 0.22, delay: 2.20, type: 'sawtooth', vol: 0.08 },
+      { note: N.E5, dur: 0.66, delay: 2.42, type: 'sawtooth', vol: 0.10 },
+      { note: N.G5, dur: 0.44, delay: 3.08, type: 'sawtooth', vol: 0.10 },
+      { note: N.Fs5, dur: 0.44, delay: 3.52, type: 'sawtooth', vol: 0.09 },
+      { note: N.E5, dur: 0.44, delay: 3.96, type: 'sawtooth', vol: 0.09 },
+      { note: N.D5, dur: 0.44, delay: 4.40, type: 'sawtooth', vol: 0.08 },
+      { note: N.B4, dur: 0.66, delay: 4.84, type: 'sawtooth', vol: 0.08 },
+
+      { note: N.E5, dur: 0.44, delay: 5.50, type: 'sawtooth', vol: 0.09 },
+      { note: N.Fs5, dur: 0.44, delay: 5.94, type: 'sawtooth', vol: 0.09 },
+      { note: N.G5, dur: 0.44, delay: 6.38, type: 'sawtooth', vol: 0.10 },
+      { note: N.A5, dur: 0.44, delay: 6.82, type: 'sawtooth', vol: 0.10 },
+      { note: N.B5, dur: 0.88, delay: 7.26, type: 'sawtooth', vol: 0.11 },
+      { note: N.A5, dur: 0.44, delay: 8.14, type: 'sawtooth', vol: 0.09 },
+      { note: N.G5, dur: 0.44, delay: 8.58, type: 'sawtooth', vol: 0.09 },
+      { note: N.Fs5, dur: 0.66, delay: 9.02, type: 'sawtooth', vol: 0.09 },
+      { note: N.E5, dur: 1.20, delay: 9.68, type: 'sawtooth', vol: 0.11 }
+    ];
+
+    const loopLen = 11.2;
+
+    const playLoop = () => {
+      if (!this.iboThemeActive) return;
+      const now = this.ctx.currentTime;
+      melody.forEach(m => {
+        try {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          const filter = this.ctx.createBiquadFilter();
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(m.type === 'sawtooth' ? 1900 : 950, now + m.delay);
+
+          osc.type = m.type;
+          osc.frequency.setValueAtTime(m.note, now + m.delay);
+
+          gain.gain.setValueAtTime(0.0001, now + m.delay);
+          gain.gain.linearRampToValueAtTime(m.vol, now + m.delay + 0.03);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + m.delay + m.dur);
+
+          osc.connect(filter);
+          filter.connect(gain);
+          gain.connect(this.ctx.destination);
+
+          osc.start(now + m.delay);
+          osc.stop(now + m.delay + m.dur);
+        } catch (e) {}
+      });
+
+      this.iboThemeTimer = setTimeout(playLoop, loopLen * 1000);
+    };
+
+    playLoop();
+    return true;
+  }
+
+  stopIboTheme() {
+    this.iboThemeActive = false;
+    if (this.iboThemeTimer) {
+      clearTimeout(this.iboThemeTimer);
+      this.iboThemeTimer = null;
+    }
+  }
+
   levelUp() {
     [523.25, 659.25, 783.99, 1046.50, 1318.51].forEach((n, i) => {
       setTimeout(() => this.tone(n, 'sine', 0.22, 0.06), i * 80);
@@ -290,8 +417,8 @@ const STORAGE_KEY_GAME = 'hemantOpsUnlocked_game_v8';
 const DEFAULT_PROFILE = {
   firstName: 'Hemant',
   lastName: 'Bhadke',
-  callsign: 'HB-01 // EFSF-OPS',
-  role: 'DevOps / DevSecOps Engineer · CI/CD · IaC · SRE',
+  callsign: 'HB-08 // TEKKADAN-OPS',
+  role: 'DevOps / Platform Engineer · Tekkadan Fleet SRE · Calamity-Proof Infrastructure',
   location: 'Maharashtra, India',
   bio: 'DevOps and DevSecOps engineer with 4+ years at Infosys across CI/CD, GitOps, Terraform and SRE-grade observability. Cut MTTR 60% and pipeline failures 40%, with 100% zero-downtime deployments for Ricoh and Siemens Energy. Off the clock: tactical games, Gundam builds, Linux wargames and ESP32 soldering.',
   linkedin: 'https://www.linkedin.com/in/hemantrbhadke',
@@ -489,6 +616,18 @@ function initGundamWorkbench() {
     };
   }
 
+  // IBO Soundtrack Toggle
+  const iboThemeBtn = document.getElementById('iboThemeBtn');
+  const iboThemeStatus = document.getElementById('iboThemeStatus');
+  if (iboThemeBtn && iboThemeStatus) {
+    iboThemeBtn.onclick = () => {
+      const active = sfx.toggleIboTheme();
+      iboThemeStatus.textContent = active ? 'ON' : 'OFF';
+      iboThemeStatus.className = active ? 'text-rose-400 font-bold' : 'text-slate-400 font-bold';
+      showToast(active ? 'OST // GUNDAM IBO: CRESCENT MOON ENGAGED' : 'OST // IBO THEME MUTED');
+    };
+  }
+
   // Space Synth Ambient Pad
   const spaceSynthBtn = document.getElementById('spaceSynthBtn');
   const spaceSynthStatus = document.getElementById('spaceSynthStatus');
@@ -517,9 +656,9 @@ function initGundamWorkbench() {
    ------------------------------------------------------------------------- */
 const ARMORY_DATA = {
   'gn-drive': {
-    code: 'CORE REACTOR // GN-DRIVE',
-    title: 'KUBERNETES, EKS/AKS, DOCKER & HELM',
-    sub: 'SUBSYSTEM: "CONTAINER ORCHESTRATION & SELF-HEALING WORKLOADS"',
+    code: 'TWIN AHAB REACTORS // ASW-G-08',
+    title: 'KUBERNETES (EKS/AKS), DOCKER & HELM CHARTS',
+    sub: 'SUBSYSTEM: "DUAL-PHASE CALAMITY WAR ENERGY & SELF-HEALING FLEETS"',
     power: '990',
     desc: 'Running production microservices across AWS EKS and Azure AKS. Multi-stage Docker packaging, Helm 3 charts, tuned liveness/readiness probes to eliminate 502/503 zero-downtime rolling updates, and custom HPA metric scaling.',
     fieldNote: '"90% of \'random\' Kubernetes crashes I\'ve debugged came down to two things: missing memory limits causing silent OOMKills, or a readinessProbe hitting an endpoint that queries the DB on every health check."',
@@ -866,10 +1005,10 @@ function initFunnelGame() {
       sfx.tone(600, 'sine', 0.25, 0.08, 900);
       showToast('ABILITY // I-FIELD WAF SHIELD ACTIVE (+25% HP)');
     } else if (slot === 3) {
-      // High-Mega Cannon (60 EN)
+      // Barbatos Giant Mace Crush (60 EN)
       if (gnEnergy < 60) { sfx.warning(); return; }
       gnEnergy -= 60;
-      sfx.explosion();
+      sfx.maceImpact();
       enemies.forEach(e => {
         e.hp = 0;
         spawnExplosion(e.x, e.y, e.color, 16);
@@ -878,13 +1017,14 @@ function initFunnelGame() {
       enemies.length = 0;
       showToast('ABILITY // HIGH-MEGA CANNON: SCREEN PURGE');
     } else if (slot === 4) {
-      // Trans-Am Overclock (80 EN)
+      // Alaya-Vijnana Limiter Release (80 EN)
       if (gnEnergy < 80) { sfx.warning(); return; }
       gnEnergy -= 80;
       transAmTimer = 360;
+      sfx.alayaVijnanaSynapse();
       sfx.ntdAwaken();
-      addXP(100, 'Trans-Am Overdrive in Combat');
-      showToast('ABILITY // TRANS-AM OVERCLOCK ENGAGED');
+      addXP(100, 'Alaya-Vijnana Limiter Released');
+      showToast('ABILITY // 阿頼耶識リミッター解除 (ALAYA-VIJNANA LIMITER RELEASE)');
     }
   }
 
@@ -920,38 +1060,83 @@ function initFunnelGame() {
     ctx.fillStyle = '#040711';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Draw central Production Kubernetes Core
+    // Draw Tekkadan Armored Assault Cruiser ISARIBI (漁火)
     ctx.save();
     ctx.translate(cx, cy);
 
-    // Shield Aura
+    // Nano-Laminate Shield Lattice
     if (shieldTimer > 0) {
       ctx.beginPath();
-      ctx.arc(0, 0, 48, 0, Math.PI * 2);
-      ctx.strokeStyle = '#10b981';
-      ctx.lineWidth = 3;
-      ctx.shadowColor = '#10b981';
-      ctx.shadowBlur = 18;
+      ctx.arc(0, 0, 52, 0, Math.PI * 2);
+      ctx.strokeStyle = '#e11d48';
+      ctx.lineWidth = 3.5;
+      ctx.shadowColor = '#f43f5e';
+      ctx.shadowBlur = 20;
+      ctx.stroke();
+      ctx.strokeStyle = '#f59e0b';
+      ctx.lineWidth = 1.5;
       ctx.stroke();
     }
 
-    // Core body
+    // ISARIBI Wedge Armor Hull
     ctx.beginPath();
-    ctx.arc(0, 0, 26, 0, Math.PI * 2);
-    ctx.fillStyle = transAmTimer > 0 ? '#f43f5e' : '#0d1322';
-    ctx.strokeStyle = transAmTimer > 0 ? '#f59e0b' : '#38bdf8';
-    ctx.lineWidth = 2.5;
-    ctx.shadowBlur = 12;
-    ctx.shadowColor = transAmTimer > 0 ? '#f43f5e' : '#38bdf8';
+    ctx.moveTo(0, -28); // prow beak
+    ctx.lineTo(16, -12);
+    ctx.lineTo(20, 14);
+    ctx.lineTo(15, 26);
+    ctx.lineTo(-15, 26);
+    ctx.lineTo(-20, 14);
+    ctx.lineTo(-16, -12);
+    ctx.closePath();
+    ctx.fillStyle = transAmTimer > 0 ? '#1e1b4b' : '#0f172a';
     ctx.fill();
+    ctx.strokeStyle = transAmTimer > 0 ? '#f43f5e' : '#475569';
+    ctx.lineWidth = 2;
     ctx.stroke();
-    ctx.shadowBlur = 0;
+
+    // Red Armored Ramming Prow
+    ctx.beginPath();
+    ctx.moveTo(0, -28);
+    ctx.lineTo(8, -14);
+    ctx.lineTo(0, -8);
+    ctx.lineTo(-8, -14);
+    ctx.closePath();
+    ctx.fillStyle = '#e11d48';
+    ctx.fill();
+
+    // Armored Bridge Tower (Cyan Window Slit)
+    ctx.fillStyle = '#38bdf8';
+    ctx.fillRect(-6, -6, 12, 4);
+
+    // Tekkadan Iron Flower Crest on Main Deck
+    ctx.beginPath();
+    ctx.arc(0, 7, 4.5, 0, Math.PI * 2);
+    ctx.fillStyle = '#e11d48';
+    ctx.fill();
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(-1.5, 5.5, 3, 3);
+
+    // Twin Ahab Reactor Exhaust Plumes
+    const plume = 12 + Math.random() * 8;
+    ctx.fillStyle = transAmTimer > 0 ? 'rgba(244, 63, 94, 0.85)' : 'rgba(56, 189, 248, 0.85)';
+    ctx.beginPath();
+    ctx.moveTo(-10, 26);
+    ctx.lineTo(-6, 26 + plume);
+    ctx.lineTo(-2, 26);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(2, 26);
+    ctx.lineTo(6, 26 + plume);
+    ctx.lineTo(10, 26);
+    ctx.closePath();
+    ctx.fill();
 
     ctx.fillStyle = '#f1f5f9';
-    ctx.font = 'bold 9px "JetBrains Mono"';
+    ctx.font = 'bold 8px "JetBrains Mono"';
     ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('CORE', 0, 0);
+    ctx.fillText('ISARIBI', 0, 19);
 
     // Update & draw 6 Fin Funnels
     const rotSpeed = transAmTimer > 0 ? 0.05 : 0.025;
@@ -2063,6 +2248,37 @@ function initGlobalTerminal() {
       const cmd = val.toLowerCase();
 
       switch (cmd) {
+        case 'ibo':
+        case 'tekkadan':
+          sfx.uiChime();
+          appendOutput('🌺 TEKKADAN (鉄華団) // MARS EXPEDITION BRIGADE', 'text-rose-400 font-bold');
+          appendOutput('"Our road never ends. As long as you don't stop, I'll be waiting for you beyond the horizon." — Orga Itsuka');
+          appendOutput('Flagship: Armored Assault Cruiser ISARIBI (漁火)');
+          appendOutput('Mobile Suit: ASW-G-08 Gundam Barbatos (Alaya-Vijnana Synapse: Active)');
+          break;
+        case 'barbatos':
+          sfx.maceImpact();
+          appendOutput('ASW-G-08 GUNDAM BARBATOS (72 Calamity War Gundam Frames)', 'psycho-text font-bold');
+          appendOutput('Reactors: Twin Ahab Reactors (Dual-Phase Zero-Interference Sync)');
+          appendOutput('Armor: Nano-Laminate Armor (Kinetic & Beam Dissipation Lattice)');
+          appendOutput('Armaments: Giant Iron Mace, 300mm Smoothbore Cannon, 200mm Arm Mortar');
+          appendOutput('Pilot: Mikazuki Augus · Alaya-Vijnana Neural Interface');
+          break;
+        case 'isaribi':
+          appendOutput('TEKKADAN ARMORED CRUISER ISARIBI (漁火)', 'text-skybeam font-bold');
+          appendOutput('Former CGS vessel "Will-O'-the-Wisp" upgraded by Teiwaz engineers.');
+          appendOutput('Features heavy armored prow for kinetic ramming, smoke screen dischargers, and deck cannons.');
+          break;
+        case 'ost':
+        case 'music':
+          const activeOst = sfx.toggleIboTheme();
+          const ostStatusEl = document.getElementById('iboThemeStatus');
+          if (ostStatusEl) {
+            ostStatusEl.textContent = activeOst ? 'ON' : 'OFF';
+            ostStatusEl.className = activeOst ? 'text-rose-400 font-bold' : 'text-slate-400 font-bold';
+          }
+          appendOutput(activeOst ? '♫ Mobile Suit Gundam: Iron-Blooded Orphans OST ("Crescent Moon") ENGAGED' : '♫ IBO Soundtrack STOPPED', 'text-rose-400 font-bold');
+          break;
         case 'help':
           appendOutput('COMMANDS: whoami, skills, experience, projects, certs, hr, game, contact, hire, clear, exit');
           break;
