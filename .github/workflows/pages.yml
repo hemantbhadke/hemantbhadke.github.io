@@ -1,0 +1,32 @@
+name: pages
+on:
+  push: { branches: [main] }
+  workflow_dispatch: {}
+permissions: { contents: read, pages: write, id-token: write }
+concurrency: { group: pages, cancel-in-progress: true }
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.d.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: npm install
+      - name: Snapshot API into static fallback JSON and set API URL
+        env:
+          OPS_API: ${{ vars.OPS_API_URL }}
+        run: |
+          ADMIN_TOKEN=ci DB_PATH=/tmp/s.db PORT=3111 node server.js & SRV=$!
+          sleep 2
+          mkdir -p public/data
+          curl -fs localhost:3111/api/profile -o public/data/profile.json
+          curl -fs localhost:3111/api/hr-review -o public/data/hr-review.json
+          kill $SRV
+          sed -i "s|name=\"ops-api\" content=\"\"|name=\"ops-api\" content=\"${OPS_API}\"|" public/index.html
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: public }
+      - id: d
+        uses: actions/deploy-pages@v4

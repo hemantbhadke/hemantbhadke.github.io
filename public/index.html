@@ -1,0 +1,1863 @@
+<!doctype html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#070a12">
+  <meta name="ops-api" content="">
+  <meta name="description" content="Hemant Bhadke — Cloud & DevOps Engineer (Maharashtra, India). Interactive Ver.Ka Aerospace Workbench, Kubernetes & CI/CD Labs, and Orbital Sortie Game.">
+  <title>HEMANT BHADKE // Cloud & DevOps Engineer — Ver.Ka Hangar & Interactive Labs</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Space Grotesk, Plus Jakarta Sans, JetBrains Mono, and Caveat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['"Space Grotesk"', 'sans-serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+            hand: ['"Caveat"', 'cursive'],
+          },
+          colors: {
+            void: '#070a12',
+            obsidian: '#0d1322',
+            paper: '#f1f5f9',
+            psycho: '#10b981',
+            skybeam: '#38bdf8',
+            nebula: '#7c3aed',
+            vfin: '#f59e0b',
+            ntd: '#f43f5e',
+            emerald: '#10b981',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --bg-void: #070a12;
+      --bg-workbench: #0d1322;
+      --text-paper: #f1f5f9;
+      --psycho-frame: #10b981;
+      --psycho-secondary: #38bdf8;
+      --psycho-glow: rgba(16, 185, 129, 0.24);
+      --psycho-soft: rgba(56, 189, 248, 0.08);
+      --vfin-gold: #f59e0b;
+      --ntd-crimson: #f43f5e;
+      --aura-x: 50vw;
+      --aura-y: 35vh;
+    }
+
+    /* Awakened NT-D / Trans-Am Solar Flare Aura State */
+    body.ntd-active {
+      --psycho-frame: #f43f5e;
+      --psycho-secondary: #f59e0b;
+      --psycho-glow: rgba(244, 63, 94, 0.32);
+      --psycho-soft: rgba(244, 63, 94, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--bg-void);
+      color: var(--text-paper);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Recruiter Brief Mode Highlights */
+    body.recruiter-mode #recruiterExecutiveBanner {
+      display: block !important;
+      animation: fadeSlideDown 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    body.recruiter-mode .recruiter-priority {
+      border-color: rgba(56, 189, 248, 0.45) !important;
+      box-shadow: 0 0 36px -8px rgba(56, 189, 248, 0.22), inset 0 1px 0 rgba(255,255,255,0.14) !important;
+    }
+    @keyframes fadeSlideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Subtle Tactile Film Grain & Cutting-Mat Grid Overlay */
+    .workbench-grain {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0.028;
+      background-image: radial-gradient(#f1f5f9 0.75px, transparent 0.75px);
+      background-size: 24px 24px;
+    }
+
+    /* Full-Viewport Deep Space Canvas + Spring Cursor Aura Overlay */
+    #cosmosCanvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .cursor-aura-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      background:
+        radial-gradient(640px circle at var(--aura-x) var(--aura-y), var(--psycho-soft), transparent 46%),
+        radial-gradient(1100px circle at 50% 108%, rgba(56, 189, 248, 0.06), transparent 55%);
+      transition: background 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Curved Planetary Limb Horizon Glow */
+    .planetary-horizon {
+      position: relative;
+      overflow: hidden;
+    }
+    .planetary-horizon::after {
+      content: '';
+      position: absolute;
+      left: -20%;
+      right: -20%;
+      bottom: -245px;
+      height: 310px;
+      border-radius: 50% 50% 0 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(16, 185, 129, 0.18), rgba(56, 189, 248, 0.06) 45%, transparent 72%);
+      border-top: 1px solid rgba(148, 163, 184, 0.24);
+      box-shadow: 0 -20px 60px rgba(16, 185, 129, 0.12);
+      pointer-events: none;
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    body.ntd-active .planetary-horizon::after {
+      background: radial-gradient(ellipse at 50% 0%, rgba(244, 63, 94, 0.25), rgba(245, 158, 11, 0.10) 45%, transparent 72%);
+      border-top-color: rgba(244, 63, 94, 0.45);
+      box-shadow: 0 -25px 75px rgba(244, 63, 94, 0.22);
+    }
+
+    /* Linear.app + Katoki Ver.Ka Frosted Slate Panels */
+    .astral-panel {
+      position: relative;
+      background: rgba(13, 19, 34, 0.72);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      box-shadow:
+        0 20px 50px -12px rgba(0, 0, 0, 0.65),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+      transition: all 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .astral-panel:hover {
+      border-color: rgba(148, 163, 184, 0.28);
+      box-shadow:
+        0 24px 60px -12px rgba(0, 0, 0, 0.75),
+        0 0 28px -10px var(--psycho-glow),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
+    }
+
+    /* Cutting Mat Millimeter Tick Marks on Top Edge */
+    .cutting-mat-ticks {
+      background-image: repeating-linear-gradient(
+        to right,
+        rgba(148, 163, 184, 0.12) 0px,
+        rgba(148, 163, 184, 0.12) 1px,
+        transparent 1px,
+        transparent 8px
+      );
+      background-size: 100% 4px;
+      background-repeat: no-repeat;
+      background-position: top;
+    }
+
+    /* Subtle Ver.Ka Technical Corner Ticks */
+    .astral-corners::before,
+    .astral-corners::after {
+      content: '';
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .astral-corners::before {
+      top: -1px;
+      left: -1px;
+      border-top: 2px solid var(--psycho-frame);
+      border-left: 2px solid var(--psycho-frame);
+      border-top-left-radius: 10px;
+    }
+    .astral-corners::after {
+      bottom: -1px;
+      right: -1px;
+      border-bottom: 2px solid var(--vfin-gold);
+      border-right: 2px solid var(--vfin-gold);
+      border-bottom-right-radius: 10px;
+    }
+
+    /* Dynamic Aura Accent Utilities */
+    .psycho-text {
+      color: var(--psycho-frame);
+      transition: color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Sticky Note / Field Note Styling */
+    .field-note-box {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.09) 0%, rgba(13, 19, 34, 0.78) 100%);
+      border-left: 3px solid #f59e0b;
+    }
+
+    /* Armory & Sector Cards */
+    .armory-card {
+      position: relative;
+      background: rgba(13, 19, 34, 0.62);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .armory-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--psycho-frame);
+      background: rgba(19, 28, 49, 0.78);
+      box-shadow: 0 12px 30px -10px var(--psycho-glow);
+    }
+    .armory-card.active {
+      background: linear-gradient(135deg, var(--psycho-soft) 0%, rgba(245, 158, 11, 0.08) 100%);
+      border-color: var(--psycho-frame);
+      box-shadow: 0 0 28px var(--psycho-glow), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+    }
+
+    /* Zero-Gravity Floating & Wings of Light Keyframes */
+    @keyframes zeroGFloat {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(0.4deg); }
+    }
+    @keyframes zeroGFloatAlt {
+      0%, 100% { transform: translateY(-6px) rotate(-2deg) scale(1.02); }
+      50% { transform: translateY(8px) rotate(2deg) scale(1.04); }
+    }
+    @keyframes spinCW {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes spinCCW {
+      from { transform: rotate(360deg); }
+      to { transform: rotate(0deg); }
+    }
+    @keyframes wingPulseLeft {
+      0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.72; }
+      50% { transform: scale(1.05) rotate(-2deg); opacity: 0.94; }
+    }
+    @keyframes wingPulseRight {
+      0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.72; }
+      50% { transform: scale(1.05) rotate(2deg); opacity: 0.94; }
+    }
+    @keyframes funnelDriftL {
+      0%, 100% { transform: translate(0px, 0px) rotate(0deg); }
+      50% { transform: translate(-6px, -9px) rotate(-3deg); }
+    }
+    @keyframes funnelDriftR {
+      0%, 100% { transform: translate(0px, 0px) rotate(0deg); }
+      50% { transform: translate(6px, -9px) rotate(3deg); }
+    }
+    @keyframes eyeShimmer {
+      0%, 100% { opacity: 1; filter: drop-shadow(0 0 9px var(--psycho-frame)); }
+      50% { opacity: 0.85; filter: drop-shadow(0 0 4px var(--psycho-frame)); }
+    }
+    @keyframes dashFlow {
+      to { stroke-dashoffset: -120; }
+    }
+
+    .zero-g-unit {
+      animation: zeroGFloat 6s ease-in-out infinite;
+      transform-origin: 280px 270px;
+    }
+    .zero-g-unit.stance-flight {
+      animation: zeroGFloatAlt 4.2s ease-in-out infinite;
+    }
+    .orbit-ring-cw { animation: spinCW 38s linear infinite; transform-origin: 280px 250px; }
+    .orbit-ring-ccw { animation: spinCCW 28s linear infinite; transform-origin: 280px 250px; }
+    .wings-light-l { animation: wingPulseLeft 4.5s ease-in-out infinite; transform-origin: 220px 280px; }
+    .wings-light-r { animation: wingPulseRight 4.5s ease-in-out infinite; transform-origin: 340px 280px; }
+    .funnel-wing-l { animation: funnelDriftL 4.8s ease-in-out infinite; }
+    .funnel-wing-r { animation: funnelDriftR 4.8s ease-in-out infinite; }
+    .gundam-eyes { animation: eyeShimmer 2.6s ease-in-out infinite; }
+    .flow-dash-anim { animation: dashFlow 5s linear infinite; }
+
+    /* NT-D / Trans-Am Armor Shift & Wings of Light Expansion */
+    #shoulderLeft, #shoulderRight, #vfinGroup, #chestArmorL, #chestArmorR, .funnel-pod, #wingsOfLightGroup {
+      transition: all 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    body.ntd-active #shoulderLeft {
+      transform: translate(-14px, -8px) rotate(-5deg);
+    }
+    body.ntd-active #shoulderRight {
+      transform: translate(14px, -8px) rotate(5deg);
+    }
+    body.ntd-active #vfinGroup {
+      transform: translateY(-6px) scale(1.04);
+      filter: drop-shadow(0 0 14px #f59e0b);
+    }
+    body.ntd-active #chestArmorL {
+      transform: translateX(-6px);
+    }
+    body.ntd-active #chestArmorR {
+      transform: translateX(6px);
+    }
+    body.ntd-active #wingsOfLightGroup {
+      transform: scale(1.12);
+      filter: drop-shadow(0 0 22px rgba(244, 63, 94, 0.6));
+    }
+    body.ntd-active .psycho-svg-stroke {
+      stroke: #f43f5e !important;
+      filter: drop-shadow(0 0 8px #f43f5e);
+    }
+    body.ntd-active .psycho-svg-fill {
+      fill: #f43f5e !important;
+      filter: drop-shadow(0 0 10px #f43f5e);
+    }
+    body.ntd-active #ntdEyeSparks {
+      opacity: 1 !important;
+    }
+
+    /* Smooth Tactical Buttons */
+    .btn-astral-primary {
+      background: linear-gradient(135deg, var(--psycho-frame) 0%, #38bdf8 58%, #f59e0b 100%);
+      color: #070a12;
+      font-weight: 700;
+      box-shadow: 0 0 22px var(--psycho-glow);
+      transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    body.ntd-active .btn-astral-primary {
+      background: linear-gradient(135deg, #f43f5e 0%, #f59e0b 100%);
+      color: #070a12;
+    }
+    .btn-astral-primary:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.07);
+      box-shadow: 0 0 32px var(--psycho-glow);
+    }
+
+    .btn-astral-ntd {
+      background: rgba(244, 63, 94, 0.12);
+      border: 1px solid rgba(244, 63, 94, 0.5);
+      color: #f43f5e;
+      font-weight: 700;
+      transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-astral-ntd:hover,
+    body.ntd-active .btn-astral-ntd {
+      background: linear-gradient(135deg, #f43f5e 0%, #f59e0b 100%);
+      border-color: transparent;
+      color: #070a12;
+      box-shadow: 0 0 28px rgba(244, 63, 94, 0.5);
+    }
+
+    .btn-astral-secondary {
+      background: rgba(13, 19, 34, 0.78);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      color: #f1f5f9;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-astral-secondary:hover,
+    .btn-astral-secondary.active-note {
+      border-color: var(--vfin-gold);
+      color: var(--vfin-gold);
+      background: rgba(245, 158, 11, 0.11);
+      transform: translateY(-1px);
+    }
+
+    /* Scrollbars */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #070a12; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--psycho-frame); }
+
+    @media print {
+      .no-print { display: none !important; }
+      body { background: #fff !important; color: #0f172a !important; }
+      .astral-panel { border: 1px solid #cbd5e1 !important; box-shadow: none !important; background: #fff !important; color: #0f172a !important; }
+    }
+  </style>
+</head>
+
+<body class="selection:bg-psycho selection:text-void">
+
+  <!-- FULL-VIEWPORT INTERACTIVE DEEP SPACE, NEBULA & GN PARTICLE CANVAS -->
+  <canvas id="cosmosCanvas" aria-hidden="true"></canvas>
+  <div class="cursor-aura-layer" aria-hidden="true"></div>
+  <div class="workbench-grain" aria-hidden="true"></div>
+
+  <!-- ===================================================================== -->
+  <!-- 1. STICKY TOPBAR WITH RECRUITER MODE TOGGLE & SPACE SYNTH             -->
+  <!-- ===================================================================== -->
+  <header class="sticky top-0 z-50 border-b border-slate-400/15 bg-void/85 backdrop-blur-2xl no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
+      
+      <!-- Left: Brand Identity -->
+      <div class="flex items-center gap-3 sm:gap-4">
+        <a href="#top" class="flex items-center gap-2.5 group">
+          <div class="w-9 h-9 rounded-xl bg-slate-900 border border-psycho/50 flex flex-col items-center justify-center shadow-[0_0_16px_rgba(16,185,129,0.2)] group-hover:scale-105 transition">
+            <span class="font-display font-bold text-[11px] text-vfin leading-none">HB-01</span>
+            <span class="font-mono text-[8px] psycho-text tracking-tighter mt-0.5">Ver.Ka</span>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-display font-bold tracking-wider text-paper text-sm sm:text-base leading-none">HEMANT BHADKE</span>
+              <span id="hudModePill" class="hidden sm:inline-block px-2 py-0.5 rounded-full text-[9px] font-mono font-semibold bg-psycho/15 psycho-text border border-psycho/35">EFSF-OPS</span>
+            </div>
+            <span class="font-mono text-[10px] text-slate-400 tracking-wider block mt-0.5">CLOUD & DEVOPS ENGINEER · PUNE</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Center: Quick Section Jump Links -->
+      <nav class="hidden xl:flex items-center gap-1 bg-slate-900/75 border border-slate-400/15 rounded-full p-1 text-[11px] font-mono">
+        <a href="#dossier" class="px-2.5 py-1 rounded-full text-slate-300 hover:text-white hover:bg-white/5 transition">01.DOSSIER</a>
+        <a href="#armory" class="px-2.5 py-1 rounded-full text-slate-300 hover:text-white hover:bg-white/5 transition">02.LOADOUT</a>
+        <a href="#funnelGame" class="px-2.5 py-1 rounded-full text-slate-300 hover:text-psycho hover:bg-white/5 transition">03.SORTIE_GAME</a>
+        <a href="#bridgeSim" class="px-2.5 py-1 rounded-full text-slate-300 hover:text-vfin hover:bg-white/5 transition">04.WAR_ROOM</a>
+        <a href="#clusterLab" class="px-2.5 py-1 rounded-full text-slate-300 hover:text-skybeam hover:bg-white/5 transition">05.K8S_CICD</a>
+        <a href="#universeMap" class="px-2.5 py-1 rounded-full text-slate-300 hover:text-emerald hover:bg-white/5 transition">06.UNIVERSE</a>
+        <button type="button" onclick="document.getElementById('globalTerminalToggleBtn').click()" class="px-2.5 py-1 rounded-full text-psycho hover:text-white hover:bg-psycho/20 transition flex items-center gap-1"><span>⌘</span> OPS-SH</button>
+      </nav>
+
+      <!-- Right: Recruiter Mode Toggle, Space Synth, NT-D, XP & Edit -->
+      <div class="flex items-center gap-1.5 sm:gap-2">
+        <!-- Prominent Recruiter Brief Toggle -->
+        <button id="recruiterModeBtn" type="button" class="px-3 py-1.5 rounded-full font-mono text-[11px] font-semibold border border-skybeam/50 bg-skybeam/10 text-skybeam hover:bg-skybeam hover:text-void transition flex items-center gap-1.5" title="Switch between Interactive Hangar and 15-Second Recruiter Brief">
+          <span>⇄</span>
+          <span id="recruiterModeLabel">MODE: INTERACTIVE HANGAR</span>
+        </button>
+
+        <button id="spaceSynthBtn" type="button" class="btn-astral-secondary px-2.5 py-1.5 rounded-full font-mono text-[11px] hidden md:flex items-center gap-1" title="Toggle Space Synth Pad Ambience">
+          <span>✦ SYNTH:</span>
+          <b id="spaceSynthStatus" class="psycho-text">OFF</b>
+        </button>
+
+        <button id="topNtdBtn" type="button" class="btn-astral-ntd px-3 py-1.5 rounded-full font-mono text-[11px] tracking-wider uppercase flex items-center gap-1" title="Engage NT-D / Trans-Am Psycho-Frame Mode">
+          <span>⚡</span>
+          <span id="topNtdText" class="hidden sm:inline">NT-D: OFF</span>
+        </button>
+
+        <!-- Pilot Level & XP -->
+        <div class="hidden lg:flex items-center gap-2 bg-slate-900/85 border border-slate-400/15 rounded-full px-3 py-1">
+          <div class="text-right">
+            <div class="flex items-center gap-1 font-mono text-[10px]">
+              <span class="text-slate-400">LVL</span>
+              <b id="hudLevel" class="text-vfin">02</b>
+              <span class="text-slate-600">·</span>
+              <span id="hudXP" class="text-paper font-semibold">450 XP</span>
+            </div>
+            <div class="w-16 h-1 bg-slate-800 rounded-full overflow-hidden mt-0.5">
+              <div id="hudXPBar" class="h-full bg-gradient-to-r from-psycho via-skybeam to-vfin transition-all duration-500" style="width: 45%"></div>
+            </div>
+          </div>
+        </div>
+
+        <button id="soundToggleBtn" type="button" class="w-8 h-8 rounded-full bg-slate-900/85 border border-slate-400/15 hover:border-psycho text-xs font-mono text-slate-300 flex items-center justify-center transition" title="Toggle Sound Effects">
+          <span id="soundIcon">🔊</span>
+        </button>
+
+        <button id="openDossierBtn" type="button" class="px-3 py-1.5 rounded-full bg-white/10 hover:bg-vfin hover:text-void border border-white/15 font-mono font-semibold text-[11px] text-paper transition">
+          EDIT
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================================================================== -->
+  <!-- MAIN CONTAINER                                                        -->
+  <!-- ===================================================================== -->
+  <main id="top" class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-20">
+
+    <!-- =================================================================== -->
+    <!-- RECRUITER BRIEF 15-SECOND EXECUTIVE SUMMARY BANNER (TOGGLEABLE)     -->
+    <!-- =================================================================== -->
+    <section id="recruiterExecutiveBanner" class="hidden astral-panel astral-corners rounded-3xl p-6 sm:p-8 border-2 border-skybeam/50 bg-obsidian/90">
+      <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-400/15 pb-4 mb-5">
+        <div>
+          <span class="font-mono text-[11px] text-skybeam uppercase tracking-widest font-bold">⚡ 15-SECOND EXECUTIVE RECRUITER BRIEF // VERIFIED CANDIDATE SNAPSHOT</span>
+          <h2 class="font-display font-bold text-2xl sm:text-3xl text-paper mt-1">Hemant Bhadke — Cloud & DevOps Engineer (4+ Years · Infosys)</h2>
+        </div>
+        <div class="flex flex-wrap items-center gap-2 font-mono text-xs">
+          <button id="recruiterPrintBtn" type="button" class="btn-astral-primary px-4 py-2 rounded-xl">⎙ PRINT / SAVE PDF RESUME</button>
+          <a href="#dossier" class="btn-astral-secondary px-4 py-2 rounded-xl">JUMP TO FULL TIMELINE ↓</a>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 font-mono text-xs">
+        <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-400/15">
+          <span class="text-slate-400 text-[10px] block">CURRENT ROLE & TENURE</span>
+          <strong class="text-paper text-sm block mt-1">Infosys · Cloud/DevOps</strong>
+          <span class="text-emerald text-[11px] mt-1 block">Jul 2023 – Present (Ricoh Project)</span>
+        </div>
+        <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-400/15">
+          <span class="text-slate-400 text-[10px] block">CORE CLOUD & IaC</span>
+          <strong class="text-paper text-sm block mt-1">AWS · Azure · GCP · Terraform</strong>
+          <span class="text-vfin text-[11px] mt-1 block">-40% pipeline provisioning failures</span>
+        </div>
+        <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-400/15">
+          <span class="text-slate-400 text-[10px] block">CONTAINERS & DELIVERY</span>
+          <strong class="text-paper text-sm block mt-1">Kubernetes (AKS/EKS) · Docker</strong>
+          <span class="text-skybeam text-[11px] mt-1 block">Helm, GitHub Actions, Jenkins, ArgoCD</span>
+        </div>
+        <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-400/15">
+          <span class="text-slate-400 text-[10px] block">SRE & OBSERVABILITY</span>
+          <strong class="text-paper text-sm block mt-1">Prometheus · Grafana · Datadog</strong>
+          <span class="text-emerald text-[11px] mt-1 block">+35% telemetry & SLO coverage</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- 2. HERO SECTION — HUMAN BIO + ZERO-G RX-99 "ASTRAL-K8S" GUNDAM RIG  -->
+    <!-- =================================================================== -->
+    <section class="planetary-horizon cutting-mat-ticks rounded-3xl p-6 sm:p-10 border border-slate-400/15 bg-obsidian/65 backdrop-blur-xl shadow-2xl recruiter-priority">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
+        
+        <!-- Left Column: Grounded First-Person Human Bio -->
+        <div class="lg:col-span-6 space-y-6">
+          
+          <div class="inline-flex flex-wrap items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-psycho/10 border border-psycho/35 backdrop-blur-md">
+            <span class="w-2 h-2 rounded-full bg-psycho animate-ping"></span>
+            <span class="font-mono text-xs text-paper font-medium">Available for Cloud, DevOps & Platform Engineering roles</span>
+            <span class="text-slate-500">•</span>
+            <span id="heroCallsign" class="font-mono text-[11px] text-vfin font-semibold">HB-01 // EFSF-OPS</span>
+          </div>
+
+          <div class="space-y-2 relative">
+            <div class="flex items-center gap-2 font-mono text-xs sm:text-sm uppercase tracking-[0.14em] psycho-text font-semibold">
+              <span>⌘</span>
+              <span id="heroRole">CLOUD & DEVOPS ENGINEER · INFRASTRUCTURE AS CODE · SRE</span>
+            </div>
+
+            <h1 class="font-display font-bold text-5xl sm:text-7xl lg:text-[5rem] tracking-tight text-paper leading-[0.92] uppercase">
+              <span id="heroFirstName">HEMANT</span>
+              <span id="heroLastName" class="block text-transparent bg-clip-text bg-gradient-to-r from-paper via-skybeam to-psycho">BHADKE.</span>
+            </h1>
+
+            <!-- Subtle Handwritten Builder Annotation -->
+            <div class="flex items-center gap-2 pt-1 text-vfin font-hand text-xl sm:text-2xl">
+              <svg class="w-6 h-6 stroke-current fill-none shrink-0" viewBox="0 0 40 40">
+                <path d="M6,28 C14,10 24,8 35,14 M28,8 L36,14 L27,20" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>"Treating distributed systems like high-tier co-op raids: automated, observable, and built to survive 3 AM."</span>
+            </div>
+          </div>
+
+          <!-- Authentic Human Bio (Matches Prompt) -->
+          <p id="heroBio" class="text-slate-200 text-base sm:text-[17px] leading-relaxed max-w-xl font-normal">
+            I build and automate cloud infrastructure across AWS and Azure so deployments feel boring and predictable—even when traffic spikes at 3 AM. Off the clock, I'm into tactical games, Gundam builds, Linux wargames, and soldering ESP32 hardware.
+          </p>
+
+          <!-- Grounded Status Pills -->
+          <div class="flex flex-wrap items-center gap-2.5 font-mono text-xs">
+            <span class="px-3.5 py-2 rounded-xl bg-slate-950/85 border border-slate-400/15 text-slate-200 flex items-center gap-2">
+              <span>📍</span> <span id="heroLocation">Pune, India</span>
+            </span>
+            <span class="px-3.5 py-2 rounded-xl bg-slate-950/85 border border-slate-400/15 text-slate-200 flex items-center gap-2">
+              <span>☁️</span> <span>Stack: <b class="text-skybeam">AWS · Azure · K8s · Terraform</b></span>
+            </span>
+            <span class="px-3.5 py-2 rounded-xl bg-slate-950/85 border border-slate-400/15 text-slate-200 flex items-center gap-2">
+              <span>🔧</span> <span>Bench: <b class="text-vfin">ESP32-C3 + Neovim + Tmux</b></span>
+            </span>
+          </div>
+
+          <!-- Primary Action CTAs -->
+          <div class="flex flex-wrap items-center gap-3 pt-1 no-print">
+            <a href="#funnelGame" class="btn-astral-primary px-5 py-3 rounded-2xl font-mono text-xs tracking-wider uppercase flex items-center gap-2">
+              <span>▶ LAUNCH ORBITAL SORTIE GAME</span>
+            </a>
+            <a href="#clusterLab" class="btn-astral-secondary px-4 py-3 rounded-2xl font-mono text-xs tracking-wider uppercase flex items-center gap-2">
+              <span>⎈ K8S & CI/CD LIVE LAB</span>
+            </a>
+            <button id="heroSketchBtn" type="button" class="btn-astral-secondary px-4 py-3 rounded-2xl font-mono text-xs tracking-wider uppercase flex items-center gap-2 border-vfin/40 text-vfin">
+              <span>✎ VER.KA NOTES</span>
+            </button>
+          </div>
+
+          <!-- 4 Real-World Engineering Metrics -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+            <div class="astral-panel rounded-2xl p-3.5">
+              <div class="font-mono text-[10px] text-slate-400 uppercase">EXPERIENCE</div>
+              <div class="font-display font-bold text-2xl text-paper mt-0.5">3+<span class="psycho-text text-base"> YRS</span></div>
+              <div class="font-mono text-[10px] text-emerald mt-0.5">● INFOSYS (RICOH)</div>
+            </div>
+            <div class="astral-panel rounded-2xl p-3.5">
+              <div class="font-mono text-[10px] text-slate-400 uppercase">PIPELINE FAILS</div>
+              <div class="font-display font-bold text-2xl text-paper mt-0.5">-40<span class="text-vfin text-base">%</span></div>
+              <div class="font-mono text-[10px] text-slate-400 mt-0.5">MODULAR TERRAFORM</div>
+            </div>
+            <div class="astral-panel rounded-2xl p-3.5">
+              <div class="font-mono text-[10px] text-slate-400 uppercase">OBSERVABILITY</div>
+              <div class="font-display font-bold text-2xl text-paper mt-0.5">+35<span class="text-skybeam text-base">%</span></div>
+              <div class="font-mono text-[10px] text-slate-400 mt-0.5">PROMETHEUS / GRAFANA</div>
+            </div>
+            <div class="astral-panel rounded-2xl p-3.5">
+              <div class="font-mono text-[10px] text-slate-400 uppercase">PILOT RANK</div>
+              <div id="heroRankName" class="font-display font-bold text-base text-vfin mt-0.5 truncate">FIELD ENGINEER</div>
+              <div id="heroPermetText" class="font-mono text-[10px] text-slate-400 mt-0.5">GN-DRIVE STABLE</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: ZERO-G RX-99 "ASTRAL-K8S" VER.KA GUNDAM RIG -->
+        <div class="lg:col-span-6">
+          <div class="astral-panel astral-corners cutting-mat-ticks rounded-3xl p-5 sm:p-6 relative overflow-hidden">
+            
+            <!-- Top Workbench Viewport Header -->
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-400/15 pb-3 mb-4 font-mono text-[11px]">
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-psycho animate-ping"></span>
+                <span class="text-paper font-semibold">RX-99 "ASTRAL-K8S" VER.KA // HB-01 EFSF-OPS</span>
+              </div>
+              <span id="hangarModeReadout" class="text-vfin font-bold">PSYCHO-FRAME: GN-EMERALD</span>
+            </div>
+
+            <!-- 3D Zero-G Space & Workbench Viewport -->
+            <div id="gundamStage" class="relative h-[440px] sm:h-[470px] flex items-center justify-center select-none overflow-hidden rounded-2xl bg-gradient-to-b from-[#060913]/95 via-[#0d1528]/75 to-[#060913]/95 border border-slate-400/15">
+              
+              <!-- Volumetric Multi-Layer Aura Bloom Behind Gundam -->
+              <div id="gundamAura" class="absolute w-96 h-96 rounded-full bg-gradient-to-tr from-psycho/25 via-skybeam/15 to-nebula/20 blur-3xl pointer-events-none transition-all duration-700"></div>
+
+              <!-- BESPOKE ZERO-G RX-99 "ASTRAL-K8S" GUNDAM SVG -->
+              <svg id="gundamSvg" viewBox="0 0 560 540" class="w-full h-full max-w-[530px] max-h-[500px] transition-transform duration-300 ease-out">
+                <defs>
+                  <linearGradient id="gundariumWhite" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#f8fafc" />
+                    <stop offset="55%" stop-color="#e2e8f0" />
+                    <stop offset="100%" stop-color="#64748b" />
+                  </linearGradient>
+                  <linearGradient id="innerFrameDark" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#1e293b" />
+                    <stop offset="100%" stop-color="#090d16" />
+                  </linearGradient>
+                  <linearGradient id="gundamCobalt" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#2563eb" />
+                    <stop offset="50%" stop-color="#1d4ed8" />
+                    <stop offset="100%" stop-color="#172554" />
+                  </linearGradient>
+                  <linearGradient id="vfinGoldGrad" x1="0%" y1="0%" x2="100%" y2="20%">
+                    <stop offset="0%" stop-color="#fef08a" />
+                    <stop offset="50%" stop-color="#f59e0b" />
+                    <stop offset="100%" stop-color="#b45309" />
+                  </linearGradient>
+                  <linearGradient id="cockpitRed" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#f43f5e" />
+                    <stop offset="100%" stop-color="#9f1239" />
+                  </linearGradient>
+                  <linearGradient id="wingLightGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#10b981" stop-opacity="0.58" />
+                    <stop offset="55%" stop-color="#38bdf8" stop-opacity="0.28" />
+                    <stop offset="100%" stop-color="#7c3aed" stop-opacity="0.0" />
+                  </linearGradient>
+                  <linearGradient id="wingNtdGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#f43f5e" stop-opacity="0.72" />
+                    <stop offset="55%" stop-color="#f59e0b" stop-opacity="0.38" />
+                    <stop offset="100%" stop-color="#7c3aed" stop-opacity="0.0" />
+                  </linearGradient>
+                </defs>
+
+                <!-- LUMINOUS ASTRAL HALO RINGS -->
+                <g class="orbit-ring-cw">
+                  <circle cx="280" cy="250" r="236" fill="none" stroke="rgba(16, 185, 129, 0.25)" class="psycho-svg-stroke" stroke-width="1.3" stroke-dasharray="24 12 4 12" />
+                  <circle cx="280" cy="14" r="4.5" fill="#f59e0b" />
+                  <circle cx="516" cy="250" r="4" fill="#10b981" class="psycho-svg-fill" />
+                  <circle cx="44" cy="250" r="4" fill="#38bdf8" class="psycho-svg-fill" />
+                </g>
+                <g class="orbit-ring-ccw">
+                  <circle cx="280" cy="250" r="196" fill="none" stroke="rgba(245, 158, 11, 0.22)" stroke-width="1.1" stroke-dasharray="60 28" />
+                  <circle cx="280" cy="250" r="158" fill="none" stroke="rgba(241, 245, 249, 0.12)" stroke-width="1" />
+                </g>
+
+                <!-- ZERO-G FLOATING GUNDAM MASTER GROUP -->
+                <g id="zeroGUnitGroup" class="zero-g-unit">
+
+                  <!-- WINGS OF LIGHT -->
+                  <g id="wingsOfLightGroup">
+                    <g class="wings-light-l">
+                      <path d="M210,275 C120,210 38,125 8,42 C72,115 150,180 220,245 Z" fill="url(#wingLightGrad)" />
+                      <path d="M195,310 C95,265 18,205 -12,135 C58,188 135,245 208,285 Z" fill="url(#wingLightGrad)" />
+                    </g>
+                    <g class="wings-light-r">
+                      <path d="M350,275 C440,210 522,125 552,42 C488,115 410,180 340,245 Z" fill="url(#wingLightGrad)" />
+                      <path d="M365,310 C465,265 542,205 572,135 C502,188 425,245 352,285 Z" fill="url(#wingLightGrad)" />
+                    </g>
+                  </g>
+
+                  <!-- 6 ORBITING FIN FUNNELS -->
+                  <g class="funnel-wing-l">
+                    <g class="funnel-pod" transform="translate(52, 108) rotate(-22)">
+                      <polygon points="0,0 26,-10 32,128 18,142 -4,128" fill="url(#gundariumWhite)" stroke="#334155" stroke-width="1.5" />
+                      <rect x="8" y="14" width="10" height="96" fill="#10b981" class="psycho-svg-fill" opacity="0.9" />
+                      <polygon points="4,0 22,-6 22,12 4,12" fill="url(#vfinGoldGrad)" />
+                    </g>
+                    <g class="funnel-pod" transform="translate(92, 74) rotate(-12)">
+                      <polygon points="0,0 26,-10 32,135 18,148 -4,135" fill="url(#gundariumWhite)" stroke="#334155" stroke-width="1.5" />
+                      <rect x="8" y="14" width="10" height="102" fill="#10b981" class="psycho-svg-fill" />
+                      <polygon points="4,0 22,-6 22,12 4,12" fill="url(#vfinGoldGrad)" />
+                    </g>
+                    <g class="funnel-pod" transform="translate(134, 52) rotate(-4)">
+                      <polygon points="0,0 26,-10 32,140 18,154 -4,140" fill="url(#gundariumWhite)" stroke="#334155" stroke-width="1.5" />
+                      <rect x="8" y="14" width="10" height="108" fill="#10b981" class="psycho-svg-fill" />
+                      <polygon points="4,0 22,-6 22,12 4,12" fill="url(#vfinGoldGrad)" />
+                    </g>
+                  </g>
+
+                  <g class="funnel-wing-r">
+                    <g class="funnel-pod" transform="translate(508, 108) scale(-1, 1) rotate(-22)">
+                      <polygon points="0,0 26,-10 32,128 18,142 -4,128" fill="url(#gundariumWhite)" stroke="#334155" stroke-width="1.5" />
+                      <rect x="8" y="14" width="10" height="96" fill="#10b981" class="psycho-svg-fill" opacity="0.9" />
+                      <polygon points="4,0 22,-6 22,12 4,12" fill="url(#vfinGoldGrad)" />
+                    </g>
+                    <g class="funnel-pod" transform="translate(468, 74) scale(-1, 1) rotate(-12)">
+                      <polygon points="0,0 26,-10 32,135 18,148 -4,135" fill="url(#gundariumWhite)" stroke="#334155" stroke-width="1.5" />
+                      <rect x="8" y="14" width="10" height="102" fill="#10b981" class="psycho-svg-fill" />
+                      <polygon points="4,0 22,-6 22,12 4,12" fill="url(#vfinGoldGrad)" />
+                    </g>
+                    <g class="funnel-pod" transform="translate(426, 52) scale(-1, 1) rotate(-4)">
+                      <polygon points="0,0 26,-10 32,140 18,154 -4,140" fill="url(#gundariumWhite)" stroke="#334155" stroke-width="1.5" />
+                      <rect x="8" y="14" width="10" height="108" fill="#10b981" class="psycho-svg-fill" />
+                      <polygon points="4,0 22,-6 22,12 4,12" fill="url(#vfinGoldGrad)" />
+                    </g>
+                  </g>
+
+                  <!-- TORSO & PAULDRONS -->
+                  <polygon points="170,290 390,290 420,490 140,490" fill="url(#innerFrameDark)" stroke="#334155" stroke-width="2" />
+                  <path d="M185,315 L235,345 L235,465 M375,315 L325,345 L325,465" fill="none" stroke="#10b981" class="psycho-svg-stroke" stroke-width="4" stroke-linecap="round" />
+                  <line x1="200" y1="300" x2="250" y2="300" stroke="#10b981" class="psycho-svg-stroke" stroke-width="3.5" />
+                  <line x1="360" y1="300" x2="310" y2="300" stroke="#10b981" class="psycho-svg-stroke" stroke-width="3.5" />
+
+                  <g id="shoulderLeft">
+                    <polygon points="42,305 162,272 182,368 150,415 58,395" fill="url(#gundariumWhite)" stroke="#475569" stroke-width="2" />
+                    <polygon points="56,318 152,292 162,332 64,352" fill="#0f172a" />
+                    <polygon points="62,326 148,303 152,316 66,338" fill="#10b981" class="psycho-svg-fill" />
+                    <polygon points="42,305 84,292 78,325 46,335" fill="url(#cockpitRed)" />
+                    <text x="72" y="382" fill="#0f172a" font-family="JetBrains Mono" font-weight="700" font-size="11">HB-01 //</text>
+                    <text x="72" y="396" fill="#2563eb" font-family="JetBrains Mono" font-weight="700" font-size="10">EFSF-OPS</text>
+                  </g>
+
+                  <g id="shoulderRight">
+                    <polygon points="518,305 398,272 378,368 410,415 502,395" fill="url(#gundariumWhite)" stroke="#475569" stroke-width="2" />
+                    <polygon points="504,318 408,292 398,332 496,352" fill="#0f172a" />
+                    <polygon points="498,326 412,303 408,316 494,338" fill="#10b981" class="psycho-svg-fill" />
+                    <polygon points="518,305 476,292 482,325 514,335" fill="url(#cockpitRed)" />
+                    <text x="415" y="382" fill="#0f172a" font-family="JetBrains Mono" font-weight="700" font-size="11">RX-99 //</text>
+                    <text x="415" y="396" fill="#dc2626" font-family="JetBrains Mono" font-weight="700" font-size="10">ASTRAL-K8S</text>
+                  </g>
+
+                  <g id="chestArmorL">
+                    <polygon points="164,310 250,318 244,435 152,420" fill="url(#gundamCobalt)" stroke="#60a5fa" stroke-width="1.5" />
+                    <polygon points="176,368 234,374 230,410 172,404" fill="url(#vfinGoldGrad)" stroke="#0f172a" stroke-width="1.5" />
+                    <line x1="178" y1="382" x2="228" y2="387" stroke="#0f172a" stroke-width="2.5" />
+                    <line x1="176" y1="395" x2="226" y2="400" stroke="#0f172a" stroke-width="2.5" />
+                  </g>
+
+                  <g id="chestArmorR">
+                    <polygon points="396,310 310,318 316,435 408,420" fill="url(#gundamCobalt)" stroke="#60a5fa" stroke-width="1.5" />
+                    <polygon points="384,368 326,374 330,410 388,404" fill="url(#vfinGoldGrad)" stroke="#0f172a" stroke-width="1.5" />
+                    <line x1="382" y1="382" x2="332" y2="387" stroke="#0f172a" stroke-width="2.5" />
+                    <line x1="384" y1="395" x2="334" y2="400" stroke="#0f172a" stroke-width="2.5" />
+                  </g>
+
+                  <!-- COCKPIT & GN-DRIVE CORE -->
+                  <g id="cockpitHatchGroup" class="cursor-pointer">
+                    <polygon points="250,308 310,308 322,455 280,482 238,455" fill="url(#cockpitRed)" stroke="#fda4af" stroke-width="1.5" />
+                    <polygon points="258,320 302,320 296,368 264,368" fill="url(#gundariumWhite)" />
+                    <circle cx="280" cy="408" r="25" fill="#050811" stroke="#10b981" class="psycho-svg-stroke" stroke-width="2.5" />
+                    <circle cx="280" cy="408" r="15" fill="#10b981" class="psycho-svg-fill gundam-eyes" />
+                    <text x="280" y="412" text-anchor="middle" fill="#070a12" font-family="JetBrains Mono" font-weight="800" font-size="9">GN-01</text>
+                  </g>
+
+                  <polygon points="232,265 328,265 344,308 216,308" fill="#1e293b" stroke="#475569" stroke-width="1.5" />
+                  <rect x="258" y="255" width="44" height="36" rx="4" fill="#334155" stroke="#10b981" class="psycho-svg-stroke" stroke-width="1.5" />
+
+                  <!-- HEAD UNIT & QUAD V-FIN -->
+                  <g id="gundamHeadGroup">
+                    <polygon points="186,162 212,150 216,238 194,252 180,215" fill="url(#gundariumWhite)" stroke="#475569" stroke-width="2" />
+                    <polygon points="374,162 348,150 344,238 366,252 380,215" fill="url(#gundariumWhite)" stroke="#475569" stroke-width="2" />
+                    <circle cx="202" cy="172" r="4" fill="#f59e0b" />
+                    <circle cx="358" cy="172" r="4" fill="#f59e0b" />
+
+                    <path d="M210,124 L280,96 L350,124 L362,188 L346,262 L280,284 L214,262 L198,188 Z" 
+                          fill="url(#gundariumWhite)" stroke="#475569" stroke-width="2.2" />
+
+                    <polygon points="212,174 280,188 348,174 342,212 280,222 218,212" fill="#070a12" stroke="#1e293b" stroke-width="1.5" />
+
+                    <g class="gundam-eyes">
+                      <polygon points="222,184 268,193 264,207 228,202" fill="#10b981" class="psycho-svg-fill" />
+                      <polygon points="230,187 262,193 260,201 232,198" fill="#ffffff" opacity="0.75" />
+                      <polygon points="338,184 292,193 296,207 332,202" fill="#10b981" class="psycho-svg-fill" />
+                      <polygon points="330,187 298,193 300,201 328,198" fill="#ffffff" opacity="0.75" />
+                    </g>
+
+                    <g id="ntdEyeSparks" opacity="0" class="transition-opacity duration-500 pointer-events-none">
+                      <polyline points="222,192 168,158 118,168" fill="none" stroke="#f43f5e" stroke-width="3.2" filter="drop-shadow(0 0 10px #f43f5e)" />
+                      <polyline points="338,192 392,158 442,168" fill="none" stroke="#f43f5e" stroke-width="3.2" filter="drop-shadow(0 0 10px #f43f5e)" />
+                    </g>
+
+                    <polygon points="232,214 280,206 328,214 318,262 280,275 242,262" fill="#f8fafc" stroke="#475569" stroke-width="1.8" />
+                    <line x1="252" y1="234" x2="272" y2="238" stroke="#1e293b" stroke-width="2.8" stroke-linecap="round" />
+                    <line x1="254" y1="245" x2="272" y2="249" stroke="#1e293b" stroke-width="2.8" stroke-linecap="round" />
+                    <line x1="308" y1="234" x2="288" y2="238" stroke="#1e293b" stroke-width="2.8" stroke-linecap="round" />
+                    <line x1="306" y1="245" x2="288" y2="249" stroke="#1e293b" stroke-width="2.8" stroke-linecap="round" />
+
+                    <polygon points="266,256 294,256 290,282 280,288 270,282" fill="url(#cockpitRed)" stroke="#fda4af" stroke-width="1" />
+                    <polygon points="264,78 296,78 292,168 280,176 268,168" fill="url(#gundariumWhite)" stroke="#475569" stroke-width="1.8" />
+                    <polygon points="270,115 290,115 288,154 280,160 272,154" fill="#10b981" class="psycho-svg-fill gundam-eyes" />
+
+                    <g id="vfinGroup">
+                      <polygon points="274,158 88,44 112,32 278,136" fill="url(#vfinGoldGrad)" stroke="#fef08a" stroke-width="1.2" />
+                      <polygon points="286,158 472,44 448,32 282,136" fill="url(#vfinGoldGrad)" stroke="#fef08a" stroke-width="1.2" />
+                      <polygon points="275,148 162,80 176,72 278,132" fill="#f8fafc" stroke="#94a3b8" stroke-width="1" />
+                      <polygon points="285,148 398,80 384,72 282,132" fill="#f8fafc" stroke="#94a3b8" stroke-width="1" />
+                      <polygon points="280,126 296,144 280,168 264,144" fill="url(#cockpitRed)" stroke="#fef08a" stroke-width="1.8" />
+                    </g>
+                  </g>
+                </g>
+
+                <!-- HUMAN TOUCH: BUILDER'S HANDWRITTEN SKETCH NOTES OVERLAY -->
+                <g id="builderSketchOverlay" class="transition-opacity duration-500 pointer-events-none" opacity="1">
+                  <path d="M165,28 C195,18 228,36 242,72" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4 3" />
+                  <polygon points="242,72 235,64 245,62" fill="#f59e0b" />
+                  <text x="20" y="26" fill="#fef08a" font-family="Caveat, cursive" font-size="20" font-weight="700">
+                    "Nu Gundam Ver.Ka inspired —
+                  </text>
+                  <text x="24" y="45" fill="#f59e0b" font-family="Caveat, cursive" font-size="18">
+                    quad V-fin tuned in pure SVG"
+                  </text>
+
+                  <path d="M482,66 C455,48 435,54 416,74" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4 3" />
+                  <polygon points="416,74 419,64 426,71" fill="#38bdf8" />
+                  <text x="360" y="34" fill="#38bdf8" font-family="Caveat, cursive" font-size="20" font-weight="700">
+                    "6 Fin Funnels = 6 Worker Nodes"
+                  </text>
+
+                  <path d="M398,465 C358,472 328,448 306,424" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4 3" />
+                  <polygon points="306,424 316,426 310,434" fill="#f59e0b" />
+                  <text x="330" y="492" fill="#fef08a" font-family="Caveat, cursive" font-size="19" font-weight="700">
+                    "Click GN-01 Core for Cockpit Bio-Monitor"
+                  </text>
+                </g>
+              </svg>
+
+              <!-- 360° Linear-Seat Cockpit Bio-Monitor Overlay -->
+              <div id="cockpitMonitorOverlay" class="hidden absolute inset-3 rounded-2xl bg-void/95 backdrop-blur-2xl border border-psycho/50 p-5 flex flex-col justify-between z-20 font-mono text-xs">
+                <div class="flex items-center justify-between border-b border-slate-400/15 pb-2.5">
+                  <span class="psycho-text font-bold">◉ COCKPIT BIO-MONITOR // STACK PROFICIENCIES & RIG</span>
+                  <button id="closeCockpitMonitorBtn" type="button" class="px-2.5 py-0.5 rounded-lg bg-slate-800 text-slate-300 hover:text-white">✕ CLOSE</button>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2.5 my-auto py-2">
+                  <div class="p-2.5 rounded-xl bg-slate-900/90 border border-slate-400/15">
+                    <div class="flex justify-between text-[10px]"><span class="text-slate-400">KUBERNETES (AKS/EKS)</span><b class="text-emerald">98%</b></div>
+                    <div class="w-full h-1.5 bg-slate-800 rounded-full mt-1"><div class="h-full bg-emerald rounded-full" style="width:98%"></div></div>
+                  </div>
+                  <div class="p-2.5 rounded-xl bg-slate-900/90 border border-slate-400/15">
+                    <div class="flex justify-between text-[10px]"><span class="text-slate-400">TERRAFORM & ANSIBLE</span><b class="text-skybeam">96%</b></div>
+                    <div class="w-full h-1.5 bg-slate-800 rounded-full mt-1"><div class="h-full bg-skybeam rounded-full" style="width:96%"></div></div>
+                  </div>
+                  <div class="p-2.5 rounded-xl bg-slate-900/90 border border-slate-400/15">
+                    <div class="flex justify-between text-[10px]"><span class="text-slate-400">CI/CD (GHA / JENKINS)</span><b class="text-vfin">97%</b></div>
+                    <div class="w-full h-1.5 bg-slate-800 rounded-full mt-1"><div class="h-full bg-vfin rounded-full" style="width:97%"></div></div>
+                  </div>
+                  <div class="p-2.5 rounded-xl bg-slate-900/90 border border-slate-400/15">
+                    <div class="flex justify-between text-[10px]"><span class="text-slate-400">OBSERVABILITY / SRE</span><b class="text-emerald">95%</b></div>
+                    <div class="w-full h-1.5 bg-slate-800 rounded-full mt-1"><div class="h-full bg-emerald rounded-full" style="width:95%"></div></div>
+                  </div>
+                  <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-400/15 col-span-2">
+                    <span class="text-[10px] text-slate-400 block mb-1">HARDWARE & SHELL WORKBENCH</span>
+                    <div class="flex flex-wrap gap-1.5 text-[10px]">
+                      <span class="px-2 py-0.5 rounded-full bg-psycho/15 psycho-text border border-psycho/30">Neovim + Tmux + Zsh</span>
+                      <span class="px-2 py-0.5 rounded-full bg-skybeam/15 text-skybeam border border-skybeam/30">ESP32-C3 + UDA1334A I2S DAC</span>
+                      <span class="px-2 py-0.5 rounded-full bg-vfin/15 text-vfin border border-vfin/30">OverTheWire Bandit CTF</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex items-center justify-between text-[10px] text-slate-400 border-t border-slate-400/15 pt-2">
+                  <span>OPERATOR: HEMANT BHADKE (PUNE, IN)</span>
+                  <span class="text-emerald">● BIO-SYNC 99.4%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Workbench Controls -->
+            <div class="flex flex-wrap items-center justify-between gap-2 pt-4 mt-1">
+              <div class="flex items-center gap-2">
+                <button id="openCockpitMonitorBtn" type="button" class="btn-astral-secondary px-3 py-2 rounded-xl font-mono text-xs flex items-center gap-1.5">
+                  <span>◉ COCKPIT BIO-MONITOR</span>
+                </button>
+                <button id="toggleBuilderNotesBtn" type="button" class="btn-astral-secondary active-note px-3 py-2 rounded-xl font-mono text-xs flex items-center gap-1.5">
+                  <span>✎ NOTES: <b id="builderNotesState">ON</b></span>
+                </button>
+                <button id="zeroGStanceBtn" type="button" class="btn-astral-secondary px-2.5 py-2 rounded-xl font-mono text-xs" title="Toggle Zero-G Flight Pose">
+                  <span>↻ POSE</span>
+                </button>
+              </div>
+              <button id="hangarNtdBtn" type="button" class="btn-astral-ntd px-4 py-2 rounded-xl font-mono text-xs flex items-center gap-1.5">
+                <span>⚡ AURA OVERDRIVE (NT-D)</span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- 3. SECTION 01: AUTHENTIC CAMPAIGN TIMELINE, PROJECTS & MAKER LAB    -->
+    <!-- =================================================================== -->
+    <section id="dossier" class="space-y-8 recruiter-priority">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-400/15 pb-5">
+        <div>
+          <div class="flex items-center gap-2 font-mono text-xs text-emerald uppercase tracking-widest">
+            <span>01 // OPERATOR DOSSIER, REAL CAMPAIGNS & OFF-DUTY MAKER LAB</span>
+          </div>
+          <h2 class="font-display font-bold text-3xl sm:text-5xl text-paper mt-1 uppercase tracking-tight">
+            PRODUCTION <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald via-skybeam to-vfin">TRACK RECORD & HUMAN BENCH.</span>
+          </h2>
+        </div>
+        <div class="flex items-center gap-2.5 no-print">
+          <button id="printDossierBtn" type="button" class="btn-astral-secondary px-4 py-2 rounded-xl font-mono text-xs">
+            ⎙ PRINT / SAVE PDF
+          </button>
+        </div>
+      </div>
+
+      <!-- 3-Column Campaign & Project Stories -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Story 1: Infosys (Ricoh Engagement) -->
+        <article class="astral-panel astral-corners cutting-mat-ticks rounded-3xl p-6 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between font-mono text-[10px]">
+              <span class="px-2.5 py-0.5 rounded-full bg-emerald/15 text-emerald border border-emerald/35 font-bold">CAMPAIGN 01 // JUL 2023 – PRESENT</span>
+              <span class="text-slate-400">INFOSYS</span>
+            </div>
+            <h3 class="font-display font-bold text-2xl text-paper uppercase">Infosys — Cloud & DevOps Engineer</h3>
+            <p class="font-mono text-xs text-vfin">Ricoh Enterprise Cloud & Platform Engagement</p>
+            <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+              Standardized reusable <strong class="text-paper">Terraform modules</strong> and automated CI/CD pipelines across multi-environment cloud estates (cutting pipeline failures by <strong class="text-emerald">~40%</strong>). Managed production <strong class="text-paper">AKS/EKS Kubernetes workloads</strong>, automated secrets rotation, and expanded <strong class="text-paper">Prometheus, Grafana, Datadog, and CloudWatch</strong> observability coverage by <strong class="text-skybeam">+35%</strong>.
+            </p>
+          </div>
+          <div class="pt-3 border-t border-slate-400/15 flex flex-wrap gap-1.5 font-mono text-[10px]">
+            <span class="px-2 py-0.5 rounded bg-white/5 text-slate-300">Terraform (-40% Fails)</span>
+            <span class="px-2 py-0.5 rounded bg-white/5 text-slate-300">AKS / EKS</span>
+            <span class="px-2 py-0.5 rounded bg-white/5 text-slate-300">Prometheus (+35% Vis)</span>
+          </div>
+        </article>
+
+        <!-- Story 2: Multi-Cloud DevSecOps Delivery Blueprint -->
+        <article class="astral-panel astral-corners cutting-mat-ticks rounded-3xl p-6 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between font-mono text-[10px]">
+              <span class="px-2.5 py-0.5 rounded-full bg-skybeam/15 text-skybeam border border-skybeam/35 font-bold">ARCHITECTURE // BLUEPRINT</span>
+              <span class="text-slate-400">AWS · AZURE · GCP</span>
+            </div>
+            <h3 class="font-display font-bold text-2xl text-paper uppercase">Multi-Cloud DevSecOps Blueprint</h3>
+            <p class="font-mono text-xs text-skybeam">Sequential Multi-Cloud Promotion & Zero-Downtime Rollout</p>
+            <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+              Engineered an end-to-end automated delivery pipeline (<strong class="text-paper">GitHub Actions, Jenkins, SonarQube, Trivy, Docker, Kubernetes, Terraform</strong>) deploying sequentially across <strong class="text-paper">AWS, Azure, and GCP</strong> with strict vulnerability quality gates, OIDC federated auth, and zero-downtime rolling updates.
+            </p>
+          </div>
+          <div class="pt-3 border-t border-slate-400/15 flex flex-wrap gap-1.5 font-mono text-[10px]">
+            <span class="px-2 py-0.5 rounded bg-white/5 text-slate-300">GitHub Actions & Jenkins</span>
+            <span class="px-2 py-0.5 rounded bg-white/5 text-slate-300">SonarQube & Trivy</span>
+            <span class="px-2 py-0.5 rounded bg-white/5 text-slate-300">ArgoCD GitOps</span>
+          </div>
+        </article>
+
+        <!-- Story 3: Off-Duty Maker & Linux Lab (The Human Touch) -->
+        <article id="offTheClock" class="astral-panel astral-corners cutting-mat-ticks rounded-3xl p-6 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between font-mono text-[10px]">
+              <span class="px-2.5 py-0.5 rounded-full bg-vfin/15 text-vfin border border-vfin/35 font-bold">OFF-DUTY // MAKER & LINUX LAB</span>
+              <span class="text-slate-400">HARDWARE & CTF</span>
+            </div>
+            <h3 class="font-display font-bold text-2xl text-paper uppercase">ESP32-C3 Hardware & Bandit CTF</h3>
+            <p class="font-mono text-xs text-vfin">Soldering Iron, Linux Wargames & Neovim + Tmux</p>
+            <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+              Built a custom portable IoT MP3 player from scratch using an <strong class="text-paper">ESP32-C3 Super Mini, TP4056 charger, MicroSD SPI, and UDA1334A I2S DAC decoder</strong>. Active player on <strong class="text-paper">OverTheWire Bandit</strong> Linux security wargames, with a daily <strong class="text-paper">Neovim + Tmux</strong> terminal workflow.
+            </p>
+            <pre id="banditSnippetBox" class="p-2.5 rounded-xl bg-slate-950/90 border border-slate-400/15 font-mono text-[10px] text-emerald overflow-x-auto">GPIO6➔I2S_BCLK · GPIO7➔I2S_WSEL · GPIO5➔I2S_DOUT</pre>
+          </div>
+          <div class="pt-2 border-t border-slate-400/15 flex items-center gap-2 no-print">
+            <button id="testDacAudioBtn" type="button" class="flex-1 btn-astral-secondary py-2 px-2.5 rounded-xl font-mono text-[11px]">
+              ▶ I2S DAC SYNTH
+            </button>
+            <button id="cycleBanditBtn" type="button" class="flex-1 btn-astral-secondary py-2 px-2.5 rounded-xl font-mono text-[11px]">
+              ⌘ BANDIT BASH
+            </button>
+            <button id="testKeySwitchBtn" type="button" class="btn-astral-secondary py-2 px-2.5 rounded-xl font-mono text-[11px]" title="Mechanical Keyboard Thock">
+              ⌨ THOCK
+            </button>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Operator Dossier Bar & Contact Links -->
+      <div class="astral-panel rounded-3xl p-5 sm:p-6 flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 rounded-2xl bg-psycho/15 border border-psycho/40 flex flex-col items-center justify-center font-display font-bold text-paper">
+            <span class="text-sm text-vfin leading-none">HB</span>
+            <span class="font-mono text-[8px] psycho-text mt-0.5">OPS</span>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 id="dossierFullName" class="font-display font-bold text-xl text-paper uppercase">Hemant Bhadke</h3>
+              <span class="text-xs font-mono text-slate-400">·</span>
+              <span id="dossierRoleText" class="font-mono text-xs psycho-text">Cloud & DevOps Engineer</span>
+            </div>
+            <p id="dossierBioText" class="text-xs text-slate-300 mt-0.5 max-w-2xl">
+              Pune, Maharashtra, India · Building predictable release trains, modular Terraform, and self-healing Kubernetes platforms.
+            </p>
+          </div>
+        </div>
+        <div class="flex flex-wrap items-center gap-2 font-mono text-xs">
+          <a id="dossierLinkedin" href="https://www.linkedin.com/in/hemantrbhadke" target="_blank" rel="noopener" class="btn-astral-secondary px-3.5 py-2 rounded-xl">LINKEDIN ↗</a>
+          <a id="dossierGithub" href="https://github.com/hemantbhadke" target="_blank" rel="noopener" class="btn-astral-secondary px-3.5 py-2 rounded-xl">GITHUB ↗</a>
+          <a id="dossierEmail" href="mailto:hemantrbhadke@gmail.com" class="btn-astral-secondary px-3.5 py-2 rounded-xl">EMAIL ME ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- 4. SECTION 02: THE LOADOUT — DEVOPS STACK WITH CANDID FIELD NOTES   -->
+    <!-- =================================================================== -->
+    <section id="armory" class="space-y-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-400/15 pb-5">
+        <div>
+          <div class="flex items-center gap-2 font-mono text-xs psycho-text uppercase tracking-widest">
+            <span>02 // TACTICAL SKILL LOADOUT & REAL FIELD NOTES</span>
+            <span class="text-slate-600">—</span>
+            <span id="armoryUnlockCounter" class="text-vfin">1 / 6 SYSTEMS INSPECTED (+20 XP EACH)</span>
+          </div>
+          <h2 class="font-display font-bold text-3xl sm:text-5xl text-paper mt-1 uppercase tracking-tight">
+            TACTICAL <span class="psycho-text">ENGINEERING LOADOUT.</span>
+          </h2>
+        </div>
+        <p class="text-slate-400 text-sm max-w-md">
+          Select any subsystem to inspect how I use it in production—complete with Katoki CAD schematics and candid field notes.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        
+        <!-- Left: 6 Selectable Subsystems -->
+        <div id="armorySelectorGrid" class="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-3.5"></div>
+
+        <!-- Right: Large CAD Blueprint + First-Person "Real Talk" Field Note -->
+        <div class="lg:col-span-7">
+          <div class="astral-panel astral-corners cutting-mat-ticks rounded-3xl p-6 sm:p-8 h-full flex flex-col justify-between relative overflow-hidden">
+            
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-400/15 pb-4">
+              <div>
+                <span id="insSystemCode" class="font-mono text-[10px] uppercase tracking-widest px-3 py-1 rounded-full bg-vfin/15 text-vfin border border-vfin/40 font-semibold">
+                  CORE REACTOR // GN-DRIVE
+                </span>
+                <h3 id="insSystemTitle" class="font-display font-bold text-2xl sm:text-3xl text-paper mt-2.5 uppercase">
+                  KUBERNETES, EKS/AKS, DOCKER & HELM
+                </h3>
+                <p id="insSystemSub" class="font-mono text-xs psycho-text mt-0.5">
+                  SUBSYSTEM: "CONTAINER ORCHESTRATION & SELF-HEALING WORKLOADS"
+                </p>
+              </div>
+              <div class="text-right font-mono">
+                <span class="text-[10px] text-slate-400 block">VER.KA SPEC</span>
+                <span id="insSystemPower" class="font-display font-bold text-4xl text-vfin">990</span>
+              </div>
+            </div>
+
+            <!-- Center CAD Vector Schematic Display -->
+            <div class="my-5 relative h-36 rounded-2xl bg-slate-950/85 border border-slate-400/15 flex items-center justify-center overflow-hidden p-4">
+              <div id="insSvgContainer" class="relative z-10 w-full h-full flex items-center justify-center"></div>
+              <span class="absolute bottom-2 right-3 font-mono text-[10px] text-slate-500">VER.KA CAD // REV 4.2</span>
+            </div>
+
+            <!-- Engineering Description -->
+            <p id="insSystemDesc" class="text-slate-200 text-sm leading-relaxed mb-4">
+              Running production microservices on AWS EKS and Azure AKS. I package apps with multi-stage Dockerfiles and Helm charts, tune readiness/liveness probes so bad deploys never take traffic, and configure HPA autoscaling.
+            </p>
+
+            <!-- Candid First-Person "Real Talk / Field Note" -->
+            <div class="field-note-box rounded-2xl p-4 mb-5">
+              <div class="flex items-center justify-between">
+                <span class="font-mono text-[10px] text-vfin uppercase tracking-widest font-bold">✎ HEMANT'S FIELD NOTE // REAL PRODUCTION LESSON</span>
+                <span class="font-hand text-lg text-vfin">from my notebook</span>
+              </div>
+              <p id="insFieldNote" class="font-hand text-xl text-paper mt-1 leading-snug">
+                "90% of 'random' Kubernetes crashes I've debugged came down to two things: missing memory limits causing OOMKills, or a readinessProbe hitting an endpoint that queries the DB on every health check."
+              </p>
+            </div>
+
+            <!-- 4 Telemetry Bars -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-950/60 border border-slate-400/15 rounded-2xl p-4 mb-5 font-mono text-xs">
+              <div>
+                <div class="flex justify-between mb-1">
+                  <span class="text-slate-400">DEPLOY VELOCITY</span>
+                  <b id="statVelVal" class="psycho-text">98/100</b>
+                </div>
+                <div class="h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                  <div id="statVelBar" class="h-full bg-psycho transition-all duration-500" style="width: 98%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between mb-1">
+                  <span class="text-slate-400">AUTOSCALE ELASTICITY</span>
+                  <b id="statScaleVal" class="text-vfin">99/100</b>
+                </div>
+                <div class="h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                  <div id="statScaleBar" class="h-full bg-vfin transition-all duration-500" style="width: 99%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between mb-1">
+                  <span class="text-slate-400">FAULT RESILIENCE (SLA)</span>
+                  <b id="statResVal" class="text-emerald">99/100</b>
+                </div>
+                <div class="h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                  <div id="statResBar" class="h-full bg-emerald transition-all duration-500" style="width: 99%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between mb-1">
+                  <span class="text-slate-400">DEBUG SPEED (MTTR)</span>
+                  <b id="statMttrVal" class="text-skybeam">96/100</b>
+                </div>
+                <div class="h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                  <div id="statMttrBar" class="h-full bg-skybeam transition-all duration-500" style="width: 96%"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Equipped Modules -->
+            <div class="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-slate-400/15">
+              <div id="insPerksList" class="flex flex-wrap gap-2"></div>
+              <span class="font-mono text-[11px] text-emerald flex items-center gap-1">
+                <span>✓ PRODUCTION VERIFIED</span>
+              </span>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- 5. SECTION 03: WORKING GAME 1 — "ORBITAL SORTIE: FIN FUNNEL DEFENSE"-->
+    <!-- =================================================================== -->
+    <section id="funnelGame" class="space-y-6 no-print">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-400/15 pb-5">
+        <div>
+          <div class="flex items-center gap-2 font-mono text-xs psycho-text uppercase tracking-widest">
+            <span class="w-2 h-2 rounded-full bg-psycho animate-ping"></span>
+            <span>03 // WORKING ARCADE MINI-GAME (60FPS HTML5 CANVAS)</span>
+          </div>
+          <h2 class="font-display font-bold text-3xl sm:text-5xl text-paper mt-1 uppercase tracking-tight">
+            ORBITAL SORTIE: <span class="text-transparent bg-clip-text bg-gradient-to-r from-psycho via-skybeam to-vfin">FIN FUNNEL CLUSTER DEFENSE.</span>
+          </h2>
+        </div>
+        <p class="text-slate-400 text-sm max-w-md">
+          Defend the central Production Kubernetes Core and <strong class="text-paper">6 orbiting Worker Node satellites</strong> against rogue DDoS Zaku Drones, Memory-Leak Cruisers, and Deadlock Missiles.
+        </p>
+      </div>
+
+      <div class="astral-panel astral-corners cutting-mat-ticks rounded-3xl overflow-hidden">
+        
+        <!-- Top Space Combat HUD Bar -->
+        <div class="bg-slate-950/90 border-b border-slate-400/15 px-4 sm:px-6 py-3.5 flex flex-wrap items-center justify-between gap-4">
+          
+          <div class="flex flex-wrap items-center gap-4 sm:gap-6 font-mono text-xs">
+            <div>
+              <span class="text-[10px] text-slate-400 block">CLUSTER INTEGRITY</span>
+              <div class="flex items-center gap-2 mt-0.5">
+                <div class="w-24 h-2 bg-slate-800 rounded-full overflow-hidden">
+                  <div id="gameHpBar" class="h-full bg-emerald transition-all duration-200" style="width: 100%"></div>
+                </div>
+                <b id="gameHpText" class="text-emerald">100%</b>
+              </div>
+            </div>
+
+            <div class="pl-4 border-l border-slate-400/15">
+              <span class="text-[10px] text-slate-400 block">GN REACTOR (EN)</span>
+              <div class="flex items-center gap-2 mt-0.5">
+                <div class="w-24 h-2 bg-slate-800 rounded-full overflow-hidden">
+                  <div id="gameEnBar" class="h-full bg-psycho transition-all duration-150" style="width: 100%"></div>
+                </div>
+                <b id="gameEnText" class="psycho-text">100 EN</b>
+              </div>
+            </div>
+
+            <div class="pl-4 border-l border-slate-400/15">
+              <span class="text-[10px] text-slate-400 block">SORTIE WAVE</span>
+              <b id="gameWaveText" class="text-vfin text-base">WAVE 01</b>
+            </div>
+
+            <div class="pl-4 border-l border-slate-400/15">
+              <span class="text-[10px] text-slate-400 block">SCORE / COMBO</span>
+              <div class="flex items-baseline gap-1.5">
+                <b id="gameScoreText" class="text-paper text-base">0000</b>
+                <span id="gameComboText" class="text-[10px] text-vfin font-bold">x1</span>
+              </div>
+            </div>
+
+            <div class="hidden xl:block pl-4 border-l border-slate-400/15">
+              <span class="text-[10px] text-slate-400 block">HIGH SCORE</span>
+              <b id="gameHighScoreText" class="psycho-text text-base">0000</b>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2.5">
+            <button id="autoFunnelToggleBtn" type="button" class="btn-astral-secondary px-3.5 py-2 rounded-xl text-xs font-mono">
+              AUTO-TURRET: <b id="autoFunnelStatus" class="psycho-text">ON</b>
+            </button>
+            <button id="gameStartBtn" type="button" class="btn-astral-primary px-5 py-2 rounded-xl font-mono text-xs uppercase tracking-wider">
+              ▶ START SORTIE
+            </button>
+          </div>
+        </div>
+
+        <!-- Live Pilot Comms Chatter Strip -->
+        <div class="bg-slate-900/90 border-b border-slate-400/15 px-4 sm:px-6 py-2.5 flex items-center justify-between gap-3">
+          <div class="flex items-center gap-2.5 font-mono text-xs">
+            <span class="px-2 py-0.5 rounded bg-vfin/20 text-vfin font-bold text-[10px]">PILOT COMMS // HEMANT</span>
+            <span id="pilotCommsText" class="text-slate-200 italic">"6 Fin Funnels synced to the EKS worker nodes. Ready to intercept anomalous traffic!"</span>
+          </div>
+          <span class="hidden sm:inline font-hand text-lg text-psycho shrink-0">Hotkeys: [1] [2] [3] [4]</span>
+        </div>
+
+        <!-- HTML5 Canvas Deep-Space Battlefield -->
+        <div class="relative w-full h-[450px] sm:h-[500px] bg-[#040711] select-none overflow-hidden">
+          <canvas id="defenseCanvas" class="w-full h-full block cursor-crosshair"></canvas>
+
+          <!-- Overlay Start / Pause Screen -->
+          <div id="gameOverlay" class="absolute inset-0 bg-void/85 backdrop-blur-xl flex flex-col items-center justify-center p-6 text-center transition-opacity duration-300">
+            <div class="w-16 h-16 rounded-2xl bg-psycho/10 border border-psycho/50 flex flex-col items-center justify-center text-vfin mb-4 shadow-[0_0_35px_rgba(16,185,129,0.25)]">
+              <span class="font-display font-bold text-lg leading-none">RX-99</span>
+              <span class="font-mono text-[9px] psycho-text mt-0.5">Ver.Ka</span>
+            </div>
+            <span id="overlayKicker" class="font-mono text-xs psycho-text uppercase tracking-widest">ORBITAL SORTIE // FIN FUNNEL CLUSTER DEFENSE</span>
+            <h3 id="overlayTitle" class="font-display font-bold text-3xl sm:text-5xl text-paper mt-1.5 uppercase">
+              DEFEND THE PRODUCTION CORE
+            </h3>
+            <p id="overlaySub" class="text-slate-300 text-sm max-w-lg mt-2 mb-6 leading-relaxed">
+              Move your mouse or tap on the canvas to aim the primary Beam Rifle & command <strong class="psycho-text">6 autonomous Fin Funnels</strong> against <strong class="text-emerald">ZAKU_DDOS</strong> drones, <strong class="text-purple-400">MEMLEAK_CRUISERS</strong>, and <strong class="text-ntd">DEADLOCK_MISSILES</strong>. Trigger tactical abilities with <code class="text-vfin font-mono">[1] [2] [3] [4]</code>.
+            </p>
+            <button id="overlayStartBtn" type="button" class="btn-astral-primary px-8 py-3.5 rounded-2xl font-mono text-xs uppercase tracking-wider">
+              ▶ LAUNCH RX-99 & DEFEND CLUSTER
+            </button>
+          </div>
+        </div>
+
+        <!-- Bottom 4 Gundam Tactical Hotkey Abilities -->
+        <div class="bg-slate-950/95 border-t border-slate-400/15 px-4 sm:px-6 py-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <button id="abilityBarrageBtn" type="button" class="rounded-2xl bg-slate-900/80 border border-slate-400/15 hover:border-psycho p-3.5 text-left transition group">
+            <div class="flex items-center justify-between font-mono text-xs">
+              <span class="font-bold text-paper group-hover:text-psycho transition">[1] FIN FUNNEL BARRAGE</span>
+              <span class="px-2 py-0.5 rounded-full bg-psycho/15 psycho-text text-[10px] font-bold">30 EN</span>
+            </div>
+            <p class="text-[11px] text-slate-400 mt-1">Deploys all 6 funnels in overdrive crossfire across targets.</p>
+          </button>
+
+          <button id="abilityIFieldBtn" type="button" class="rounded-2xl bg-slate-900/80 border border-slate-400/15 hover:border-emerald p-3.5 text-left transition group">
+            <div class="flex items-center justify-between font-mono text-xs">
+              <span class="font-bold text-paper group-hover:text-emerald transition">[2] I-FIELD WAF SHIELD</span>
+              <span class="px-2 py-0.5 rounded-full bg-emerald/15 text-emerald text-[10px] font-bold">40 EN</span>
+            </div>
+            <p class="text-[11px] text-slate-400 mt-1">Absorbs incoming damage for 6s & restores +25% Cluster HP.</p>
+          </button>
+
+          <button id="abilityMegaCannonBtn" type="button" class="rounded-2xl bg-slate-900/80 border border-slate-400/15 hover:border-vfin p-3.5 text-left transition group">
+            <div class="flex items-center justify-between font-mono text-xs">
+              <span class="font-bold text-paper group-hover:text-vfin transition">[3] HIGH-MEGA CANNON</span>
+              <span class="px-2 py-0.5 rounded-full bg-vfin/15 text-vfin text-[10px] font-bold">60 EN</span>
+            </div>
+            <p class="text-[11px] text-slate-400 mt-1">Clears all active anomalies on screen + heals worker pods.</p>
+          </button>
+
+          <button id="abilityTransAmBtn" type="button" class="rounded-2xl bg-slate-900/80 border border-slate-400/15 hover:border-ntd p-3.5 text-left transition group">
+            <div class="flex items-center justify-between font-mono text-xs">
+              <span class="font-bold text-paper group-hover:text-ntd transition">[4] TRANS-AM OVERCLOCK</span>
+              <span class="px-2 py-0.5 rounded-full bg-ntd/15 text-ntd text-[10px] font-bold">80 EN</span>
+            </div>
+            <p class="text-[11px] text-slate-400 mt-1">Doubles fire rate, funnel speed & XP gain for 6 seconds.</p>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- 6. SECTION 04: WORKING GAME 2 — "03:00 AM ON-CALL WAR ROOM"         -->
+    <!-- =================================================================== -->
+    <section id="bridgeSim" class="space-y-6">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-400/15 pb-5">
+        <div>
+          <div class="flex items-center gap-2 font-mono text-xs text-vfin uppercase tracking-widest">
+            <span class="w-2 h-2 rounded-full bg-vfin animate-ping"></span>
+            <span>04 // INTERACTIVE CLI + TACTICAL DECISION SIMULATOR</span>
+          </div>
+          <h2 class="font-display font-bold text-3xl sm:text-5xl text-paper mt-1 uppercase tracking-tight">
+            03:00 AM <span class="text-transparent bg-clip-text bg-gradient-to-r from-vfin to-ntd">ON-CALL WAR ROOM.</span>
+          </h2>
+        </div>
+        <p class="text-slate-400 text-sm max-w-md">
+          Diagnose 3 real production incidents (`INC-K8S-042`, `INC-CICD-017`, `INC-SRE-063`). Click a tactical action or type real CLI commands (`kubectl get pods`, `kubectl logs`, `trace`, `fix`) for +250 XP.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        
+        <!-- Left: 3 Incident Runbook Tabs + Sticky Note Takeaway -->
+        <div class="lg:col-span-4 flex flex-col justify-between gap-4">
+          <div id="missionTabsList" class="space-y-3"></div>
+
+          <div class="field-note-box rounded-2xl p-5 space-y-2 shadow-lg">
+            <div class="flex items-center justify-between font-mono text-[10px]">
+              <span class="text-vfin font-bold uppercase tracking-widest">📌 ON-CALL GOLDEN RULE</span>
+              <b id="missionsClearedCount" class="text-emerald">0 / 3 RESOLVED</b>
+            </div>
+            <p id="simStickyNote" class="font-hand text-2xl text-paper leading-snug">
+              "Never run kubectl delete pod --all before checking '--previous' logs—otherwise you wipe the crash evidence!"
+            </p>
+            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden mt-2">
+              <div id="missionsClearedBar" class="h-full bg-emerald transition-all duration-500" style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Live Terminal + Runbook Countermeasures -->
+        <div class="lg:col-span-8">
+          <div class="astral-panel astral-corners cutting-mat-ticks rounded-3xl overflow-hidden flex flex-col h-full">
+            
+            <div class="bg-slate-950/90 px-5 py-3.5 border-b border-slate-400/15 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-ntd inline-block"></span>
+                <span class="w-3 h-3 rounded-full bg-vfin inline-block"></span>
+                <span class="w-3 h-3 rounded-full bg-emerald inline-block"></span>
+                <span id="termSessionTitle" class="font-mono text-xs text-slate-300 ml-2">hemant@prod-bastion:~ (INC-K8S-042)</span>
+              </div>
+              <span id="termSeverityBadge" class="font-mono text-[10px] px-2.5 py-0.5 rounded-full bg-ntd/15 text-ntd border border-ntd/40 font-semibold">
+                SEV-2 // DEGRADED
+              </span>
+            </div>
+
+            <div class="bg-slate-900/60 px-5 py-4 border-b border-slate-400/15 flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <h3 id="simIncidentTitle" class="font-display font-bold text-xl sm:text-2xl text-paper uppercase">
+                  INC-K8S-042: PODS IN CRASHLOOPBACKOFF
+                </h3>
+                <p id="simIncidentSummary" class="text-xs text-slate-300 mt-0.5">
+                  3 of 5 checkout replicas are crash-looping after an automated Vault secret rotation.
+                </p>
+              </div>
+              <div class="text-right font-mono">
+                <span class="text-[10px] text-slate-400 block">BOUNTY</span>
+                <b id="simIncidentXP" class="text-vfin text-sm">+250 XP</b>
+              </div>
+            </div>
+
+            <!-- Terminal Output Log Stream -->
+            <div id="termLogStream" class="bg-void/95 p-5 font-mono text-xs leading-relaxed h-64 overflow-y-auto space-y-2 text-slate-300"></div>
+
+            <!-- Interactive CLI Input -->
+            <form id="termCliForm" class="bg-slate-950 border-t border-slate-400/15 px-4 py-2.5 flex items-center gap-2 font-mono text-xs">
+              <span class="psycho-text font-bold">hemant@prod❯</span>
+              <input id="termCliInput" type="text" placeholder="Type 'help', 'kubectl get pods', 'kubectl logs', 'describe', 'trace', 'fix', or 'clear'..." 
+                     class="flex-1 bg-transparent text-paper placeholder-slate-500 focus:outline-none">
+              <button type="submit" class="px-3.5 py-1 rounded-lg bg-slate-800 hover:bg-psycho hover:text-void text-slate-300 font-semibold transition">
+                RUN ↵
+              </button>
+            </form>
+
+            <!-- 1-Click Runbook Countermeasure Cards -->
+            <div class="bg-slate-900/70 border-t border-slate-400/15 p-5 space-y-3">
+              <div class="flex items-center justify-between font-mono text-[11px] text-slate-400">
+                <span>SELECT TACTICAL RESPONSE (OR USE CLI PROMPT ABOVE)</span>
+                <button id="resetSimBtn" type="button" class="psycho-text hover:underline">↺ RESET INCIDENT</button>
+              </div>
+              <div id="simChoicesGrid" class="grid grid-cols-1 md:grid-cols-3 gap-3"></div>
+              <div id="simFeedbackBanner" class="text-xs font-mono px-4 py-2.5 rounded-xl bg-slate-950/90 border border-slate-400/15 text-slate-300">
+                Awaiting action. Inspect the evidence before touching running replicas.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- 7. SECTION 05: INTERACTIVE KUBERNETES CONTROL ROOM & CI/CD LAB      -->
+    <!-- =================================================================== -->
+    <section id="clusterLab" class="space-y-8 recruiter-priority">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-400/15 pb-5">
+        <div>
+          <div class="flex items-center gap-2 font-mono text-xs text-skybeam uppercase tracking-widest">
+            <span>05 // INTERACTIVE INFRASTRUCTURE LAB & KUBERNETES CONTROL ROOM</span>
+          </div>
+          <h2 class="font-display font-bold text-3xl sm:text-5xl text-paper mt-1 uppercase tracking-tight">
+            LIVE <span class="text-skybeam">CI/CD PIPELINE</span> & <span class="psycho-text">K8S CLUSTER LAB.</span>
+          </h2>
+        </div>
+        <p class="text-slate-400 text-sm max-w-md">
+          Trigger a simulated production deployment flow or inspect, scale, and rolling-update pods across Worker Nodes A, B, and C.
+        </p>
+      </div>
+
+      <!-- Part A: Interactive CI/CD Pipeline SVG Flow -->
+      <div class="astral-panel astral-corners cutting-mat-ticks rounded-3xl p-6 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-400/15 pb-4">
+          <div>
+            <span class="font-mono text-[10px] text-slate-400 uppercase tracking-widest block">DELIVERY PIPELINE // GITOPS RELEASE TRAIN</span>
+            <strong id="infraStateText" class="font-mono text-sm text-emerald">● ALL PIPELINE STAGES NOMINAL</strong>
+          </div>
+          <div class="flex flex-wrap items-center gap-2 font-mono text-xs">
+            <button type="button" class="infra-mode-btn btn-astral-primary px-4 py-2 rounded-xl" data-infra-mode="deploy">▶ RUN DEPLOY (+75 XP)</button>
+            <button type="button" class="infra-mode-btn btn-astral-secondary px-3.5 py-2 rounded-xl" data-infra-mode="failover">⇄ SIMULATE FAILOVER</button>
+            <button type="button" class="infra-mode-btn btn-astral-secondary px-3.5 py-2 rounded-xl" data-infra-mode="idle">Ⅱ PAUSE</button>
+          </div>
+        </div>
+
+        <div class="rounded-2xl bg-slate-950/85 border border-slate-400/15 p-4 overflow-x-auto">
+          <svg id="infraSvg" viewBox="0 0 1000 230" class="w-full h-auto min-w-[680px]">
+            <defs>
+              <linearGradient id="pipeGrad" x1="0" x2="1">
+                <stop offset="0%" stop-color="#10b981"/>
+                <stop offset="50%" stop-color="#38bdf8"/>
+                <stop offset="100%" stop-color="#f59e0b"/>
+              </linearGradient>
+            </defs>
+            <!-- Pipeline Track -->
+            <line x1="110" y1="105" x2="890" y2="105" stroke="#1e293b" stroke-width="6" stroke-linecap="round"/>
+            <line id="infraFlowLine" x1="110" y1="105" x2="890" y2="105" stroke="url(#pipeGrad)" stroke-width="4" stroke-dasharray="12 14" class="flow-dash-anim"/>
+
+            <!-- 5 Pipeline Stage Nodes -->
+            <g class="infra-stage-node" data-stage="0" transform="translate(110, 105)">
+              <circle r="42" fill="rgba(16,185,129,0.08)" stroke="#334155" stroke-width="2" class="stage-ring"/>
+              <circle r="28" fill="#0d1322" stroke="#38bdf8" stroke-width="2" class="stage-core"/>
+              <text y="6" text-anchor="middle" fill="#f1f5f9" font-size="20">⌘</text>
+              <text y="64" text-anchor="middle" fill="#f1f5f9" font-family="JetBrains Mono" font-weight="700" font-size="11">1. GIT COMMIT</text>
+              <text y="80" text-anchor="middle" fill="#94a3b8" font-family="JetBrains Mono" font-size="9">MAIN / PR GATE</text>
+            </g>
+
+            <g class="infra-stage-node" data-stage="1" transform="translate(305, 105)">
+              <circle r="42" fill="rgba(16,185,129,0.08)" stroke="#334155" stroke-width="2" class="stage-ring"/>
+              <circle r="28" fill="#0d1322" stroke="#38bdf8" stroke-width="2" class="stage-core"/>
+              <text y="6" text-anchor="middle" fill="#f1f5f9" font-size="20">⚙</text>
+              <text y="64" text-anchor="middle" fill="#f1f5f9" font-family="JetBrains Mono" font-weight="700" font-size="11">2. CI BUILD & SCAN</text>
+              <text y="80" text-anchor="middle" fill="#94a3b8" font-family="JetBrains Mono" font-size="9">SONAR + TRIVY</text>
+            </g>
+
+            <g class="infra-stage-node" data-stage="2" transform="translate(500, 105)">
+              <circle r="42" fill="rgba(16,185,129,0.08)" stroke="#334155" stroke-width="2" class="stage-ring"/>
+              <circle r="28" fill="#0d1322" stroke="#38bdf8" stroke-width="2" class="stage-core"/>
+              <text y="6" text-anchor="middle" fill="#f1f5f9" font-size="20">▤</text>
+              <text y="64" text-anchor="middle" fill="#f1f5f9" font-family="JetBrains Mono" font-size="11" font-weight="700">3. CONTAINER ACR</text>
+              <text y="80" text-anchor="middle" fill="#94a3b8" font-family="JetBrains Mono" font-size="9">SIGNED IMAGE</text>
+            </g>
+
+            <g class="infra-stage-node" data-stage="3" transform="translate(695, 105)">
+              <circle r="42" fill="rgba(16,185,129,0.08)" stroke="#334155" stroke-width="2" class="stage-ring"/>
+              <circle r="28" fill="#0d1322" stroke="#38bdf8" stroke-width="2" class="stage-core"/>
+              <text y="6" text-anchor="middle" fill="#f1f5f9" font-size="20">⎈</text>
+              <text y="64" text-anchor="middle" fill="#f1f5f9" font-family="JetBrains Mono" font-weight="700" font-size="11">4. K8S ROLLOUT</text>
+              <text y="80" text-anchor="middle" fill="#94a3b8" font-family="JetBrains Mono" font-size="9">AKS / EKS HELM</text>
+            </g>
+
+            <g class="infra-stage-node" data-stage="4" transform="translate(890, 105)">
+              <circle r="42" fill="rgba(16,185,129,0.08)" stroke="#334155" stroke-width="2" class="stage-ring"/>
+              <circle r="28" fill="#0d1322" stroke="#38bdf8" stroke-width="2" class="stage-core"/>
+              <text y="6" text-anchor="middle" fill="#f1f5f9" font-size="20">◉</text>
+              <text y="64" text-anchor="middle" fill="#f1f5f9" font-family="JetBrains Mono" font-weight="700" font-size="11">5. PROMETHEUS</text>
+              <text y="80" text-anchor="middle" fill="#94a3b8" font-family="JetBrains Mono" font-size="9">SLO GREEN</text>
+            </g>
+
+            <!-- Animated Packets -->
+            <circle class="infra-packet" r="7" cy="105" fill="#10b981">
+              <animateMotion dur="4.2s" repeatCount="indefinite" path="M110 105 H890"/>
+            </circle>
+            <circle class="infra-packet" r="5" cy="105" fill="#38bdf8">
+              <animateMotion dur="4.2s" begin="-2.1s" repeatCount="indefinite" path="M110 105 H890"/>
+            </circle>
+          </svg>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-2 font-mono text-xs text-slate-300 bg-slate-950/60 px-4 py-2.5 rounded-xl border border-slate-400/15">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald animate-ping"></span>
+            <span id="infraLogText">[READY] Pipeline awaiting deployment trigger. Click "▶ RUN DEPLOY" above.</span>
+          </div>
+          <span id="infraRunNumber" class="text-slate-400">RUN #0001</span>
+        </div>
+      </div>
+
+      <!-- Part B: Interactive Kubernetes Control Room -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        
+        <!-- Left 8 Cols: Worker Nodes A, B, C & Pod Slots -->
+        <div class="lg:col-span-8 astral-panel astral-corners cutting-mat-ticks rounded-3xl p-6 flex flex-col justify-between space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-400/15 pb-4">
+            <div>
+              <span class="font-mono text-[10px] text-slate-400 uppercase tracking-widest block">CLUSTER // AKS-PROD-PUNE-01</span>
+              <strong id="k8sClusterStatus" class="font-mono text-sm text-emerald">● 5 / 5 REPLICAS READY</strong>
+            </div>
+            <div class="flex items-center gap-2 font-mono text-xs">
+              <label for="k8sWorkloadSelect" class="text-slate-400">WORKLOAD:</label>
+              <select id="k8sWorkloadSelect" class="rounded-xl bg-slate-950 border border-slate-700 px-3 py-1.5 text-paper focus:border-psycho focus:outline-none">
+                <option value="checkout">checkout-api (production)</option>
+                <option value="payments">payments-worker (payments)</option>
+                <option value="telemetry">telemetry-agent (monitoring)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- 3 Worker Nodes Grid -->
+          <div id="k8sWorkerGrid" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+
+          <!-- Cluster Actions -->
+          <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-400/15">
+            <div class="flex flex-wrap items-center gap-2.5">
+              <button id="k8sRolloutBtn" type="button" class="btn-astral-primary px-4 py-2.5 rounded-xl font-mono text-xs">
+                ↻ SIMULATE ROLLOUT (+100 XP)
+              </button>
+              <button id="k8sScaleBtn" type="button" class="btn-astral-secondary px-4 py-2.5 rounded-xl font-mono text-xs">
+                ＋ SCALE REPLICAS (+75 XP)
+              </button>
+              <button id="k8sResetBtn" type="button" class="btn-astral-secondary px-3.5 py-2.5 rounded-xl font-mono text-xs">
+                RESET
+              </button>
+            </div>
+            <span class="font-mono text-[11px] text-slate-400">Click any pod to inspect metrics & logs ➔</span>
+          </div>
+        </div>
+
+        <!-- Right 4 Cols: Selected Pod Inspector -->
+        <aside class="lg:col-span-4 astral-panel cutting-mat-ticks rounded-3xl p-6 flex flex-col justify-between space-y-4 font-mono text-xs">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-400/15 pb-3">
+              <span class="text-slate-400">POD INSPECTOR</span>
+              <span id="k8sPodStateBadge" class="text-emerald font-bold">● RUNNING</span>
+            </div>
+
+            <div>
+              <span id="k8sPodNamespace" class="text-[10px] text-skybeam uppercase">NAMESPACE / PRODUCTION</span>
+              <h3 id="k8sPodName" class="font-display font-bold text-xl text-paper mt-1 break-all">checkout-api-01</h3>
+              <p id="k8sPodDesc" class="font-sans text-xs text-slate-300 mt-1">Checkout API serving production web traffic.</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2.5">
+              <div class="p-3 rounded-xl bg-slate-950/80 border border-slate-400/15">
+                <span class="text-[10px] text-slate-400 block">IMAGE TAG</span>
+                <b id="k8sPodImage" class="text-paper mt-0.5 block">app:v1.8.2</b>
+              </div>
+              <div class="p-3 rounded-xl bg-slate-950/80 border border-slate-400/15">
+                <span class="text-[10px] text-slate-400 block">RESTARTS</span>
+                <b id="k8sPodRestarts" class="text-emerald mt-0.5 block">0</b>
+              </div>
+              <div class="p-3 rounded-xl bg-slate-950/80 border border-slate-400/15">
+                <span class="text-[10px] text-slate-400 block">WORKER NODE</span>
+                <b id="k8sPodNode" class="text-vfin mt-0.5 block">worker-a</b>
+              </div>
+              <div class="p-3 rounded-xl bg-slate-950/80 border border-slate-400/15">
+                <span class="text-[10px] text-slate-400 block">READINESS</span>
+                <b id="k8sPodReady" class="text-skybeam mt-0.5 block">1 / 1</b>
+              </div>
+            </div>
+
+            <button id="k8sToggleLogsBtn" type="button" class="w-full btn-astral-secondary py-2.5 px-3 rounded-xl text-xs">
+              ⌘ TOGGLE SAMPLE KUBECTL LOGS
+            </button>
+
+            <pre id="k8sPodLogsBox" class="hidden p-3 rounded-xl bg-void border border-slate-400/15 text-[10px] text-emerald overflow-x-auto leading-relaxed whitespace-pre-wrap"></pre>
+          </div>
+
+          <div class="pt-3 border-t border-slate-400/15 text-[10px] text-slate-400">
+            SAFE SIMULATION // NO LIVE CLUSTER CONNECTION
+          </div>
+        </aside>
+
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- 8. SECTION 06: 5-SECTOR ENGINEERING UNIVERSE MAP & CAREER VAULT     -->
+    <!-- =================================================================== -->
+    <section id="universeMap" class="space-y-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-400/15 pb-5">
+        <div>
+          <div class="flex items-center gap-2 font-mono text-xs text-emerald uppercase tracking-widest">
+            <span>06 // 5-SECTOR ENGINEERING UNIVERSE MAP & FIELD VERIFICATION</span>
+          </div>
+          <h2 class="font-display font-bold text-3xl sm:text-5xl text-paper mt-1 uppercase tracking-tight">
+            EXPLORE THE <span class="psycho-text">5 DEVOPS SECTORS.</span>
+          </h2>
+        </div>
+        <div class="flex items-center gap-2 font-mono text-xs">
+          <button id="sectorPrevBtn" type="button" class="btn-astral-secondary px-3.5 py-2 rounded-xl">← PREV SECTOR</button>
+          <button id="sectorNextBtn" type="button" class="btn-astral-secondary px-3.5 py-2 rounded-xl">NEXT SECTOR →</button>
+        </div>
+      </div>
+
+      <!-- 5 Sector Selector Pills -->
+      <div id="sectorTabsGrid" class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-3"></div>
+
+      <!-- Active Sector Inspector + 1-Question Technical Field Check -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        <div class="lg:col-span-7 astral-panel astral-corners cutting-mat-ticks rounded-3xl p-6 sm:p-8 flex flex-col justify-between space-y-5">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between font-mono text-xs">
+              <span id="sectorCodeText" class="psycho-text font-bold">SECTOR 01 // LINUX KEEP</span>
+              <span id="sectorStatusBadge" class="text-vfin">UNDISCOVERED</span>
+            </div>
+            <h3 id="sectorTitleText" class="font-display font-bold text-2xl sm:text-3xl text-paper uppercase">
+              Master the Linux Kernel & Shell Layer
+            </h3>
+            <p id="sectorDescText" class="text-slate-300 text-sm leading-relaxed">
+              The foundation beneath every container and cloud VM: processes, cgroups, namespaces, systemd units, file descriptors, permissions, and Bash/Python automation.
+            </p>
+            <div id="sectorToolsList" class="flex flex-wrap gap-2 pt-2"></div>
+          </div>
+
+          <div class="pt-4 border-t border-slate-400/15 flex flex-wrap items-center justify-between gap-3">
+            <button id="sectorExploreBtn" type="button" class="btn-astral-primary px-5 py-2.5 rounded-xl font-mono text-xs">
+              MARK SECTOR EXPLORED (+25 XP) ↗
+            </button>
+            <span id="sectorProgressLabel" class="font-mono text-xs text-slate-400">0 / 5 SECTORS LOGGED</span>
+          </div>
+        </div>
+
+        <!-- 1-Question Technical Field Check per Sector -->
+        <div class="lg:col-span-5 astral-panel cutting-mat-ticks rounded-3xl p-6 sm:p-8 flex flex-col justify-between space-y-4 font-mono text-xs">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-400/15 pb-3">
+              <span class="text-vfin font-bold">⚡ TECHNICAL FIELD CHECK</span>
+              <span class="text-emerald">+50 BONUS XP</span>
+            </div>
+            <p id="sectorQuizQuestion" class="font-sans text-sm text-paper font-medium leading-relaxed">
+              Which Linux signal asks a process to gracefully terminate while allowing it to clean up open connections?
+            </p>
+            <div id="sectorQuizOptions" class="space-y-2 pt-1"></div>
+          </div>
+          <div id="sectorQuizFeedback" class="p-3 rounded-xl bg-slate-950/85 border border-slate-400/15 text-slate-400 text-[11px]">
+            Answer the sector verification check to earn +50 bonus XP.
+          </div>
+        </div>
+      </div>
+
+      <!-- Career Rank Progression (6 Ranks from Rookie Operator to SRE Elite) & 8 Achievements -->
+      <div class="astral-panel cutting-mat-ticks rounded-3xl p-6 sm:p-8 space-y-6 no-print">
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-400/15 pb-4">
+          <div>
+            <span class="font-mono text-[10px] text-vfin uppercase tracking-widest block">CAREER PROGRESSION // 6 OPERATOR RANKS & 8 COMMENDATIONS</span>
+            <h3 class="font-display font-bold text-2xl sm:text-3xl text-paper uppercase">CAREER RANK & ACHIEVEMENT VAULT</h3>
+          </div>
+          <div class="flex items-center gap-4">
+            <span id="medalCountBadge" class="font-mono text-xs text-emerald font-semibold">1 / 8 UNLOCKED</span>
+            <button id="askResetProgressBtn" type="button" class="font-mono text-xs text-slate-400 hover:text-ntd transition">
+              ↺ RESET PROGRESS
+            </button>
+          </div>
+        </div>
+
+        <!-- 6 Career Ranks Strip -->
+        <div id="careerRanksGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 font-mono text-xs"></div>
+
+        <!-- Inline Reset Confirmation Bar (No native confirm() dialog) -->
+        <div id="resetConfirmBar" class="hidden rounded-2xl bg-ntd/10 border border-ntd/40 p-3.5 flex flex-wrap items-center justify-between gap-3 font-mono text-xs">
+          <span class="text-slate-200">Reset all XP, Sortie High Scores, and unlocked badges in this browser?</span>
+          <div class="flex items-center gap-2">
+            <button id="confirmResetYes" type="button" class="px-3.5 py-1.5 rounded-lg bg-ntd text-white font-bold hover:brightness-110">YES, RESET</button>
+            <button id="confirmResetNo" type="button" class="px-3.5 py-1.5 rounded-lg bg-slate-800 text-slate-300">CANCEL</button>
+          </div>
+        </div>
+
+        <!-- 8 Achievement Cards -->
+        <div id="medalsGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-3.5"></div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <section id="record" class="space-y-6">
+      <div class="astral-panel rounded-3xl p-6 font-mono text-xs">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <div><p class="text-[10px] tracking-widest text-skybeam">SERVICE RECORD // EXPERIENCE</p><h2 class="font-display text-2xl font-bold mt-1">Missions flown</h2></div>
+          <a href="https://hemantbhadke.github.io/Resume.pdf" target="_blank" rel="noopener" class="btn-astral-secondary px-3.5 py-2 rounded-xl">RÉSUMÉ PDF ↗</a>
+        </div>
+        <div id="hxExp" class="space-y-5"></div>
+      </div>
+      <div class="grid lg:grid-cols-2 gap-6">
+        <div class="astral-panel rounded-3xl p-6 font-mono text-xs"><p class="text-[10px] tracking-widest text-skybeam mb-3">CERTIFICATIONS // BADGES</p><div id="hxCerts" class="grid sm:grid-cols-2 gap-3"></div></div>
+        <div class="astral-panel rounded-3xl p-6 font-mono text-xs"><p class="text-[10px] tracking-widest text-skybeam mb-3">PROJECTS // BUILDS</p><div id="hxProj" class="space-y-3"></div></div>
+      </div>
+    </section>
+
+    <section id="hrDesk" class="space-y-6">
+      <div class="grid lg:grid-cols-2 gap-6">
+        <div class="astral-panel rounded-3xl p-6 font-mono text-xs">
+          <p class="text-[10px] tracking-widest text-skybeam">HR DESK // LIVE PROFILE AUDIT</p>
+          <h2 class="font-display text-2xl font-bold mt-1 mb-2">Would we interview this candidate?</h2>
+          <p class="text-slate-400 mb-4">The backend scores the live profile and skills the way a recruiter would. Fix the gaps in the dossier editor, re-run, watch the score climb.</p>
+          <button id="hxRunHr" type="button" class="px-4 py-2 rounded-xl bg-psycho text-void font-semibold hover:opacity-90 transition">RUN HR REVIEW</button>
+          <div id="hxHrOut" class="mt-5"></div>
+        </div>
+        <div class="space-y-6 font-mono text-xs">
+          <form id="hxContact" class="astral-panel rounded-3xl p-6 space-y-3">
+            <p class="text-[10px] tracking-widest text-skybeam">OPEN CHANNEL // SEND A SIGNAL</p>
+            <input name="name" required maxlength="80" placeholder="Your name" class="w-full rounded-xl bg-slate-950 border border-slate-700 px-3.5 py-2.5 text-paper focus:border-psycho focus:outline-none">
+            <input name="email" type="email" required maxlength="120" placeholder="you@company.com" class="w-full rounded-xl bg-slate-950 border border-slate-700 px-3.5 py-2.5 text-paper focus:border-psycho focus:outline-none">
+            <textarea name="body" required minlength="10" maxlength="2000" rows="3" placeholder="Role, team, or just say hi…" class="w-full rounded-xl bg-slate-950 border border-slate-700 p-3.5 text-paper focus:border-psycho focus:outline-none"></textarea>
+            <div class="flex items-center gap-3"><button class="px-4 py-2 rounded-xl bg-skybeam text-void font-semibold hover:opacity-90 transition">TRANSMIT</button><span id="hxContactMsg" class="text-slate-400"></span></div>
+          </form>
+          <div class="astral-panel rounded-3xl p-6">
+            <p class="text-[10px] tracking-widest text-skybeam mb-3">TOP OPERATORS // LEADERBOARD</p>
+            <ul id="hxBoard" class="space-y-1.5 mb-4"></ul>
+            <form id="hxHandleForm" class="flex gap-2"><input id="hxHandle" maxlength="16" placeholder="Claim a callsign" class="flex-1 rounded-xl bg-slate-950 border border-slate-700 px-3.5 py-2 text-paper focus:border-psycho focus:outline-none"><button class="btn-astral-secondary px-3.5 py-2 rounded-xl">JOIN</button></form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="border-t border-slate-400/15 pt-10 pb-14 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-slate-400">
+      <div class="flex items-center gap-3">
+        <span class="w-2.5 h-2.5 rounded-full bg-psycho"></span>
+        <span>CRAFTED BY <strong class="text-paper">HEMANT BHADKE</strong> · PUNE, INDIA · CLOUD & DEVOPS ENGINEER</span>
+      </div>
+      <div class="font-hand text-xl text-vfin">
+        "Built with clean code, zero external images, and a love for reliable systems."
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- EDIT PILOT DOSSIER MODAL                                              -->
+  <!-- ===================================================================== -->
+  <dialog id="dossierModal" class="bg-transparent p-0 w-full max-w-xl backdrop:bg-void/85 backdrop:backdrop-blur-md">
+    <div class="astral-panel astral-corners rounded-3xl p-6 sm:p-8 text-paper border border-psycho/50">
+      <div class="flex items-center justify-between border-b border-slate-400/15 pb-4 mb-5">
+        <div>
+          <span class="font-mono text-[10px] psycho-text uppercase tracking-widest block">CUSTOMIZE PORTFOLIO DATA</span>
+          <h3 class="font-display font-bold text-2xl sm:text-3xl uppercase">EDIT ENGINEER PROFILE</h3>
+        </div>
+        <button id="closeDossierModalBtn" type="button" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center font-mono">✕</button>
+      </div>
+
+      <form id="dossierForm" class="space-y-4 text-xs font-mono">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <label class="block space-y-1.5">
+            <span class="text-slate-400">FIRST NAME</span>
+            <input id="inputFirstName" type="text" required class="w-full rounded-xl bg-slate-950 border border-slate-700 px-3.5 py-2.5 text-paper focus:border-psycho focus:outline-none">
+          </label>
+          <label class="block space-y-1.5">
+            <span class="text-slate-400">LAST NAME</span>
+            <input id="inputLastName" type="text" required class="w-full rounded-xl bg-slate-950 border border-slate-700 px-3.5 py-2.5 text-paper focus:border-psycho focus:outline-none">
+          </label>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <label class="block space-y-1.5">
+            <span class="text-slate-400">CALLSIGN / TAG</span>
+            <input id="inputCallsign" type="text" class="w-full rounded-xl bg-slate-950 border border-slate-700 px-3.5 py-2.5 text-paper focus:border-psycho focus:outline-none">
+          </label>
+          <label class="block space-y-1.5">
+            <span class="text-slate-400">LOCATION</span>
+            <input id="inputLocation" type="text" class="w-full rounded-xl bg-slate-950 border border-slate-700 px-3.5 py-2.5 text-paper focus:border-psycho focus:outline-none">
+          </label>
+        </div>
+
+        <label class="block space-y-1.5">
+          <span class="text-slate-400">ROLE / HEADLINE</span>
+          <input id="inputRole" type="text" required class="w-full rounded-xl bg-slate-950 border border-slate-700 px-3.5 py-2.5 text-paper focus:border-psycho focus:outline-none">
+        </label>
+
+        <label class="block space-y-1.5">
+          <span class="text-slate-400">HUMAN BIO</span>
+          <textarea id="inputBio" rows="3" class="w-full rounded-xl bg-slate-950 border border-slate-700 p-3.5 text-paper focus:border-psycho focus:outline-none"></textarea>
+        </label>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <label class="block space-y-1.5">
+            <span class="text-slate-400">LINKEDIN URL</span>
+            <input id="inputLinkedin" type="url" class="w-full rounded-xl bg-slate-950 border border-slate-700 px-3 py-2 text-paper focus:border-psycho focus:outline-none">
+          </label>
+          <label class="block space-y-1.5">
+            <span class="text-slate-400">GITHUB URL</span>
+            <input id="inputGithub" type="url" class="w-full rounded-xl bg-slate-950 border border-slate-700 px-3 py-2 text-paper focus:border-psycho focus:outline-none">
+          </label>
+          <label class="block space-y-1.5">
+            <span class="text-slate-400">EMAIL</span>
+            <input id="inputEmail" type="email" class="w-full rounded-xl bg-slate-950 border border-slate-700 px-3 py-2 text-paper focus:border-psycho focus:outline-none">
+          </label>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-400/15">
+          <button id="cancelDossierBtn" type="button" class="btn-astral-secondary px-4 py-2.5 rounded-xl">CANCEL</button>
+          <button type="submit" class="btn-astral-primary px-6 py-2.5 rounded-xl">SAVE PROFILE</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- TACTICAL TOAST NOTIFICATION -->
+  <div id="hudToast" class="fixed bottom-5 right-5 z-50 pointer-events-none opacity-0 translate-y-3 transition-all duration-300">
+    <div class="astral-panel rounded-2xl px-4 py-3 border-l-4 border-l-vfin flex items-center gap-3 font-mono text-xs text-paper shadow-2xl">
+      <span class="text-vfin">✦</span>
+      <span id="hudToastText">WORKBENCH READY</span>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- FLOATING CYBER HUD DOCK & QUICK TERMINAL (ops-sh)                     -->
+  <!-- ===================================================================== -->
+  <button id="globalTerminalToggleBtn" type="button" 
+          class="fixed bottom-5 left-5 z-40 px-3.5 py-2 rounded-2xl bg-slate-900/90 border border-psycho/40 hover:border-psycho text-paper font-mono text-xs shadow-2xl backdrop-blur-xl flex items-center gap-2 transition hover:scale-105 no-print" 
+          title="Toggle Quick Cyber CLI [Hotkey: ~]">
+    <span class="w-2.5 h-2.5 rounded-full bg-psycho animate-pulse"></span>
+    <span class="font-bold">OPS-SH</span>
+    <span class="text-[10px] text-slate-400 bg-slate-800 px-1.5 py-0.5 rounded">~</span>
+  </button>
+
+  <div id="globalTerminalModal" class="hidden fixed inset-4 sm:inset-x-12 sm:bottom-6 sm:top-auto sm:h-96 z-50 flex flex-col no-print">
+    <div class="astral-panel astral-corners rounded-3xl overflow-hidden flex flex-col h-full border border-psycho/50 shadow-2xl bg-void/95">
+      <div class="bg-slate-950/90 px-4 py-2.5 border-b border-slate-400/15 flex items-center justify-between">
+        <div class="flex items-center gap-2 font-mono text-xs text-slate-300">
+          <span class="w-2.5 h-2.5 rounded-full bg-psycho"></span>
+          <strong class="text-paper">OPS-SH // CYBER TACTICAL CLI</strong>
+          <span class="text-slate-500">• Type 'help' for commands</span>
+        </div>
+        <button id="closeGlobalTerminalBtn" type="button" class="w-7 h-7 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center font-mono text-xs">✕</button>
+      </div>
+      <div id="globalTermOutput" class="flex-1 p-4 font-mono text-xs overflow-y-auto space-y-1.5 text-slate-300 bg-void/80">
+        <div class="text-emerald">Hemant Bhadke // Cloud & DevOps Tactical Shell initialized. Type 'help' to explore.</div>
+      </div>
+      <form id="globalTermForm" class="bg-slate-950 border-t border-slate-400/15 px-4 py-2 flex items-center gap-2 font-mono text-xs">
+        <span class="psycho-text font-bold">ops-sh❯</span>
+        <input id="globalTermInput" type="text" placeholder="whoami, skills, experience, projects, certs, hr, game, hire..." class="flex-1 bg-transparent text-paper placeholder-slate-500 focus:outline-none">
+        <button type="submit" class="px-3 py-1 rounded-lg bg-psycho text-void font-bold hover:brightness-110 transition">RUN ↵</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

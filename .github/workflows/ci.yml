@@ -1,0 +1,16 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: npm install
+      - run: |
+          ADMIN_TOKEN=ci DB_PATH=/tmp/ci.db node server.js &
+          sleep 2
+          curl -fs localhost:3000/api/health
+          curl -fs localhost:3000/api/hr-review | grep -q score
+      - run: docker build -t ops-unlocked .

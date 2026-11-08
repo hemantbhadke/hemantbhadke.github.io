@@ -1,0 +1,4 @@
+{"name":"ops-unlocked-portfolio","version":"1.0.0","type":"module","private":true,
+ "engines":{"node":">=22.13"},
+ "scripts":{"start":"node server.js","dev":"node --watch server.js"},
+ "dependencies":{"express":"^4.21.2"}}
