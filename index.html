@@ -585,92 +585,92 @@
   <!-- 1. STICKY TOPBAR WITH RECRUITER MODE TOGGLE & SPACE SYNTH             -->
   <!-- ===================================================================== -->
     <header class="sticky top-0 z-50 border-b border-slate-400/15 bg-void/85 backdrop-blur-2xl no-print">
-    <div class="w-full max-w-7xl mx-auto px-3 sm:px-6 h-16 flex items-center justify-between gap-2 flex-nowrap">
+    <div class="w-full max-w-7xl mx-auto px-3 sm:px-6 h-15 flex items-center justify-between gap-2 flex-nowrap">
       
       <!-- Left: Brand Identity -->
-      <div class="flex items-center gap-3 shrink-0">
-        <a href="#top" class="flex items-center gap-2.5 group">
-          <div class="w-9 h-9 rounded-xl bg-slate-900 border border-psycho/50 flex flex-col items-center justify-center shadow-[0_0_16px_rgba(16,185,129,0.2)] group-hover:scale-105 transition">
-            <span class="font-display font-bold text-[11px] text-vfin leading-none">HB-01</span>
-            <span class="font-mono text-[8px] psycho-text tracking-tighter mt-0.5">Ver.Ka</span>
+      <div class="flex items-center gap-2.5 shrink-0">
+        <a href="#top" class="flex items-center gap-2 group">
+          <div class="w-8 h-8 rounded-lg bg-slate-900 border border-psycho/50 flex flex-col items-center justify-center shadow-[0_0_12px_rgba(16,185,129,0.25)] group-hover:scale-105 transition">
+            <span class="font-display font-bold text-[10px] text-vfin leading-none">HB-01</span>
+            <span class="font-mono text-[7px] psycho-text tracking-tighter mt-0.5">Ver.Ka</span>
           </div>
           <div>
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-1.5">
               <span class="font-display font-bold tracking-wider text-paper text-sm sm:text-base leading-none">HEMANT BHADKE</span>
-              <span id="hudModePill" class="hidden sm:inline-block px-2 py-0.5 rounded-full text-[9px] font-mono font-semibold bg-psycho/15 psycho-text border border-psycho/35">EFSF-OPS</span>
+              <span id="hudModePill" class="hidden sm:inline-block px-1.5 py-0.5 rounded-full text-[8.5px] font-mono font-semibold bg-psycho/15 psycho-text border border-psycho/35">EFSF-OPS</span>
             </div>
-            <span class="font-mono text-[10px] text-slate-400 tracking-wider block mt-0.5">CLOUD & DEVOPS ENGINEER · PUNE</span>
+            <span class="font-mono text-[9px] text-slate-400 tracking-wider hidden sm:block mt-0.5">CLOUD & DEVOPS ENGINEER</span>
           </div>
         </a>
       </div>
 
-      <!-- Center: Quick Section Jump Links (visible on wide screens, never wraps) -->
-      <nav class="hidden 2xl:flex items-center gap-1 bg-slate-900/75 border border-slate-400/15 rounded-full p-1 text-[11px] font-mono shrink-0">
-        <a href="#dossier" class="px-2.5 py-1 rounded-full text-slate-300 hover:text-white hover:bg-white/5 transition">01.DOSSIER</a>
-        <a href="#armory" class="px-2.5 py-1 rounded-full text-slate-300 hover:text-white hover:bg-white/5 transition">02.LOADOUT</a>
-        <a href="#funnelGame" class="px-2.5 py-1 rounded-full text-slate-300 hover:text-psycho hover:bg-white/5 transition">03.SORTIE_GAME</a>
-        <a href="#bridgeSim" class="px-2.5 py-1 rounded-full text-slate-300 hover:text-vfin hover:bg-white/5 transition">04.WAR_ROOM</a>
-        <a href="#clusterLab" class="px-2.5 py-1 rounded-full text-slate-300 hover:text-skybeam hover:bg-white/5 transition">05.K8S_CICD</a>
-        <a href="#academyLab" class="px-2.5 py-1 rounded-full text-amber-400 hover:text-white hover:bg-amber-500/20 transition flex items-center gap-1 font-semibold"><span>⚡</span>ACADEMY</a>
-        <a href="#universeMap" class="px-2.5 py-1 rounded-full text-slate-300 hover:text-emerald hover:bg-white/5 transition">06.UNIVERSE</a>
-        <button type="button" onclick="document.getElementById('globalTerminalToggleBtn').click()" class="px-2.5 py-1 rounded-full text-psycho hover:text-white hover:bg-psycho/20 transition flex items-center gap-1"><span>⌘</span> OPS-SH</button>
+      <!-- Center: Quick Section Jump Links (compact, responsive) -->
+      <nav class="hidden xl:flex items-center gap-0.5 bg-slate-900/80 border border-slate-400/15 rounded-full p-0.5 text-[10.5px] font-mono shrink-0">
+        <a href="#dossier" class="px-2 py-0.5 rounded-full text-slate-300 hover:text-white hover:bg-white/5 transition">DOSSIER</a>
+        <a href="#armory" class="px-2 py-0.5 rounded-full text-slate-300 hover:text-white hover:bg-white/5 transition">LOADOUT</a>
+        <a href="#funnelGame" class="px-2 py-0.5 rounded-full text-slate-300 hover:text-psycho hover:bg-white/5 transition">SORTIE</a>
+        <a href="#bridgeSim" class="px-2 py-0.5 rounded-full text-slate-300 hover:text-vfin hover:bg-white/5 transition">WAR ROOM</a>
+        <a href="#clusterLab" class="px-2 py-0.5 rounded-full text-slate-300 hover:text-skybeam hover:bg-white/5 transition">K8S LAB</a>
+        <a href="#academyLab" class="px-2 py-0.5 rounded-full text-amber-400 hover:text-white hover:bg-amber-500/20 transition flex items-center gap-1 font-semibold"><span>⚡</span>ACADEMY</a>
+        <a href="#universeMap" class="px-2 py-0.5 rounded-full text-slate-300 hover:text-emerald hover:bg-white/5 transition">UNIVERSE</a>
+        <button type="button" onclick="document.getElementById('globalTerminalToggleBtn').click()" class="px-2 py-0.5 rounded-full text-psycho hover:text-white hover:bg-psycho/20 transition flex items-center gap-1"><span>⌘</span> OPS-SH</button>
       </nav>
 
-      <!-- Right: Compact Controls & Actions (shrink-0, flex-nowrap) -->
+      <!-- Right: Compact Controls & Actions (shrink-0, perfectly fitted) -->
       <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
-        <!-- Academy Flagship Pill -->
-        <a href="academy/" target="_blank" class="shrink-0 px-2.5 sm:px-3 py-1.5 rounded-full font-mono text-[11px] font-semibold border border-amber-500/50 bg-amber-500/15 text-amber-300 hover:bg-amber-500 hover:text-void transition flex items-center gap-1.5 shadow-sm shadow-amber-500/20" title="168-Day Open Source DevSecOps Academy & Interactive CLI Sandbox">
+        <!-- Academy Pill (Only shown on <xl where center nav is hidden, preventing duplication on desktop) -->
+        <a href="academy/" target="_blank" class="xl:hidden shrink-0 px-2.5 py-1 rounded-full font-mono text-[10.5px] font-semibold border border-amber-500/50 bg-amber-500/15 text-amber-300 hover:bg-amber-500 hover:text-void transition flex items-center gap-1" title="168-Day Open Source DevSecOps Academy & Interactive Sandbox">
           <span>⚡</span>
           <span class="hidden sm:inline">ACADEMY</span>
         </a>
 
         <!-- Recruiter Brief Pill -->
-        <button id="recruiterModeBtn" type="button" class="shrink-0 px-2.5 sm:px-3 py-1.5 rounded-full font-mono text-[11px] font-semibold border border-skybeam/50 bg-skybeam/10 text-skybeam hover:bg-skybeam hover:text-void transition flex items-center gap-1.5" title="Switch between Interactive Hangar and 15-Second Recruiter Brief">
+        <button id="recruiterModeBtn" type="button" class="shrink-0 px-2.5 sm:px-3 py-1 rounded-full font-mono text-[10.5px] font-semibold border border-skybeam/50 bg-skybeam/10 text-skybeam hover:bg-skybeam hover:text-void transition flex items-center gap-1" title="Switch between Interactive Hangar and 15-Second Recruiter Brief">
           <span>⇄</span>
           <span id="recruiterModeLabel" class="hidden sm:inline">RECRUITER BRIEF</span>
         </button>
 
-        <!-- Audio Hub: Synth + IBO OST grouped in a sleek capsule -->
-        <div class="hidden sm:flex items-center bg-slate-900/85 border border-slate-400/20 rounded-full p-0.5 text-[11px] font-mono shrink-0">
-          <button id="spaceSynthBtn" type="button" class="px-2 py-1 rounded-full text-slate-300 hover:text-white transition flex items-center gap-1" title="Toggle Space Synth Pad Ambience">
+        <!-- Audio Hub: Synth + IBO OST in sleek compact capsule -->
+        <div class="hidden md:flex items-center bg-slate-900/85 border border-slate-400/20 rounded-full p-0.5 text-[10px] font-mono shrink-0">
+          <button id="spaceSynthBtn" type="button" class="px-2 py-0.5 rounded-full text-slate-300 hover:text-white transition flex items-center gap-1" title="Toggle Space Synth Pad Ambience">
             <span>✦ SYNTH:</span>
             <b id="spaceSynthStatus" class="psycho-text">OFF</b>
           </button>
           <span class="text-slate-600 font-normal">|</span>
-          <button id="iboThemeBtn" type="button" class="px-2 py-1 rounded-full text-slate-300 hover:text-white transition flex items-center gap-1" title="Toggle Mobile Suit Gundam: Iron-Blooded Orphans OST ('Crescent Moon')">
+          <button id="iboThemeBtn" type="button" class="px-2 py-0.5 rounded-full text-slate-300 hover:text-white transition flex items-center gap-1" title="Toggle Mobile Suit Gundam: Iron-Blooded Orphans OST ('Crescent Moon')">
             <span>♫ IBO:</span>
             <b id="iboThemeStatus" class="psycho-text">OFF</b>
           </button>
         </div>
 
         <!-- NT-D Trigger -->
-        <button id="topNtdBtn" type="button" class="shrink-0 btn-astral-ntd px-2.5 sm:px-3 py-1.5 rounded-full font-mono text-[11px] tracking-wider uppercase flex items-center gap-1" title="Engage NT-D / Trans-Am Psycho-Frame Mode">
+        <button id="topNtdBtn" type="button" class="shrink-0 btn-astral-ntd px-2.5 py-1 rounded-full font-mono text-[10.5px] tracking-wider uppercase flex items-center gap-1" title="Engage NT-D / Trans-Am Psycho-Frame Mode">
           <span>⚡</span>
-          <span id="topNtdText" class="hidden md:inline">NT-D: OFF</span>
+          <span id="topNtdText" class="hidden lg:inline">NT-D: OFF</span>
         </button>
 
-        <!-- Pilot Level & XP -->
-        <div class="hidden xl:flex items-center gap-2 bg-slate-900/85 border border-slate-400/15 rounded-full px-2.5 py-1 shrink-0">
+        <!-- Pilot Level & XP (Visible on ultra-wide 2xl displays) -->
+        <div class="hidden 2xl:flex items-center gap-2 bg-slate-900/85 border border-slate-400/15 rounded-full px-2.5 py-0.5 shrink-0">
           <div class="text-right">
-            <div class="flex items-center gap-1 font-mono text-[10px]">
+            <div class="flex items-center gap-1 font-mono text-[9.5px]">
               <span class="text-slate-400">LVL</span>
               <b id="hudLevel" class="text-vfin">02</b>
               <span class="text-slate-600">·</span>
               <span id="hudXP" class="text-paper font-semibold">450 XP</span>
             </div>
-            <div class="w-14 h-1 bg-slate-800 rounded-full overflow-hidden mt-0.5">
+            <div class="w-12 h-1 bg-slate-800 rounded-full overflow-hidden mt-0.5">
               <div id="hudXPBar" class="h-full bg-gradient-to-r from-psycho via-skybeam to-vfin transition-all duration-500" style="width: 45%"></div>
             </div>
           </div>
         </div>
 
         <!-- Sound FX Mute Toggle -->
-        <button id="soundToggleBtn" type="button" class="shrink-0 w-8 h-8 rounded-full bg-slate-900/85 border border-slate-400/15 hover:border-psycho text-xs font-mono text-slate-300 flex items-center justify-center transition" title="Toggle Sound Effects">
+        <button id="soundToggleBtn" type="button" class="shrink-0 w-7 h-7 rounded-full bg-slate-900/85 border border-slate-400/15 hover:border-psycho text-xs font-mono text-slate-300 flex items-center justify-center transition" title="Toggle Sound Effects">
           <span id="soundIcon">🔊</span>
         </button>
 
         <!-- Edit Profile Trigger -->
-        <button id="openDossierBtn" type="button" class="shrink-0 px-2.5 sm:px-3 py-1.5 rounded-full bg-white/10 hover:bg-vfin hover:text-void border border-white/15 font-mono font-semibold text-[11px] text-paper transition">
+        <button id="openDossierBtn" type="button" class="shrink-0 px-2.5 py-1 rounded-full bg-white/10 hover:bg-vfin hover:text-void border border-white/15 font-mono font-semibold text-[10.5px] text-paper transition">
           EDIT
         </button>
       </div>
