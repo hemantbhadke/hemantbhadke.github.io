@@ -78,41 +78,71 @@ class AstralAudioEngine {
     });
   }
 
-  maceImpact() {
-    if (!this.enabled) return;
-    this.init();
-    if (!this.ctx) return;
-    this.tone(55, 'sine', 0.28, 0.14, 25);
-    setTimeout(() => this.tone(1350, 'triangle', 0.18, 0.09, 320), 10);
-    setTimeout(() => this.tone(850, 'sawtooth', 0.12, 0.06, 120), 20);
+  levelUp() {
+    [523.25, 659.25, 783.99, 1046.50, 1318.51].forEach((n, i) => {
+      setTimeout(() => this.tone(n, 'sine', 0.22, 0.06), i * 80);
+    });
   }
 
-  ahabDrone() {
-    if (!this.enabled) return;
+  toggleSpacePad() {
     this.init();
-    if (!this.ctx) return;
-    this.tone(55, 'sine', 0.45, 0.08);
-    this.tone(58, 'triangle', 0.45, 0.07);
-  }
+    if (!this.ctx) return false;
+    if (this.spacePadActive) {
+      this.padNodes.forEach((n) => {
+        try { n.stop && n.stop(); n.disconnect && n.disconnect(); } catch (e) {}
+      });
+      this.padNodes = [];
+      this.spacePadActive = false;
+      return false;
+    }
+    try {
+      const masterGain = this.ctx.createGain();
+      masterGain.gain.setValueAtTime(0.018, this.ctx.currentTime);
+      const filter = this.ctx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(340, this.ctx.currentTime);
 
-  alayaVijnanaSynapse() {
-    if (!this.enabled) return;
-    this.init();
-    if (!this.ctx) return;
-    this.tone(1480, 'sine', 0.14, 0.06, 2960);
-    setTimeout(() => this.tone(2200, 'triangle', 0.16, 0.05, 1100), 50);
-  }
+      const lfo = this.ctx.createOscillator();
+      const lfoGain = this.ctx.createGain();
+      lfo.frequency.setValueAtTime(0.12, this.ctx.currentTime);
+      lfoGain.gain.setValueAtTime(110, this.ctx.currentTime);
+      lfo.connect(lfoGain);
+      lfoGain.connect(filter.frequency);
+      lfo.start();
 
+      filter.connect(masterGain);
+      masterGain.connect(this.ctx.destination);
+
+      const freqs = [65.41, 98.00, 123.47, 146.83, 164.81];
+      freqs.forEach((f, idx) => {
+        const osc = this.ctx.createOscillator();
+        osc.type = idx % 2 === 0 ? 'sine' : 'triangle';
+        osc.frequency.setValueAtTime(f, this.ctx.currentTime);
+        osc.detune.setValueAtTime((idx - 2) * 5, this.ctx.currentTime);
+        osc.connect(filter);
+        osc.start();
+        this.padNodes.push(osc);
+      });
+      this.padNodes.push(lfo, lfoGain, filter, masterGain);
+      this.spacePadActive = true;
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
   toggleIboTheme() {
     this.init();
     if (!this.ctx) return false;
+    if (this.ctx.state === 'suspended') {
+      this.ctx.resume().catch(() => {});
+    }
     if (this.iboThemeActive) {
       this.stopIboTheme();
       return false;
     }
     this.iboThemeActive = true;
 
-    // Frequencies (Hz) for Masaru Yokoyama's IBO Main Theme / 'Crescent Moon' in E minor
+    // Masaru Yokoyama's IBO Main Theme / 'Crescent Moon' in E minor
     const N = {
       E2: 82.41, G2: 98.00, B2: 123.47,
       E3: 164.81, G3: 196.00, A3: 220.00, B3: 246.94, D4: 293.66,
@@ -205,58 +235,6 @@ class AstralAudioEngine {
     }
   }
 
-  levelUp() {
-    [523.25, 659.25, 783.99, 1046.50, 1318.51].forEach((n, i) => {
-      setTimeout(() => this.tone(n, 'sine', 0.22, 0.06), i * 80);
-    });
-  }
-
-  toggleSpacePad() {
-    this.init();
-    if (!this.ctx) return false;
-    if (this.spacePadActive) {
-      this.padNodes.forEach((n) => {
-        try { n.stop && n.stop(); n.disconnect && n.disconnect(); } catch (e) {}
-      });
-      this.padNodes = [];
-      this.spacePadActive = false;
-      return false;
-    }
-    try {
-      const masterGain = this.ctx.createGain();
-      masterGain.gain.setValueAtTime(0.018, this.ctx.currentTime);
-      const filter = this.ctx.createBiquadFilter();
-      filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(340, this.ctx.currentTime);
-
-      const lfo = this.ctx.createOscillator();
-      const lfoGain = this.ctx.createGain();
-      lfo.frequency.setValueAtTime(0.12, this.ctx.currentTime);
-      lfoGain.gain.setValueAtTime(110, this.ctx.currentTime);
-      lfo.connect(lfoGain);
-      lfoGain.connect(filter.frequency);
-      lfo.start();
-
-      filter.connect(masterGain);
-      masterGain.connect(this.ctx.destination);
-
-      const freqs = [65.41, 98.00, 123.47, 146.83, 164.81];
-      freqs.forEach((f, idx) => {
-        const osc = this.ctx.createOscillator();
-        osc.type = idx % 2 === 0 ? 'sine' : 'triangle';
-        osc.frequency.setValueAtTime(f, this.ctx.currentTime);
-        osc.detune.setValueAtTime((idx - 2) * 5, this.ctx.currentTime);
-        osc.connect(filter);
-        osc.start();
-        this.padNodes.push(osc);
-      });
-      this.padNodes.push(lfo, lfoGain, filter, masterGain);
-      this.spacePadActive = true;
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
 }
 
 const sfx = new AstralAudioEngine();
@@ -417,8 +395,8 @@ const STORAGE_KEY_GAME = 'hemantOpsUnlocked_game_v8';
 const DEFAULT_PROFILE = {
   firstName: 'Hemant',
   lastName: 'Bhadke',
-  callsign: 'HB-08 // TEKKADAN-OPS',
-  role: 'DevOps / Platform Engineer · Tekkadan Fleet SRE · Calamity-Proof Infrastructure',
+  callsign: 'HB-01 // EFSF-OPS',
+  role: 'DevOps / DevSecOps Engineer · CI/CD · IaC · SRE',
   location: 'Maharashtra, India',
   bio: 'DevOps and DevSecOps engineer with 4+ years at Infosys across CI/CD, GitOps, Terraform and SRE-grade observability. Cut MTTR 60% and pipeline failures 40%, with 100% zero-downtime deployments for Ricoh and Siemens Energy. Off the clock: tactical games, Gundam builds, Linux wargames and ESP32 soldering.',
   linkedin: 'https://www.linkedin.com/in/hemantrbhadke',
@@ -888,18 +866,6 @@ function initGundamWorkbench() {
     };
   }
 
-  // IBO Soundtrack Toggle
-  const iboThemeBtn = document.getElementById('iboThemeBtn');
-  const iboThemeStatus = document.getElementById('iboThemeStatus');
-  if (iboThemeBtn && iboThemeStatus) {
-    iboThemeBtn.onclick = () => {
-      const active = sfx.toggleIboTheme();
-      iboThemeStatus.textContent = active ? 'ON' : 'OFF';
-      iboThemeStatus.className = active ? 'text-rose-400 font-bold' : 'text-slate-400 font-bold';
-      showToast(active ? 'OST // GUNDAM IBO: CRESCENT MOON ENGAGED' : 'OST // IBO THEME MUTED');
-    };
-  }
-
   // Space Synth Ambient Pad
   const spaceSynthBtn = document.getElementById('spaceSynthBtn');
   const spaceSynthStatus = document.getElementById('spaceSynthStatus');
@@ -909,6 +875,17 @@ function initGundamWorkbench() {
       spaceSynthStatus.textContent = active ? 'ON' : 'OFF';
       spaceSynthStatus.className = active ? 'text-vfin font-bold' : 'psycho-text';
       showToast(active ? 'AUDIO // COSMIC SYNTH PAD ENGAGED' : 'AUDIO // SYNTH PAD MUTED');
+    };
+  }
+
+  const iboThemeBtn = document.getElementById('iboThemeBtn');
+  const iboThemeStatus = document.getElementById('iboThemeStatus');
+  if (iboThemeBtn && iboThemeStatus) {
+    iboThemeBtn.onclick = () => {
+      const active = sfx.toggleIboTheme();
+      iboThemeStatus.textContent = active ? 'ON' : 'OFF';
+      iboThemeStatus.className = active ? 'text-vfin font-bold' : 'psycho-text';
+      showToast(active ? 'OST // GUNDAM IBO: CRESCENT MOON ENGAGED' : 'OST // IBO THEME MUTED');
     };
   }
 
@@ -928,9 +905,9 @@ function initGundamWorkbench() {
    ------------------------------------------------------------------------- */
 const ARMORY_DATA = {
   'gn-drive': {
-    code: 'TWIN AHAB REACTORS // ASW-G-08',
-    title: 'KUBERNETES (EKS/AKS), DOCKER & HELM CHARTS',
-    sub: 'SUBSYSTEM: "DUAL-PHASE CALAMITY WAR ENERGY & SELF-HEALING FLEETS"',
+    code: 'CORE REACTOR // GN-DRIVE',
+    title: 'KUBERNETES, EKS/AKS, DOCKER & HELM',
+    sub: 'SUBSYSTEM: "CONTAINER ORCHESTRATION & SELF-HEALING WORKLOADS"',
     power: '990',
     desc: 'Running production microservices across AWS EKS and Azure AKS. Multi-stage Docker packaging, Helm 3 charts, tuned liveness/readiness probes to eliminate 502/503 zero-downtime rolling updates, and custom HPA metric scaling.',
     fieldNote: '"90% of \'random\' Kubernetes crashes I\'ve debugged came down to two things: missing memory limits causing silent OOMKills, or a readinessProbe hitting an endpoint that queries the DB on every health check."',
@@ -1277,10 +1254,10 @@ function initFunnelGame() {
       sfx.tone(600, 'sine', 0.25, 0.08, 900);
       showToast('ABILITY // I-FIELD WAF SHIELD ACTIVE (+25% HP)');
     } else if (slot === 3) {
-      // Barbatos Giant Mace Crush (60 EN)
+      // High-Mega Cannon (60 EN)
       if (gnEnergy < 60) { sfx.warning(); return; }
       gnEnergy -= 60;
-      sfx.maceImpact();
+      sfx.explosion();
       enemies.forEach(e => {
         e.hp = 0;
         spawnExplosion(e.x, e.y, e.color, 16);
@@ -1289,14 +1266,13 @@ function initFunnelGame() {
       enemies.length = 0;
       showToast('ABILITY // HIGH-MEGA CANNON: SCREEN PURGE');
     } else if (slot === 4) {
-      // Alaya-Vijnana Limiter Release (80 EN)
+      // Trans-Am Overclock (80 EN)
       if (gnEnergy < 80) { sfx.warning(); return; }
       gnEnergy -= 80;
       transAmTimer = 360;
-      sfx.alayaVijnanaSynapse();
       sfx.ntdAwaken();
-      addXP(100, 'Alaya-Vijnana Limiter Released');
-      showToast('ABILITY // 阿頼耶識リミッター解除 (ALAYA-VIJNANA LIMITER RELEASE)');
+      addXP(100, 'Trans-Am Overdrive in Combat');
+      showToast('ABILITY // TRANS-AM OVERCLOCK ENGAGED');
     }
   }
 
@@ -1332,83 +1308,38 @@ function initFunnelGame() {
     ctx.fillStyle = '#040711';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Draw Tekkadan Armored Assault Cruiser ISARIBI (漁火)
+    // Draw central Production Kubernetes Core
     ctx.save();
     ctx.translate(cx, cy);
 
-    // Nano-Laminate Shield Lattice
+    // Shield Aura
     if (shieldTimer > 0) {
       ctx.beginPath();
-      ctx.arc(0, 0, 52, 0, Math.PI * 2);
-      ctx.strokeStyle = '#e11d48';
-      ctx.lineWidth = 3.5;
-      ctx.shadowColor = '#f43f5e';
-      ctx.shadowBlur = 20;
-      ctx.stroke();
-      ctx.strokeStyle = '#f59e0b';
-      ctx.lineWidth = 1.5;
+      ctx.arc(0, 0, 48, 0, Math.PI * 2);
+      ctx.strokeStyle = '#10b981';
+      ctx.lineWidth = 3;
+      ctx.shadowColor = '#10b981';
+      ctx.shadowBlur = 18;
       ctx.stroke();
     }
 
-    // ISARIBI Wedge Armor Hull
+    // Core body
     ctx.beginPath();
-    ctx.moveTo(0, -28); // prow beak
-    ctx.lineTo(16, -12);
-    ctx.lineTo(20, 14);
-    ctx.lineTo(15, 26);
-    ctx.lineTo(-15, 26);
-    ctx.lineTo(-20, 14);
-    ctx.lineTo(-16, -12);
-    ctx.closePath();
-    ctx.fillStyle = transAmTimer > 0 ? '#1e1b4b' : '#0f172a';
+    ctx.arc(0, 0, 26, 0, Math.PI * 2);
+    ctx.fillStyle = transAmTimer > 0 ? '#f43f5e' : '#0d1322';
+    ctx.strokeStyle = transAmTimer > 0 ? '#f59e0b' : '#38bdf8';
+    ctx.lineWidth = 2.5;
+    ctx.shadowBlur = 12;
+    ctx.shadowColor = transAmTimer > 0 ? '#f43f5e' : '#38bdf8';
     ctx.fill();
-    ctx.strokeStyle = transAmTimer > 0 ? '#f43f5e' : '#475569';
-    ctx.lineWidth = 2;
     ctx.stroke();
-
-    // Red Armored Ramming Prow
-    ctx.beginPath();
-    ctx.moveTo(0, -28);
-    ctx.lineTo(8, -14);
-    ctx.lineTo(0, -8);
-    ctx.lineTo(-8, -14);
-    ctx.closePath();
-    ctx.fillStyle = '#e11d48';
-    ctx.fill();
-
-    // Armored Bridge Tower (Cyan Window Slit)
-    ctx.fillStyle = '#38bdf8';
-    ctx.fillRect(-6, -6, 12, 4);
-
-    // Tekkadan Iron Flower Crest on Main Deck
-    ctx.beginPath();
-    ctx.arc(0, 7, 4.5, 0, Math.PI * 2);
-    ctx.fillStyle = '#e11d48';
-    ctx.fill();
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(-1.5, 5.5, 3, 3);
-
-    // Twin Ahab Reactor Exhaust Plumes
-    const plume = 12 + Math.random() * 8;
-    ctx.fillStyle = transAmTimer > 0 ? 'rgba(244, 63, 94, 0.85)' : 'rgba(56, 189, 248, 0.85)';
-    ctx.beginPath();
-    ctx.moveTo(-10, 26);
-    ctx.lineTo(-6, 26 + plume);
-    ctx.lineTo(-2, 26);
-    ctx.closePath();
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.moveTo(2, 26);
-    ctx.lineTo(6, 26 + plume);
-    ctx.lineTo(10, 26);
-    ctx.closePath();
-    ctx.fill();
+    ctx.shadowBlur = 0;
 
     ctx.fillStyle = '#f1f5f9';
-    ctx.font = 'bold 8px "JetBrains Mono"';
+    ctx.font = 'bold 9px "JetBrains Mono"';
     ctx.textAlign = 'center';
-    ctx.fillText('ISARIBI', 0, 19);
+    ctx.textBaseline = 'middle';
+    ctx.fillText('CORE', 0, 0);
 
     // Update & draw 6 Fin Funnels
     const rotSpeed = transAmTimer > 0 ? 0.05 : 0.025;
@@ -2520,26 +2451,24 @@ function initGlobalTerminal() {
       const cmd = val.toLowerCase();
 
       switch (cmd) {
+        case 'help':
+          appendOutput('COMMANDS: whoami, skills, experience, projects, certs, hr, game, contact, hire, ibo, ost, clear, exit');
+          break;
         case 'ibo':
         case 'tekkadan':
           sfx.uiChime();
-          appendOutput('🌺 TEKKADAN (鉄華団) // MARS EXPEDITION BRIGADE', 'text-rose-400 font-bold');
-          appendOutput('"Our road never ends. As long as you don't stop, I'll be waiting for you beyond the horizon." — Orga Itsuka');
-          appendOutput('Flagship: Armored Assault Cruiser ISARIBI (漁火)');
-          appendOutput('Mobile Suit: ASW-G-08 Gundam Barbatos (Alaya-Vijnana Synapse: Active)');
+          appendOutput('🌺 TEKKADAN // IRON-BLOODED ORPHANS SUITE', 'text-vfin font-bold');
+          appendOutput("\"Our road never ends. As long as you don't stop, I'll be waiting for you beyond the horizon.\" — Orga Itsuka");
+          appendOutput('Mobile Suit: ASW-G-08 Gundam Barbatos · Twin Ahab Reactors · Alaya-Vijnana Synapse');
           break;
         case 'barbatos':
-          sfx.maceImpact();
+          sfx.beamRifle();
           appendOutput('ASW-G-08 GUNDAM BARBATOS (72 Calamity War Gundam Frames)', 'psycho-text font-bold');
-          appendOutput('Reactors: Twin Ahab Reactors (Dual-Phase Zero-Interference Sync)');
-          appendOutput('Armor: Nano-Laminate Armor (Kinetic & Beam Dissipation Lattice)');
-          appendOutput('Armaments: Giant Iron Mace, 300mm Smoothbore Cannon, 200mm Arm Mortar');
-          appendOutput('Pilot: Mikazuki Augus · Alaya-Vijnana Neural Interface');
+          appendOutput('Reactors: Twin Ahab Reactors · Armor: Nano-Laminate Armor · Armament: Giant Mace');
           break;
         case 'isaribi':
-          appendOutput('TEKKADAN ARMORED CRUISER ISARIBI (漁火)', 'text-skybeam font-bold');
-          appendOutput('Former CGS vessel "Will-O'-the-Wisp" upgraded by Teiwaz engineers.');
-          appendOutput('Features heavy armored prow for kinetic ramming, smoke screen dischargers, and deck cannons.');
+          appendOutput('TEKKADAN ARMORED CRUISER ISARIBI', 'text-skybeam font-bold');
+          appendOutput('Upgraded Teiwaz assault cruiser with heavy armored prow and deck kinetic cannons.');
           break;
         case 'ost':
         case 'music':
@@ -2547,12 +2476,9 @@ function initGlobalTerminal() {
           const ostStatusEl = document.getElementById('iboThemeStatus');
           if (ostStatusEl) {
             ostStatusEl.textContent = activeOst ? 'ON' : 'OFF';
-            ostStatusEl.className = activeOst ? 'text-rose-400 font-bold' : 'text-slate-400 font-bold';
+            ostStatusEl.className = activeOst ? 'text-vfin font-bold' : 'psycho-text';
           }
-          appendOutput(activeOst ? '♫ Mobile Suit Gundam: Iron-Blooded Orphans OST ("Crescent Moon") ENGAGED' : '♫ IBO Soundtrack STOPPED', 'text-rose-400 font-bold');
-          break;
-        case 'help':
-          appendOutput('COMMANDS: whoami, skills, experience, projects, certs, hr, game, contact, hire, clear, exit');
+          appendOutput(activeOst ? '♫ Gundam IBO OST (\"Crescent Moon\") ENGAGED' : '♫ IBO Soundtrack STOPPED', 'text-vfin font-bold');
           break;
         case 'whoami':
           appendOutput(`${profile.firstName} ${profile.lastName} (${profile.callsign})`);
@@ -2623,8 +2549,8 @@ const HX_BASE = (document.querySelector('meta[name="ops-api"]') || {}).content |
 function getLocalLeaderboard() {
   const visitors = [
     { handle: state.flags.handle || 'PILOT-HB', xp: Math.max(state.xp || 450, 1250), updated: Date.now() },
-    { handle: 'MIKAZUKI-08', xp: 2450, updated: Date.now() - 3600000 },
-    { handle: 'ORGA-TEKKADAN', xp: 1980, updated: Date.now() - 7200000 },
+    { handle: 'AMURO-RAY', xp: 2450, updated: Date.now() - 3600000 },
+    { handle: 'BANAGHER-LINKS', xp: 1980, updated: Date.now() - 7200000 },
     { handle: 'EFSF-ADMIRAL', xp: 1420, updated: Date.now() - 14400000 },
     { handle: 'K8S-OPERATOR', xp: 950, updated: Date.now() - 28800000 },
     { handle: 'SRE-SENTINEL', xp: 720, updated: Date.now() - 43200000 }
@@ -2976,7 +2902,7 @@ function hxWire() {
   state = structuredClone(state);
 
   // 1. Immediately render fallback / default content synchronously
-  //    Guarantees zero blank screen even on file:// protocol or offline
+  //    Guarantees that Experience, Certs, Projects, Skills, HUD, and Vault render immediately
   profile = { ...DEFAULT_PROFILE, ...(profile || {}) };
   hxRecord(DEFAULT_CONTENT);
   renderProfileUI();
