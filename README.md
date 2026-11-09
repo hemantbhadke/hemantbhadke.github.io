@@ -37,10 +37,14 @@ Double-click `public/index.html` in Windows Explorer or open it in Chrome/Edge. 
 | GET /api/leaderboard | top operators by XP |
 | POST /api/contact · GET /api/messages (admin) | contact form → DB, rate-limited 5/h/IP |
 | GET /api/hr-review | recruiter-style 100-pt audit of your live profile |
+| GET /academy/ | DevSecOps Academy (168-Day Interactive Lab Platform) |
 
 Read messages: `curl -H "x-admin-token: $ADMIN_TOKEN" localhost:3000/api/messages`
 Backup DB: `docker compose cp web:/data/portfolio.db ./backup.db`
 Seeded skill levels are self-rated placeholders — set real ones with PUT /api/skills.
+
+## Integrated Flagship Lab
+- **DevSecOps Academy (`/academy/`):** 168-day open-source engineering curriculum with an in-browser virtual terminal simulator, daily micro-projects, and teacher rubrics. Linked directly from the hero, recruiter banner, and flagship project showcase. Source repo: [devops-lerning-site-opensource](https://github.com/hemantbhadke/devops-lerning-site-opensource).
 
 ## Deploy options
 **A. One server (simplest):** `docker compose up -d --build` behind any HTTPS proxy. Everything is same-origin.

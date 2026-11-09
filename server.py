@@ -82,6 +82,12 @@ CONTENT = {
     ],
     "projects": [
         {
+            "name": "DevSecOps Academy (Open Source)",
+            "desc": "168-day hands-on DevSecOps engineering curriculum with interactive in-browser terminal sandbox, step-by-step guided labs, teacher rubrics, and multi-cloud GitOps architecture.",
+            "tags": ["DevSecOps", "Kubernetes", "Docker", "Linux", "Terraform", "AWS", "GitOps", "MLOps"],
+            "url": "https://hemantbhadke.github.io/academy/"
+        },
+        {
             "name": "Azure Landing Zone",
             "desc": "Terraform landing zone: management groups, RBAC, NSG/ASG rules, hub-spoke VNet peering, Traffic Manager, Azure DNS, secrets in Key Vault.",
             "tags": ["Terraform", "Azure", "RBAC", "Key Vault"],

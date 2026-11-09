@@ -611,12 +611,19 @@
         <a href="#funnelGame" class="px-2.5 py-1 rounded-full text-slate-300 hover:text-psycho hover:bg-white/5 transition">03.SORTIE_GAME</a>
         <a href="#bridgeSim" class="px-2.5 py-1 rounded-full text-slate-300 hover:text-vfin hover:bg-white/5 transition">04.WAR_ROOM</a>
         <a href="#clusterLab" class="px-2.5 py-1 rounded-full text-slate-300 hover:text-skybeam hover:bg-white/5 transition">05.K8S_CICD</a>
+        <a href="#academyLab" class="px-2.5 py-1 rounded-full text-amber-400 hover:text-white hover:bg-amber-500/20 transition flex items-center gap-1 font-semibold"><span>⚡</span>ACADEMY</a>
         <a href="#universeMap" class="px-2.5 py-1 rounded-full text-slate-300 hover:text-emerald hover:bg-white/5 transition">06.UNIVERSE</a>
         <button type="button" onclick="document.getElementById('globalTerminalToggleBtn').click()" class="px-2.5 py-1 rounded-full text-psycho hover:text-white hover:bg-psycho/20 transition flex items-center gap-1"><span>⌘</span> OPS-SH</button>
       </nav>
 
       <!-- Right: Compact Controls & Actions (shrink-0, flex-nowrap) -->
       <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <!-- Academy Flagship Pill -->
+        <a href="academy/" target="_blank" class="shrink-0 px-2.5 sm:px-3 py-1.5 rounded-full font-mono text-[11px] font-semibold border border-amber-500/50 bg-amber-500/15 text-amber-300 hover:bg-amber-500 hover:text-void transition flex items-center gap-1.5 shadow-sm shadow-amber-500/20" title="168-Day Open Source DevSecOps Academy & Interactive CLI Sandbox">
+          <span>⚡</span>
+          <span class="hidden sm:inline">ACADEMY</span>
+        </a>
+
         <!-- Recruiter Brief Pill -->
         <button id="recruiterModeBtn" type="button" class="shrink-0 px-2.5 sm:px-3 py-1.5 rounded-full font-mono text-[11px] font-semibold border border-skybeam/50 bg-skybeam/10 text-skybeam hover:bg-skybeam hover:text-void transition flex items-center gap-1.5" title="Switch between Interactive Hangar and 15-Second Recruiter Brief">
           <span>⇄</span>
@@ -686,6 +693,7 @@
         </div>
         <div class="flex flex-wrap items-center gap-2 font-mono text-xs">
           <button id="recruiterPrintBtn" type="button" class="btn-astral-primary px-4 py-2 rounded-xl">⎙ PRINT / SAVE PDF RESUME</button>
+          <a href="academy/" target="_blank" class="btn-astral-secondary px-4 py-2 rounded-xl border-amber-500/50 text-amber-300 hover:bg-amber-500/20 flex items-center gap-1.5 font-bold"><span>⚡</span> 168-DAY DEVSECOPS ACADEMY ↗</a>
           <a href="#dossier" class="btn-astral-secondary px-4 py-2 rounded-xl">JUMP TO FULL TIMELINE ↓</a>
         </div>
       </div>
@@ -770,7 +778,10 @@
 
           <!-- Primary Action CTAs -->
           <div class="flex flex-wrap items-center gap-3 pt-1 no-print">
-            <a href="#funnelGame" class="btn-astral-primary px-5 py-3 rounded-2xl font-mono text-xs tracking-wider uppercase flex items-center gap-2">
+            <a href="academy/" target="_blank" class="btn-astral-primary px-5 py-3 rounded-2xl font-mono text-xs tracking-wider uppercase flex items-center gap-2 border-amber-500/70 bg-gradient-to-r from-amber-500/25 via-orange-500/20 to-amber-500/25 text-amber-300 hover:text-white hover:border-amber-400 shadow-xl shadow-amber-500/15">
+              <span>⚡</span> <span>168-DAY DEVSECOPS ACADEMY LABS</span>
+            </a>
+            <a href="#funnelGame" class="btn-astral-secondary px-4 py-3 rounded-2xl font-mono text-xs tracking-wider uppercase flex items-center gap-2">
               <span>▶ LAUNCH ORBITAL SORTIE GAME</span>
             </a>
             <a href="#clusterLab" class="btn-astral-secondary px-4 py-3 rounded-2xl font-mono text-xs tracking-wider uppercase flex items-center gap-2">
@@ -1786,6 +1797,154 @@
           </div>
         </aside>
 
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- 7.1 SECTION 05.1: OPEN-SOURCE DEVSECOPS ACADEMY & LAB SIMULATOR      -->
+    <!-- =================================================================== -->
+    <section id="academyLab" class="space-y-8 recruiter-priority">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-400/15 pb-5">
+        <div>
+          <div class="flex items-center gap-2 font-mono text-xs text-amber-400 uppercase tracking-widest">
+            <span>05.1 // OPEN SOURCE FLAGSHIP PLATFORM</span>
+            <span class="px-2 py-0.5 rounded-full text-[9px] bg-amber-500/20 text-amber-300 border border-amber-500/40 font-semibold">168-DAY INTENSIVE</span>
+          </div>
+          <h2 class="font-display font-bold text-3xl sm:text-5xl text-paper mt-1 uppercase tracking-tight">
+            DEVSECOPS <span class="text-amber-400">ACADEMY &</span> <span class="psycho-text">VIRTUAL CLI LABS.</span>
+          </h2>
+        </div>
+        <p class="text-slate-400 text-sm max-w-md">
+          A full-stack, browser-based engineering curriculum and CLI simulator created by Hemant Bhadke. Covering Linux, Docker, K8s, GitOps, AWS, Terraform, security scanning, and MLOps.
+        </p>
+      </div>
+
+      <div class="grid lg:grid-cols-12 gap-6 items-stretch">
+        <!-- Flagship Launcher Card -->
+        <div class="lg:col-span-7 astral-panel astral-corners cutting-mat-ticks rounded-3xl p-6 sm:p-8 flex flex-col justify-between border-amber-500/30 bg-gradient-to-br from-obsidian/95 via-slate-950/90 to-obsidian/95 shadow-2xl relative overflow-hidden">
+          <div class="absolute -right-20 -top-20 w-64 h-64 rounded-full bg-amber-500/10 blur-3xl pointer-events-none"></div>
+
+          <div class="space-y-5 relative z-10">
+            <div class="flex items-center justify-between gap-3 flex-wrap">
+              <span class="px-3 py-1 rounded-full font-mono text-xs font-semibold bg-amber-500/15 text-amber-300 border border-amber-500/35 flex items-center gap-1.5">
+                <span>⚡</span> LIVE BROWSER SANDBOX
+              </span>
+              <span class="font-mono text-xs text-slate-400">100% Client-Side · Zero Cloud Costs</span>
+            </div>
+
+            <div>
+              <h3 class="font-display font-bold text-2xl sm:text-3xl text-paper">
+                From Zero to Production-Ready DevSecOps Engineer
+              </h3>
+              <p class="text-slate-300 text-sm leading-relaxed mt-2">
+                168 daily real-world micro-projects with step-by-step guidance, instructor rubrics, failure analysis, and a built-in multi-tool terminal sandbox that simulates commands across Linux, Docker, Kubernetes, Helm, Istio, Terraform, AWS, Azure, Trivy, Semgrep, and MLOps.
+              </p>
+            </div>
+
+            <!-- Key Metric Counters -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+              <div class="p-3 rounded-2xl bg-slate-900/80 border border-slate-700/60 text-center">
+                <div class="font-display font-black text-2xl sm:text-3xl text-amber-400">168</div>
+                <div class="font-mono text-[10px] text-slate-400 mt-0.5">DAILY TASKS</div>
+              </div>
+              <div class="p-3 rounded-2xl bg-slate-900/80 border border-slate-700/60 text-center">
+                <div class="font-display font-black text-2xl sm:text-3xl text-skybeam">10</div>
+                <div class="font-mono text-[10px] text-slate-400 mt-0.5">TECH TRACKS</div>
+              </div>
+              <div class="p-3 rounded-2xl bg-slate-900/80 border border-slate-700/60 text-center">
+                <div class="font-display font-black text-2xl sm:text-3xl text-emerald">6</div>
+                <div class="font-mono text-[10px] text-slate-400 mt-0.5">MILESTONE MONTHS</div>
+              </div>
+              <div class="p-3 rounded-2xl bg-slate-900/80 border border-slate-700/60 text-center">
+                <div class="font-display font-black text-2xl sm:text-3xl text-vfin">100%</div>
+                <div class="font-mono text-[10px] text-slate-400 mt-0.5">IN-BROWSER CLI</div>
+              </div>
+            </div>
+
+            <!-- Interactive Features Pills -->
+            <div class="flex flex-wrap gap-2 pt-1 font-mono text-[11px]">
+              <span class="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700 text-slate-200">✓ In-Memory Virtual Filesystem</span>
+              <span class="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700 text-slate-200">✓ 1-Click Command Copy</span>
+              <span class="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700 text-slate-200">✓ LocalStorage Progress Sync</span>
+              <span class="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700 text-slate-200">✓ Instant Guest Mode</span>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-wrap items-center gap-3 pt-6 border-t border-slate-400/15 mt-6 relative z-10">
+            <a href="academy/" target="_blank" class="btn-astral-primary px-6 py-3 rounded-2xl font-mono text-xs tracking-wider uppercase flex items-center gap-2 border-amber-500/70 bg-gradient-to-r from-amber-500/30 to-orange-500/30 text-amber-300 hover:text-white hover:border-amber-400 shadow-xl shadow-amber-500/20">
+              <span>⚡</span> <span>LAUNCH DEVSECOPS ACADEMY (/academy/) ↗</span>
+            </a>
+            <a href="https://github.com/hemantbhadke/devops-lerning-site-opensource" target="_blank" rel="noopener" class="btn-astral-secondary px-5 py-3 rounded-2xl font-mono text-xs tracking-wider uppercase flex items-center gap-2 border-slate-600 text-slate-200 hover:text-white">
+              <span>🐙</span> <span>GITHUB REPO ↗</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- 6-Month Roadmap & Tech Tracks Card -->
+        <div class="lg:col-span-5 astral-panel rounded-3xl p-6 sm:p-7 flex flex-col justify-between border-slate-400/15 bg-slate-950/70 space-y-4">
+          <div>
+            <div class="flex items-center justify-between border-b border-slate-400/15 pb-3 mb-4">
+              <span class="font-mono text-xs text-skybeam uppercase tracking-widest font-bold">CURRICULUM ARCHITECTURE</span>
+              <span class="font-mono text-[10px] text-slate-400">168 DAYS ROADMAP</span>
+            </div>
+
+            <div class="space-y-2.5 font-mono text-xs">
+              <div class="p-2.5 rounded-xl bg-slate-900/70 border border-slate-800 flex items-start gap-3">
+                <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold text-[10px] shrink-0 mt-0.5">M1</span>
+                <div>
+                  <strong class="text-paper text-xs block">Foundations (Days 1–28)</strong>
+                  <span class="text-slate-400 text-[11px] block mt-0.5">Linux core, permissions, systemd, bash pipelines, GitFlow, GitHub Actions, AWS fundamentals</span>
+                </div>
+              </div>
+
+              <div class="p-2.5 rounded-xl bg-slate-900/70 border border-slate-800 flex items-start gap-3">
+                <span class="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-bold text-[10px] shrink-0 mt-0.5">M2</span>
+                <div>
+                  <strong class="text-paper text-xs block">Containers & Orchestration (Days 29–56)</strong>
+                  <span class="text-slate-400 text-[11px] block mt-0.5">Docker multi-stage, non-root security, Podman, Compose, Kubernetes Pods, Deployments, Services, Helm</span>
+                </div>
+              </div>
+
+              <div class="p-2.5 rounded-xl bg-slate-900/70 border border-slate-800 flex items-start gap-3">
+                <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold text-[10px] shrink-0 mt-0.5">M3</span>
+                <div>
+                  <strong class="text-paper text-xs block">Production Kubernetes & GitOps (Days 57–84)</strong>
+                  <span class="text-slate-400 text-[11px] block mt-0.5">ArgoCD, Argo Rollouts canary, AWS EKS, IRSA, Karpenter, Kyverno, Istio service mesh, mTLS</span>
+                </div>
+              </div>
+
+              <div class="p-2.5 rounded-xl bg-slate-900/70 border border-slate-800 flex items-start gap-3">
+                <span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-bold text-[10px] shrink-0 mt-0.5">M4</span>
+                <div>
+                  <strong class="text-paper text-xs block">DevSecOps Core (Days 85–112)</strong>
+                  <span class="text-slate-400 text-[11px] block mt-0.5">Shift-left STRIDE threat modeling, Semgrep SAST, Trivy/Snyk SCA, Cosign SLSA supply chain, CSPM Prowler</span>
+                </div>
+              </div>
+
+              <div class="p-2.5 rounded-xl bg-slate-900/70 border border-slate-800 flex items-start gap-3">
+                <span class="px-2 py-0.5 rounded bg-violet-500/20 text-violet-300 font-bold text-[10px] shrink-0 mt-0.5">M5</span>
+                <div>
+                  <strong class="text-paper text-xs block">Observability & SRE (Days 113–140)</strong>
+                  <span class="text-slate-400 text-[11px] block mt-0.5">Prometheus PromQL, Grafana, Alertmanager, OpenTelemetry, Jaeger distributed tracing, Chaos Mesh, SLOs</span>
+                </div>
+              </div>
+
+              <div class="p-2.5 rounded-xl bg-slate-900/70 border border-slate-800 flex items-start gap-3">
+                <span class="px-2 py-0.5 rounded bg-amber-500/20 text-vfin font-bold text-[10px] shrink-0 mt-0.5">M6</span>
+                <div>
+                  <strong class="text-paper text-xs block">Platform Engineering & Capstone (Days 141–168)</strong>
+                  <span class="text-slate-400 text-[11px] block mt-0.5">MLOps with MLflow/KubeFlow, Backstage IDP golden paths, Crossplane, Final Production DevSecOps Platform</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-slate-400/15 flex items-center justify-between text-[11px] font-mono text-slate-400">
+            <span>Built by Hemant Bhadke</span>
+            <a href="academy/" target="_blank" class="text-amber-400 hover:underline flex items-center gap-1 font-bold">Launch Academy ⚡</a>
+          </div>
+        </div>
       </div>
     </section>
 

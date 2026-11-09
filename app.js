@@ -580,6 +580,21 @@ const DEFAULT_CONTENT = {
   ],
   "projects": [
     {
+      "name": "DevSecOps Academy (Open Source)",
+      "desc": "168-day hands-on DevSecOps engineering curriculum with interactive in-browser terminal sandbox, step-by-step guided labs, teacher rubrics, and multi-cloud GitOps architecture.",
+      "tags": [
+        "DevSecOps",
+        "Kubernetes",
+        "Docker",
+        "Linux",
+        "Terraform",
+        "AWS",
+        "GitOps",
+        "MLOps"
+      ],
+      "url": "https://hemantbhadke.github.io/academy/"
+    },
+    {
       "name": "Azure Landing Zone",
       "desc": "Terraform landing zone: management groups, RBAC, NSG/ASG rules, hub-spoke VNet peering, Traffic Manager, Azure DNS, secrets in Key Vault.",
       "tags": [
@@ -2452,7 +2467,12 @@ function initGlobalTerminal() {
 
       switch (cmd) {
         case 'help':
-          appendOutput('COMMANDS: whoami, skills, experience, projects, certs, hr, game, contact, hire, ibo, ost, clear, exit');
+          appendOutput('COMMANDS: whoami, skills, experience, projects, certs, academy, hr, game, contact, hire, ibo, ost, clear, exit');
+          break;
+        case 'academy':
+        case 'learn':
+          appendOutput('⚡ Opening DevSecOps Academy (168-Day Roadmap & Lab Simulator)...', 'text-amber-400 font-bold');
+          window.open('academy/', '_blank');
           break;
         case 'ibo':
         case 'tekkadan':
@@ -2493,6 +2513,7 @@ function initGlobalTerminal() {
           appendOutput('2. Cloud DevOps Engineer · Infosys (Siemens Energy) [2022-06 → 2023-06]');
           break;
         case 'projects':
+          appendOutput('⚡ DevSecOps Academy (168-Day Open Source Hands-On Lab) -> /academy/');
           appendOutput('• Azure Landing Zone (Terraform, Hub-Spoke, RBAC, Key Vault)');
           appendOutput('• Disaster Recovery Automation (Lambda, CloudWatch, S3)');
           appendOutput('• Self-Service Portal (Jenkins, Terraform, AWS)');

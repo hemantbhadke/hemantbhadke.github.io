@@ -47,6 +47,7 @@ const CONTENT = {
     { issuer: 'Infosys', name: 'Kubernetes Administrator, Associate', issued: '2024' },
     { issuer: 'Infosys', name: 'Ansible Automation Associate', issued: '2024' }],
   projects: [
+    { name: 'DevSecOps Academy (Open Source)', desc: '168-day hands-on DevSecOps engineering curriculum with interactive in-browser terminal sandbox, step-by-step guided labs, teacher rubrics, and multi-cloud GitOps architecture.', tags: ['DevSecOps', 'Kubernetes', 'Docker', 'Linux', 'Terraform', 'AWS', 'GitOps', 'MLOps'], url: 'https://hemantbhadke.github.io/academy/' },
     { name: 'Azure Landing Zone', desc: 'Terraform landing zone: management groups, RBAC, NSG/ASG rules, hub-spoke VNet peering, Traffic Manager, Azure DNS, secrets in Key Vault.', tags: ['Terraform', 'Azure', 'RBAC', 'Key Vault'], url: null },
     { name: 'Disaster Recovery Automation', desc: 'Automated AMI snapshots and S3 archiving with Lambda and CloudWatch Events: 50% lower RTO.', tags: ['Lambda', 'CloudWatch', 'S3'], url: null },
     { name: 'Self-Service Portal', desc: 'Jenkins + Terraform portal so developers provision isolated AWS environments on demand.', tags: ['Jenkins', 'Terraform', 'AWS'], url: null },
