@@ -426,6 +426,278 @@ const DEFAULT_PROFILE = {
   email: 'hemantrbhadke@gmail.com'
 };
 
+
+const DEFAULT_CONTENT = {
+  "profile": {
+    "firstName": "Hemant",
+    "lastName": "Bhadke",
+    "callsign": "HB-01 // EFSF-OPS",
+    "role": "DevOps / DevSecOps Engineer \u00b7 CI/CD \u00b7 IaC \u00b7 SRE",
+    "location": "Maharashtra, India",
+    "bio": "DevOps and DevSecOps engineer with 4+ years at Infosys across CI/CD, GitOps, Terraform and SRE-grade observability. Cut MTTR 60% and pipeline failures 40%, with 100% zero-downtime deployments for Ricoh and Siemens Energy. Off the clock: tactical games, Gundam builds, Linux wargames and ESP32 soldering.",
+    "linkedin": "https://www.linkedin.com/in/hemantrbhadke",
+    "github": "https://github.com/hemantbhadke",
+    "email": "hemantrbhadke@gmail.com"
+  },
+  "skills": [
+    {
+      "name": "AWS",
+      "cat": "cloud",
+      "level": 4
+    },
+    {
+      "name": "Azure",
+      "cat": "cloud",
+      "level": 4
+    },
+    {
+      "name": "Bash",
+      "cat": "scripting",
+      "level": 4
+    },
+    {
+      "name": "Docker",
+      "cat": "containers",
+      "level": 4
+    },
+    {
+      "name": "Grafana",
+      "cat": "observability",
+      "level": 4
+    },
+    {
+      "name": "Linux",
+      "cat": "scripting",
+      "level": 4
+    },
+    {
+      "name": "Nagios",
+      "cat": "observability",
+      "level": 4
+    },
+    {
+      "name": "Prometheus",
+      "cat": "observability",
+      "level": 4
+    },
+    {
+      "name": "Terraform",
+      "cat": "iac",
+      "level": 4
+    },
+    {
+      "name": "Ansible",
+      "cat": "iac",
+      "level": 3
+    },
+    {
+      "name": "ArgoCD",
+      "cat": "cicd",
+      "level": 3
+    },
+    {
+      "name": "Datadog",
+      "cat": "observability",
+      "level": 3
+    },
+    {
+      "name": "ELK",
+      "cat": "observability",
+      "level": 3
+    },
+    {
+      "name": "GCP",
+      "cat": "cloud",
+      "level": 3
+    },
+    {
+      "name": "GitHub Actions",
+      "cat": "cicd",
+      "level": 3
+    },
+    {
+      "name": "IAM \u00b7 KMS \u00b7 RBAC",
+      "cat": "security",
+      "level": 3
+    },
+    {
+      "name": "Jenkins",
+      "cat": "cicd",
+      "level": 3
+    },
+    {
+      "name": "Kubernetes",
+      "cat": "containers",
+      "level": 3
+    },
+    {
+      "name": "Oracle Cloud",
+      "cat": "cloud",
+      "level": 3
+    },
+    {
+      "name": "Python",
+      "cat": "scripting",
+      "level": 3
+    },
+    {
+      "name": "Splunk",
+      "cat": "observability",
+      "level": 3
+    },
+    {
+      "name": "Istio",
+      "cat": "containers",
+      "level": 2
+    }
+  ],
+  "experience": [
+    {
+      "role": "Cloud DevOps Engineer",
+      "org": "Infosys \u00b7 client Ricoh",
+      "period": "2023-07 \u2192 present",
+      "bullets": [
+        "Rebuilt release pipelines around Jenkins, GitHub Actions and ArgoCD (GitOps): zero-downtime deploys on EKS/AKS",
+        "Replaced manual provisioning with Terraform and Ansible across AWS/Azure, cutting pipeline failures 40%",
+        "Closed monitoring gaps with Prometheus, Grafana and Datadog: observability coverage up 35%",
+        "Folded least-privilege IAM, KMS encryption and Azure RBAC into CI/CD",
+        "On-call for P1/P2 incidents; led RCA and change management under ITIL",
+        "Mentored junior engineers on IaC and Python/Bash: team delivery output up 25%"
+      ]
+    },
+    {
+      "role": "Cloud DevOps Engineer",
+      "org": "Infosys \u00b7 client Siemens Energy",
+      "period": "2022-06 \u2192 2023-06",
+      "bullets": [
+        "Cut MTTR 60% with end-to-end Nagios monitoring and Python/Bash alert automation",
+        "Raised SLA adherence and uptime 30% via tuned thresholds and Grafana/Splunk dashboards",
+        "Built production networking on AWS/Azure: VPC, load balancers, DNS, firewall rules",
+        "Rolled out Istio service mesh on EKS/AKS for routing, mTLS and policy-based access",
+        "Embedded IAM, RBAC and KMS checks directly in the CI/CD pipeline"
+      ]
+    }
+  ],
+  "certs": [
+    {
+      "issuer": "Oracle",
+      "name": "Cloud Infrastructure 2025 DevOps Professional",
+      "issued": "2025-09"
+    },
+    {
+      "issuer": "Red Hat",
+      "name": "Linux Fundamentals (RH104)",
+      "issued": "2025-09"
+    },
+    {
+      "issuer": "Infosys",
+      "name": "Kubernetes Administrator, Associate",
+      "issued": "2024"
+    },
+    {
+      "issuer": "Infosys",
+      "name": "Ansible Automation Associate",
+      "issued": "2024"
+    }
+  ],
+  "projects": [
+    {
+      "name": "Azure Landing Zone",
+      "desc": "Terraform landing zone: management groups, RBAC, NSG/ASG rules, hub-spoke VNet peering, Traffic Manager, Azure DNS, secrets in Key Vault.",
+      "tags": [
+        "Terraform",
+        "Azure",
+        "RBAC",
+        "Key Vault"
+      ],
+      "url": null
+    },
+    {
+      "name": "Disaster Recovery Automation",
+      "desc": "Automated AMI snapshots and S3 archiving with Lambda and CloudWatch Events: 50% lower RTO.",
+      "tags": [
+        "Lambda",
+        "CloudWatch",
+        "S3"
+      ],
+      "url": null
+    },
+    {
+      "name": "Self-Service Portal",
+      "desc": "Jenkins + Terraform portal so developers provision isolated AWS environments on demand.",
+      "tags": [
+        "Jenkins",
+        "Terraform",
+        "AWS"
+      ],
+      "url": null
+    },
+    {
+      "name": "Enterprise Monitoring",
+      "desc": "Nagios monitoring across prod and staging with custom service checks and automated alerting.",
+      "tags": [
+        "Nagios",
+        "Bash",
+        "Alerting"
+      ],
+      "url": null
+    }
+  ]
+};
+
+const DEFAULT_HR_REVIEW = {
+  "score": 92,
+  "verdict": "SHORTLIST \u2014 book the interview",
+  "sections": [
+    {
+      "name": "Positioning",
+      "max": 20,
+      "score": 20
+    },
+    {
+      "name": "Breadth",
+      "max": 25,
+      "score": 25
+    },
+    {
+      "name": "Depth",
+      "max": 20,
+      "score": 16
+    },
+    {
+      "name": "Proof of work",
+      "max": 20,
+      "score": 16
+    },
+    {
+      "name": "Differentiators",
+      "max": 15,
+      "score": 15
+    }
+  ],
+  "strengths": [
+    "Bio contains measurable impact.",
+    "Covers every core DevOps category.",
+    "Top-5 skills average 4.0/5 (self-rated).",
+    "5 experience bullets carry measurable results.",
+    "4 certifications listed.",
+    "A playable, interactive portfolio shows initiative and product sense.",
+    "Observability experience is in demand for SRE roles."
+  ],
+  "gaps": [
+    "Projects have no public links, so a recruiter cannot verify them."
+  ],
+  "actions": [
+    "Publish sanitized versions of your top 2 projects as GitHub repos and link them.",
+    "Skill levels are self-rated: attach a repo, cert or metric to your top 5 skills."
+  ],
+  "questions": [
+    "Walk me through a production incident where AWS was central. What did you change afterwards?",
+    "Walk me through a production incident where Azure was central. What did you change afterwards?",
+    "Walk me through a production incident where Bash was central. What did you change afterwards?"
+  ]
+};
+
 const DEFAULT_GAME = {
   xp: 450,
   highScore: 0,
@@ -2348,9 +2620,48 @@ const hxEsc = s => String(s).replace(/[&<>"']/g, c => '&#' + c.charCodeAt(0) + '
 const hxUuid = () => (crypto.randomUUID ? crypto.randomUUID() : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => { const r = Math.random() * 16 | 0; return (c === 'x' ? r : (r & 3 | 8)).toString(16); }));
 const HX_BASE = (document.querySelector('meta[name="ops-api"]') || {}).content || '';
 
-const hxApi = (p, o = {}) => fetch(HX_BASE + '/api' + p, { ...o, headers: { 'content-type': 'application/json', ...(o.headers || {}) } })
-  .then(r => r.ok ? r.json() : Promise.reject(r))
-  .catch(e => (!o.method || o.method === 'GET') && /^\/(profile|hr-review)$/.test(p) ? fetch('data' + p + '.json').then(r => r.ok ? r.json() : Promise.reject(e)) : Promise.reject(e));
+function getLocalLeaderboard() {
+  const visitors = [
+    { handle: state.flags.handle || 'PILOT-HB', xp: Math.max(state.xp || 450, 1250), updated: Date.now() },
+    { handle: 'MIKAZUKI-08', xp: 2450, updated: Date.now() - 3600000 },
+    { handle: 'ORGA-TEKKADAN', xp: 1980, updated: Date.now() - 7200000 },
+    { handle: 'EFSF-ADMIRAL', xp: 1420, updated: Date.now() - 14400000 },
+    { handle: 'K8S-OPERATOR', xp: 950, updated: Date.now() - 28800000 },
+    { handle: 'SRE-SENTINEL', xp: 720, updated: Date.now() - 43200000 }
+  ];
+  visitors.sort((a, b) => b.xp - a.xp);
+  return visitors;
+}
+
+const hxApi = (p, o = {}) => {
+  if (window.location.protocol === 'file:') {
+    if (p === '/profile') return Promise.resolve(DEFAULT_CONTENT);
+    if (p === '/hr-review') return Promise.resolve(DEFAULT_HR_REVIEW);
+    if (p.startsWith('/state/')) return Promise.resolve({ ok: true, state });
+    if (p === '/leaderboard') return Promise.resolve(getLocalLeaderboard());
+    return Promise.resolve({ ok: true });
+  }
+
+  return fetch(HX_BASE + '/api' + p, { ...o, headers: { 'content-type': 'application/json', ...(o.headers || {}) } })
+    .then(r => r.ok ? r.json() : Promise.reject(r))
+    .catch(e => {
+      if ((!o.method || o.method === 'GET') && /^\/(profile|hr-review)$/.test(p)) {
+        return fetch('data' + p + '.json')
+          .then(r => r.ok ? r.json() : Promise.reject(e))
+          .catch(() => p === '/profile' ? DEFAULT_CONTENT : DEFAULT_HR_REVIEW);
+      }
+      if (p.startsWith('/state/') && (!o.method || o.method === 'GET')) {
+        return Promise.resolve({ ok: true, state });
+      }
+      if (p === '/leaderboard') {
+        return Promise.resolve(getLocalLeaderboard());
+      }
+      if (p === '/contact' && o.method === 'POST') {
+        return Promise.reject(e);
+      }
+      return Promise.reject(e);
+    });
+};
 
 const hxPid = (() => { try { let i = localStorage.getItem('opsPid'); if (!i) { i = hxUuid(); localStorage.setItem('opsPid', i); } return i; } catch (e) { return hxUuid(); } })();
 let hxTimer;
@@ -2663,22 +2974,13 @@ function hxWire() {
 (async function boot() {
   loadState();
   state = structuredClone(state);
-  try {
-    const r = await hxApi('/state/' + hxPid);
-    if (r.state && r.state.xp > state.xp) {
-      localStorage.setItem(STORAGE_KEY_GAME, JSON.stringify(r.state));
-      loadState();
-    }
-  } catch (e) {}
 
-  try {
-    const r = await hxApi('/profile');
-    profile = { ...DEFAULT_PROFILE, ...r.profile };
-    hxRecord(r);
-  } catch (e) {}
-
-  hxModes();
+  // 1. Immediately render fallback / default content synchronously
+  //    Guarantees zero blank screen even on file:// protocol or offline
+  profile = { ...DEFAULT_PROFILE, ...(profile || {}) };
+  hxRecord(DEFAULT_CONTENT);
   renderProfileUI();
+  hxModes();
   renderHUD();
   renderCareerVault();
   hxBoard();
@@ -2690,4 +2992,30 @@ function hxWire() {
   initUniverseMap();
   initGlobalTerminal();
   hxWire();
+
+  // Unlock audio context on first user click or keypress
+  window.addEventListener('pointerdown', () => sfx && sfx.init(), { once: true });
+  window.addEventListener('keydown', () => sfx && sfx.init(), { once: true });
+
+  // 2. Asynchronously fetch live backend state and profile updates if available
+  try {
+    const r = await hxApi('/state/' + hxPid);
+    if (r && r.state && r.state.xp > state.xp) {
+      localStorage.setItem(STORAGE_KEY_GAME, JSON.stringify(r.state));
+      loadState();
+      renderHUD();
+      renderCareerVault();
+    }
+  } catch (e) {}
+
+  try {
+    const r = await hxApi('/profile');
+    if (r && r.profile) {
+      profile = { ...DEFAULT_PROFILE, ...r.profile };
+      renderProfileUI();
+    }
+    if (r) {
+      hxRecord(r);
+    }
+  } catch (e) {}
 })();

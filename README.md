@@ -2,9 +2,30 @@
 Frontend `public/index.html` (Tailwind, game HUD) → Express API `server.js` → SQLite (`node:sqlite`, zero native deps).
 
 ## Run
-    cp .env.example .env        # set ADMIN_TOKEN
-    docker compose up -d --build   # http://localhost:3000
-    # or without Docker (Node >= 22.13):  npm install && ADMIN_TOKEN=secret npm start
+### Option 1: Zero-Dependency Python Server (Instant & Works Everywhere)
+```bash
+python3 server.py      # Linux / macOS / WSL
+# or in Windows Command Prompt / PowerShell:
+python server.py
+# Open: http://localhost:3000
+```
+
+### Option 2: Node.js (Node >= 22.13)
+```bash
+npm install
+ADMIN_TOKEN=secret npm start
+# Open: http://localhost:3000
+```
+
+### Option 3: Docker Compose
+```bash
+cp .env.example .env        # set ADMIN_TOKEN
+docker compose up -d --build
+# Open: http://localhost:3000
+```
+
+### Option 4: Direct Offline / file:/// Mode
+Double-click `public/index.html` in Windows Explorer or open it in Chrome/Edge. Built-in resilient offline fallbacks ensure all 10 interactive modules, timeline cards, and Web Audio synthesizers function smoothly with zero network requests.
 
 ## API
 | Route | Purpose |
