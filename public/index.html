@@ -584,98 +584,224 @@
   <!-- ===================================================================== -->
   <!-- 1. STICKY TOPBAR WITH RECRUITER MODE TOGGLE & SPACE SYNTH             -->
   <!-- ===================================================================== -->
-    <header class="sticky top-0 z-50 border-b border-slate-400/15 bg-void/85 backdrop-blur-2xl no-print">
-    <div class="w-full max-w-7xl mx-auto px-3 sm:px-6 h-15 flex items-center justify-between gap-2 flex-nowrap">
+    <header class="sticky top-0 z-40 border-b border-slate-400/15 bg-void/90 backdrop-blur-2xl no-print">
+    <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
       
       <!-- Left: Brand Identity -->
-      <div class="flex items-center gap-2.5 shrink-0">
-        <a href="#top" class="flex items-center gap-2 group">
-          <div class="w-8 h-8 rounded-lg bg-slate-900 border border-psycho/50 flex flex-col items-center justify-center shadow-[0_0_12px_rgba(16,185,129,0.25)] group-hover:scale-105 transition">
-            <span class="font-display font-bold text-[10px] text-vfin leading-none">HB-01</span>
-            <span class="font-mono text-[7px] psycho-text tracking-tighter mt-0.5">Ver.Ka</span>
+      <div class="flex items-center gap-3 shrink-0">
+        <a href="#top" class="flex items-center gap-2.5 group">
+          <div class="w-9 h-9 rounded-xl bg-slate-900 border border-psycho/50 flex flex-col items-center justify-center shadow-[0_0_14px_rgba(16,185,129,0.25)] group-hover:scale-105 transition">
+            <span class="font-display font-bold text-[11px] text-vfin leading-none">HB-01</span>
+            <span class="font-mono text-[7.5px] psycho-text tracking-tighter mt-0.5">Ver.Ka</span>
           </div>
           <div>
-            <div class="flex items-center gap-1.5">
+            <div class="flex items-center gap-2">
               <span class="font-display font-bold tracking-wider text-paper text-sm sm:text-base leading-none">HEMANT BHADKE</span>
               <span id="hudModePill" class="hidden sm:inline-block px-1.5 py-0.5 rounded-full text-[8.5px] font-mono font-semibold bg-psycho/15 psycho-text border border-psycho/35">EFSF-OPS</span>
             </div>
-            <span class="font-mono text-[9px] text-slate-400 tracking-wider hidden sm:block mt-0.5">CLOUD & DEVOPS ENGINEER</span>
+            <span class="font-mono text-[9.5px] text-slate-400 tracking-wider hidden sm:block mt-0.5">CLOUD & DEVOPS ENGINEER</span>
           </div>
         </a>
       </div>
 
-      <!-- Center: Quick Section Jump Links (compact, responsive) -->
-      <nav class="hidden xl:flex items-center gap-0.5 bg-slate-900/80 border border-slate-400/15 rounded-full p-0.5 text-[10.5px] font-mono shrink-0">
-        <a href="#dossier" class="px-2 py-0.5 rounded-full text-slate-300 hover:text-white hover:bg-white/5 transition">DOSSIER</a>
-        <a href="#armory" class="px-2 py-0.5 rounded-full text-slate-300 hover:text-white hover:bg-white/5 transition">LOADOUT</a>
-        <a href="#funnelGame" class="px-2 py-0.5 rounded-full text-slate-300 hover:text-psycho hover:bg-white/5 transition">SORTIE</a>
-        <a href="#bridgeSim" class="px-2 py-0.5 rounded-full text-slate-300 hover:text-vfin hover:bg-white/5 transition">WAR ROOM</a>
-        <a href="#clusterLab" class="px-2 py-0.5 rounded-full text-slate-300 hover:text-skybeam hover:bg-white/5 transition">K8S LAB</a>
-        <a href="#academyLab" class="px-2 py-0.5 rounded-full text-amber-400 hover:text-white hover:bg-amber-500/20 transition flex items-center gap-1 font-semibold"><span>⚡</span>ACADEMY</a>
-        <a href="#universeMap" class="px-2 py-0.5 rounded-full text-slate-300 hover:text-emerald hover:bg-white/5 transition">UNIVERSE</a>
-        <button type="button" onclick="document.getElementById('globalTerminalToggleBtn').click()" class="px-2 py-0.5 rounded-full text-psycho hover:text-white hover:bg-psycho/20 transition flex items-center gap-1"><span>⌘</span> OPS-SH</button>
-      </nav>
-
-      <!-- Right: Compact Controls & Actions (shrink-0, perfectly fitted) -->
-      <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
-        <!-- Academy Pill (Only shown on <xl where center nav is hidden, preventing duplication on desktop) -->
-        <a href="academy/" target="_blank" class="xl:hidden shrink-0 px-2.5 py-1 rounded-full font-mono text-[10.5px] font-semibold border border-amber-500/50 bg-amber-500/15 text-amber-300 hover:bg-amber-500 hover:text-void transition flex items-center gap-1" title="168-Day Open Source DevSecOps Academy & Interactive Sandbox">
+      <!-- Right: Crucial Actions + Tactical Side Menu Trigger (Clean & Uncluttered) -->
+      <div class="flex items-center gap-2 sm:gap-3 shrink-0 font-mono text-xs">
+        
+        <!-- 1. Flagship Academy Link (Direct 1-Click Launch) -->
+        <a href="academy/" target="_blank" class="px-3 py-1.5 rounded-full font-semibold border border-amber-500/60 bg-amber-500/15 text-amber-300 hover:bg-amber-500 hover:text-void transition flex items-center gap-1.5 shadow-sm shadow-amber-500/20" title="Open 168-Day DevSecOps Academy Platform">
           <span>⚡</span>
           <span class="hidden sm:inline">ACADEMY</span>
         </a>
 
-        <!-- Recruiter Brief Pill -->
-        <button id="recruiterModeBtn" type="button" class="shrink-0 px-2.5 sm:px-3 py-1 rounded-full font-mono text-[10.5px] font-semibold border border-skybeam/50 bg-skybeam/10 text-skybeam hover:bg-skybeam hover:text-void transition flex items-center gap-1" title="Switch between Interactive Hangar and 15-Second Recruiter Brief">
+        <!-- 2. Recruiter Brief Mode Toggle -->
+        <button id="recruiterModeBtn" type="button" class="px-3 py-1.5 rounded-full font-semibold border border-skybeam/50 bg-skybeam/10 text-skybeam hover:bg-skybeam hover:text-void transition flex items-center gap-1.5" title="Switch between Interactive Hangar and 15-Second Recruiter Brief">
           <span>⇄</span>
           <span id="recruiterModeLabel" class="hidden sm:inline">RECRUITER BRIEF</span>
         </button>
 
-        <!-- Audio Hub: Synth + IBO OST in sleek compact capsule -->
-        <div class="hidden md:flex items-center bg-slate-900/85 border border-slate-400/20 rounded-full p-0.5 text-[10px] font-mono shrink-0">
-          <button id="spaceSynthBtn" type="button" class="px-2 py-0.5 rounded-full text-slate-300 hover:text-white transition flex items-center gap-1" title="Toggle Space Synth Pad Ambience">
-            <span>✦ SYNTH:</span>
-            <b id="spaceSynthStatus" class="psycho-text">OFF</b>
-          </button>
-          <span class="text-slate-600 font-normal">|</span>
-          <button id="iboThemeBtn" type="button" class="px-2 py-0.5 rounded-full text-slate-300 hover:text-white transition flex items-center gap-1" title="Toggle Mobile Suit Gundam: Iron-Blooded Orphans OST ('Crescent Moon')">
-            <span>♫ IBO:</span>
-            <b id="iboThemeStatus" class="psycho-text">OFF</b>
-          </button>
-        </div>
-
-        <!-- NT-D Trigger -->
-        <button id="topNtdBtn" type="button" class="shrink-0 btn-astral-ntd px-2.5 py-1 rounded-full font-mono text-[10.5px] tracking-wider uppercase flex items-center gap-1" title="Engage NT-D / Trans-Am Psycho-Frame Mode">
+        <!-- 3. NT-D Mode Engagement -->
+        <button id="topNtdBtn" type="button" class="btn-astral-ntd px-3 py-1.5 rounded-full tracking-wider uppercase flex items-center gap-1" title="Engage NT-D / Trans-Am Psycho-Frame Mode">
           <span>⚡</span>
-          <span id="topNtdText" class="hidden lg:inline">NT-D: OFF</span>
+          <span id="topNtdText" class="hidden md:inline">NT-D: OFF</span>
         </button>
 
-        <!-- Pilot Level & XP (Visible on ultra-wide 2xl displays) -->
-        <div class="hidden 2xl:flex items-center gap-2 bg-slate-900/85 border border-slate-400/15 rounded-full px-2.5 py-0.5 shrink-0">
-          <div class="text-right">
-            <div class="flex items-center gap-1 font-mono text-[9.5px]">
-              <span class="text-slate-400">LVL</span>
-              <b id="hudLevel" class="text-vfin">02</b>
-              <span class="text-slate-600">·</span>
-              <span id="hudXP" class="text-paper font-semibold">450 XP</span>
-            </div>
-            <div class="w-12 h-1 bg-slate-800 rounded-full overflow-hidden mt-0.5">
-              <div id="hudXPBar" class="h-full bg-gradient-to-r from-psycho via-skybeam to-vfin transition-all duration-500" style="width: 45%"></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Sound FX Mute Toggle -->
-        <button id="soundToggleBtn" type="button" class="shrink-0 w-7 h-7 rounded-full bg-slate-900/85 border border-slate-400/15 hover:border-psycho text-xs font-mono text-slate-300 flex items-center justify-center transition" title="Toggle Sound Effects">
-          <span id="soundIcon">🔊</span>
-        </button>
-
-        <!-- Edit Profile Trigger -->
-        <button id="openDossierBtn" type="button" class="shrink-0 px-2.5 py-1 rounded-full bg-white/10 hover:bg-vfin hover:text-void border border-white/15 font-mono font-semibold text-[10.5px] text-paper transition">
-          EDIT
+        <!-- 4. Tactical Side Menu Hamburger Trigger -->
+        <button id="sideMenuToggleBtn" type="button" class="px-3 py-1.5 rounded-full bg-slate-900 border border-psycho/40 hover:border-psycho text-psycho hover:bg-psycho/15 transition flex items-center gap-2 font-semibold shadow-[0_0_12px_rgba(16,185,129,0.2)]" title="Open Tactical HUD Navigation & Operations Menu">
+          <span class="text-sm leading-none">☰</span>
+          <span class="hidden sm:inline">MENU</span>
         </button>
       </div>
+
     </div>
   </header>
+
+  <!-- ===================================================================== -->
+  <!-- TACTICAL SIDE MENU DRAWER (SLIDE-OUT HUD NAVIGATION & AMBIENCE DECK) -->
+  <!-- ===================================================================== -->
+  <div id="sideMenuBackdrop" class="fixed inset-0 bg-void/80 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300 no-print" aria-hidden="true"></div>
+
+  <aside id="sideMenuDrawer" class="fixed top-0 right-0 h-full w-full max-w-sm sm:max-w-md bg-obsidian/95 border-l border-slate-400/20 z-50 transform translate-x-full transition-transform duration-300 ease-out flex flex-col shadow-2xl backdrop-blur-2xl no-print overflow-hidden" aria-label="Tactical HUD Navigation Menu">
+    
+    <!-- Drawer Header -->
+    <div class="p-5 border-b border-slate-400/15 flex items-center justify-between bg-void/60">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-lg bg-slate-900 border border-psycho/50 flex flex-col items-center justify-center">
+          <span class="font-display font-bold text-[10px] text-vfin leading-none">HB-01</span>
+          <span class="font-mono text-[7px] psycho-text tracking-tighter mt-0.5">Ver.Ka</span>
+        </div>
+        <div>
+          <span class="font-display font-bold tracking-wider text-paper text-sm block">TACTICAL HUD MENU</span>
+          <span class="font-mono text-[9px] text-slate-400 tracking-wider">EFSF-OPS NAVIGATION DECK</span>
+        </div>
+      </div>
+      <button id="sideMenuCloseBtn" type="button" class="w-8 h-8 rounded-lg bg-slate-900 border border-slate-400/20 hover:border-psycho text-slate-400 hover:text-white flex items-center justify-center font-mono text-sm transition" title="Close Menu (Esc)">
+        ✕
+      </button>
+    </div>
+
+    <!-- Drawer Body (Scrollable) -->
+    <div class="flex-1 overflow-y-auto p-5 space-y-6 font-mono">
+      
+      <!-- Pilot Status & Level Card -->
+      <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-400/15 space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-1.5 text-xs">
+            <span class="text-slate-400">PILOT RANK:</span>
+            <span class="text-vfin font-bold">LVL <b id="hudLevel">02</b></span>
+            <span class="text-slate-600">·</span>
+            <span id="hudXP" class="text-paper font-semibold">450 XP</span>
+          </div>
+          <button id="openDossierBtn" type="button" class="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-vfin hover:text-void border border-white/15 text-[10px] text-paper font-bold transition">
+            EDIT BIO
+          </button>
+        </div>
+        <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+          <div id="hudXPBar" class="h-full bg-gradient-to-r from-psycho via-skybeam to-vfin transition-all duration-500" style="width: 45%"></div>
+        </div>
+      </div>
+
+      <!-- Audio & Ambience Deck -->
+      <div class="space-y-2">
+        <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Audio & Cockpit Ambience</div>
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <!-- Space Synth -->
+          <button id="spaceSynthBtn" type="button" class="p-2.5 rounded-xl bg-slate-950/70 border border-slate-400/15 hover:border-psycho/50 text-left transition space-y-1" title="Toggle Deep Space Synth Ambience">
+            <div class="text-[10px] text-slate-400 flex items-center gap-1">
+              <span>✦</span> SYNTH PAD
+            </div>
+            <div class="text-xs font-bold"><b id="spaceSynthStatus" class="psycho-text">OFF</b></div>
+          </button>
+          
+          <!-- Gundam IBO OST -->
+          <button id="iboThemeBtn" type="button" class="p-2.5 rounded-xl bg-slate-950/70 border border-slate-400/15 hover:border-psycho/50 text-left transition space-y-1" title="Toggle IBO Crescent Moon OST">
+            <div class="text-[10px] text-slate-400 flex items-center gap-1">
+              <span>♫</span> IBO OST
+            </div>
+            <div class="text-xs font-bold"><b id="iboThemeStatus" class="psycho-text">OFF</b></div>
+          </button>
+        </div>
+        <div class="flex items-center justify-between px-3 py-2 rounded-xl bg-slate-950/50 border border-slate-400/10 text-xs">
+          <span class="text-slate-400 text-[11px]">Interface Sound FX</span>
+          <button id="soundToggleBtn" type="button" class="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-400/20 text-slate-300 text-xs flex items-center gap-1">
+            <span id="soundIcon">🔊</span> SOUND FX
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Section Jump Navigation -->
+      <div class="space-y-1.5">
+        <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold pb-1">Cockpit Section Directory</div>
+        
+        <a href="#dossier" class="side-drawer-nav-link flex items-center justify-between p-2.5 rounded-xl hover:bg-white/5 border border-transparent hover:border-slate-400/20 transition group">
+          <div class="flex items-center gap-2.5 text-xs text-slate-200 group-hover:text-white">
+            <span class="text-slate-500 text-[10px]">01</span>
+            <span class="font-semibold">DOSSIER</span>
+          </div>
+          <span class="text-[10px] text-slate-400">Bio & Tenure →</span>
+        </a>
+
+        <a href="#armory" class="side-drawer-nav-link flex items-center justify-between p-2.5 rounded-xl hover:bg-white/5 border border-transparent hover:border-slate-400/20 transition group">
+          <div class="flex items-center gap-2.5 text-xs text-slate-200 group-hover:text-white">
+            <span class="text-slate-500 text-[10px]">02</span>
+            <span class="font-semibold">LOADOUT</span>
+          </div>
+          <span class="text-[10px] text-slate-400">Tech Stack →</span>
+        </a>
+
+        <a href="#funnelGame" class="side-drawer-nav-link flex items-center justify-between p-2.5 rounded-xl hover:bg-white/5 border border-transparent hover:border-psycho/30 transition group">
+          <div class="flex items-center gap-2.5 text-xs text-psycho group-hover:text-white">
+            <span class="text-slate-500 text-[10px]">03</span>
+            <span class="font-semibold">SORTIE GAME</span>
+          </div>
+          <span class="text-[10px] text-psycho">Playable ↗</span>
+        </a>
+
+        <a href="#bridgeSim" class="side-drawer-nav-link flex items-center justify-between p-2.5 rounded-xl hover:bg-white/5 border border-transparent hover:border-vfin/30 transition group">
+          <div class="flex items-center gap-2.5 text-xs text-vfin group-hover:text-white">
+            <span class="text-slate-500 text-[10px]">04</span>
+            <span class="font-semibold">WAR ROOM</span>
+          </div>
+          <span class="text-[10px] text-vfin">SRE Sim →</span>
+        </a>
+
+        <a href="#clusterLab" class="side-drawer-nav-link flex items-center justify-between p-2.5 rounded-xl hover:bg-white/5 border border-transparent hover:border-skybeam/30 transition group">
+          <div class="flex items-center gap-2.5 text-xs text-skybeam group-hover:text-white">
+            <span class="text-slate-500 text-[10px]">05</span>
+            <span class="font-semibold">K8S & CI/CD LAB</span>
+          </div>
+          <span class="text-[10px] text-skybeam">Interactive →</span>
+        </a>
+
+        <a href="#academyLab" class="side-drawer-nav-link flex items-center justify-between p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 hover:border-amber-400 transition group">
+          <div class="flex items-center gap-2 text-xs text-amber-300 font-bold">
+            <span>⚡</span>
+            <span>DEVSECOPS ACADEMY</span>
+          </div>
+          <span class="px-1.5 py-0.5 rounded text-[8.5px] bg-amber-500/20 text-amber-300 font-bold">168-DAY</span>
+        </a>
+
+        <a href="#universeMap" class="side-drawer-nav-link flex items-center justify-between p-2.5 rounded-xl hover:bg-white/5 border border-transparent hover:border-emerald/30 transition group">
+          <div class="flex items-center gap-2.5 text-xs text-emerald group-hover:text-white">
+            <span class="text-slate-500 text-[10px]">06</span>
+            <span class="font-semibold">UNIVERSE MAP</span>
+          </div>
+          <span class="text-[10px] text-emerald">3D Graph →</span>
+        </a>
+
+        <button type="button" onclick="document.getElementById('sideMenuCloseBtn').click(); document.getElementById('globalTerminalToggleBtn').click();" class="w-full flex items-center justify-between p-2.5 rounded-xl hover:bg-white/5 border border-transparent hover:border-psycho/30 transition text-left group">
+          <div class="flex items-center gap-2.5 text-xs text-psycho group-hover:text-white">
+            <span>⌘</span>
+            <span class="font-semibold">OPS-SH TERMINAL</span>
+          </div>
+          <span class="text-[10px] text-slate-400">Launch `</span>
+        </button>
+      </div>
+
+      <!-- Quick Document & Profile Actions -->
+      <div class="pt-2 border-t border-slate-400/15 space-y-2">
+        <button id="recruiterPrintBtnSide" onclick="window.print()" type="button" class="w-full py-2.5 px-3 rounded-xl bg-slate-900 border border-slate-400/20 hover:border-skybeam text-xs text-paper hover:text-skybeam font-semibold transition flex items-center justify-center gap-2">
+          <span>⎙</span> PRINT / SAVE RESUME PDF
+        </button>
+        <a href="academy/" target="_blank" class="w-full py-2.5 px-3 rounded-xl bg-amber-500/20 border border-amber-500/50 hover:bg-amber-500 hover:text-void text-xs text-amber-300 font-bold transition flex items-center justify-center gap-2">
+          <span>⚡</span> OPEN ACADEMY FULLSCREEN ↗
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Drawer Footer -->
+    <div class="p-4 border-t border-slate-400/15 bg-void/60 flex items-center justify-between text-[11px] font-mono text-slate-400">
+      <a href="https://github.com/hemantbhadke" target="_blank" class="hover:text-white transition flex items-center gap-1.5">
+        <span>🐙</span> GitHub
+      </a>
+      <span>·</span>
+      <a href="https://linkedin.com/in/hemantrbhadke" target="_blank" class="hover:text-white transition flex items-center gap-1.5">
+        <span>💼</span> LinkedIn
+      </a>
+      <span>·</span>
+      <span class="text-slate-500">HB-01 Ver.Ka</span>
+    </div>
+  </aside>
 
   <!-- ===================================================================== -->
   <!-- MAIN CONTAINER                                                        -->

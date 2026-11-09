@@ -2791,7 +2791,50 @@ function hxWire() {
 
   const recBtn = hxId('recruiterModeBtn'); if (recBtn) recBtn.onclick = () => tog('recruiterMode');
   const ntdBtn = hxId('topNtdBtn'); if (ntdBtn) ntdBtn.onclick = () => tog('ntdMode');
-  ['printDossierBtn', 'recruiterPrintBtn'].forEach(i => hxId(i) && (hxId(i).onclick = () => window.print()));
+  ['printDossierBtn', 'recruiterPrintBtn', 'recruiterPrintBtnSide'].forEach(i => hxId(i) && (hxId(i).onclick = () => window.print()));
+
+  // Side Menu Tactical Drawer Controller
+  const sideMenuToggleBtn = hxId('sideMenuToggleBtn');
+  const sideMenuCloseBtn = hxId('sideMenuCloseBtn');
+  const sideMenuDrawer = hxId('sideMenuDrawer');
+  const sideMenuBackdrop = hxId('sideMenuBackdrop');
+
+  function openSideMenu() {
+    if (!sideMenuDrawer || !sideMenuBackdrop) return;
+    sideMenuBackdrop.classList.remove('hidden');
+    requestAnimationFrame(() => {
+      sideMenuBackdrop.classList.remove('opacity-0');
+      sideMenuBackdrop.classList.add('opacity-100');
+      sideMenuDrawer.classList.remove('translate-x-full');
+      sideMenuDrawer.classList.add('translate-x-0');
+    });
+    if (window.sfx && sfx.uiChime) sfx.uiChime();
+  }
+
+  function closeSideMenu() {
+    if (!sideMenuDrawer || !sideMenuBackdrop) return;
+    sideMenuBackdrop.classList.remove('opacity-100');
+    sideMenuBackdrop.classList.add('opacity-0');
+    sideMenuDrawer.classList.remove('translate-x-0');
+    sideMenuDrawer.classList.add('translate-x-full');
+    setTimeout(() => {
+      sideMenuBackdrop.classList.add('hidden');
+    }, 280);
+  }
+
+  if (sideMenuToggleBtn) sideMenuToggleBtn.onclick = openSideMenu;
+  if (sideMenuCloseBtn) sideMenuCloseBtn.onclick = closeSideMenu;
+  if (sideMenuBackdrop) sideMenuBackdrop.onclick = closeSideMenu;
+
+  document.querySelectorAll('.side-drawer-nav-link').forEach(link => {
+    link.addEventListener('click', () => closeSideMenu());
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && sideMenuDrawer && !sideMenuDrawer.classList.contains('translate-x-full')) {
+      closeSideMenu();
+    }
+  });
 
   const fid = k => 'input' + k[0].toUpperCase() + k.slice(1);
   const openDossier = hxId('openDossierBtn');
