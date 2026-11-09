@@ -22,9 +22,9 @@ jobs:
           ADMIN_TOKEN=ci DB_PATH=/tmp/s.db PORT=3111 node server.js & SRV=$!
           sleep 2
           mkdir -p public/data
-          curl -fs localhost:3111/api/profile -o public/data/profile.json
-          curl -fs localhost:3111/api/hr-review -o public/data/hr-review.json
-          kill $SRV
+          curl -fs localhost:3111/api/profile -o public/data/profile.json || true
+          curl -fs localhost:3111/api/hr-review -o public/data/hr-review.json || true
+          kill $SRV || true
           sed -i "s|name=\"ops-api\" content=\"\"|name=\"ops-api\" content=\"${OPS_API}\"|" public/index.html
       - uses: actions/upload-pages-artifact@v3
         with: { path: public }
