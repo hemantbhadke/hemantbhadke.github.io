@@ -2897,6 +2897,103 @@ function hxWire() {
 /* -------------------------------------------------------------------------
    12. MASTER BOOT SEQUENCE
    ------------------------------------------------------------------------- */
+
+/* -------------------------------------------------------------------------
+   CUSTOM TRANSFORMABLE GUNDAM CURSOR (Mobile Suit -> Red -> Wave Rider)
+   ------------------------------------------------------------------------- */
+function initGundamCursor() {
+  const cursorEl = document.getElementById('gundamCursor');
+  if (!cursorEl) return;
+
+  // Immediately activate cursor style on body
+  document.body.classList.add('gundam-cursor-enabled');
+
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
+  let curX = mouseX;
+  let curY = mouseY;
+  let lastX = mouseX;
+  let lastY = mouseY;
+  let vx = 0;
+  let angle = 0;
+  let scrollTimeout = null;
+  let redClickTimeout = null;
+  let isScrolling = false;
+
+  const updatePos = (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    cursorEl.style.opacity = '1';
+  };
+
+  window.addEventListener('pointermove', updatePos, { passive: true });
+  window.addEventListener('mousemove', updatePos, { passive: true });
+
+  window.addEventListener('pointerleave', () => {
+    cursorEl.style.opacity = '0';
+  });
+
+  // 1. CLICK: Morph into Red Gundam (NT-D Mode) for 1 second!
+  const onPointerDown = () => {
+    cursorEl.classList.add('state-red');
+    if (typeof sfx !== 'undefined' && sfx.tone) sfx.tone(880, 'triangle', 0.12, 0.08, 1760);
+    clearTimeout(redClickTimeout);
+    redClickTimeout = setTimeout(() => {
+      cursorEl.classList.remove('state-red');
+    }, 1000);
+  };
+  window.addEventListener('pointerdown', onPointerDown);
+  window.addEventListener('mousedown', onPointerDown);
+
+  // 2. SCROLL: Transform into Spaceship / Wave Rider flight mode!
+  const onScrollActivity = () => {
+    if (!isScrolling) {
+      isScrolling = true;
+      cursorEl.classList.add('state-flight');
+      if (typeof sfx !== 'undefined' && sfx.tone) sfx.tone(220, 'sawtooth', 0.08, 0.04, 440);
+    }
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      isScrolling = false;
+      cursorEl.classList.remove('state-flight');
+      if (typeof sfx !== 'undefined' && sfx.tone) sfx.tone(440, 'sine', 0.05, 0.03, 330);
+    }, 400);
+  };
+
+  window.addEventListener('wheel', onScrollActivity, { passive: true });
+  window.addEventListener('scroll', onScrollActivity, { passive: true });
+
+  // 3. TARGETING: Lock-on HUD when hovering clickable elements
+  const targetables = 'a, button, input, textarea, select, [role="button"], .armory-card';
+  document.addEventListener('pointerover', (e) => {
+    if (e.target && e.target.closest && e.target.closest(targetables)) {
+      cursorEl.classList.add('state-targeting');
+    }
+  });
+  document.addEventListener('pointerout', (e) => {
+    if (e.target && e.target.closest && e.target.closest(targetables)) {
+      cursorEl.classList.remove('state-targeting');
+    }
+  });
+
+  // 4. Smooth 60 FPS Render loop with subtle banking
+  function renderCursorLoop() {
+    curX += (mouseX - curX) * 0.35;
+    curY += (mouseY - curY) * 0.35;
+
+    vx = curX - lastX;
+    lastX = curX;
+    lastY = curY;
+
+    const targetAngle = isScrolling ? 0 : Math.max(-25, Math.min(25, vx * 2.2));
+    angle += (targetAngle - angle) * 0.2;
+
+    cursorEl.style.transform = `translate3d(${curX}px, ${curY}px, 0) rotate(${angle}deg)`;
+    requestAnimationFrame(renderCursorLoop);
+  }
+  requestAnimationFrame(renderCursorLoop);
+}
+
 (async function boot() {
   loadState();
   state = structuredClone(state);
@@ -2917,6 +3014,7 @@ function hxWire() {
   initClusterLab();
   initUniverseMap();
   initGlobalTerminal();
+  initGundamCursor();
   hxWire();
 
   // Unlock audio context on first user click or keypress

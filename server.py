@@ -11,7 +11,7 @@ import json
 import sqlite3
 import time
 import re
-from http.server import HTTPServer, SimpleHTTPRequestHandler
+from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 from urllib.parse import urlparse, unquote
 
 PORT = int(os.environ.get('PORT', 3000))
@@ -361,7 +361,7 @@ class OpsHandler(SimpleHTTPRequestHandler):
 
 
 if __name__ == '__main__':
-    server = HTTPServer(('0.0.0.0', PORT), OpsHandler)
+    server = ThreadingHTTPServer(('0.0.0.0', PORT), OpsHandler)
     print(f"Ops Unlocked (Python Engine) listening on http://0.0.0.0:{PORT} (db: {DB_PATH})")
     try:
         server.serve_forever()

@@ -392,10 +392,189 @@
       body { background: #fff !important; color: #0f172a !important; }
       .astral-panel { border: 1px solid #cbd5e1 !important; box-shadow: none !important; background: #fff !important; color: #0f172a !important; }
     }
+
+    /* ===================================================================== */
+    /* CUSTOM TRANSFORMABLE GUNDAM CURSOR (Mobile Suit -> Red -> Wave Rider) */
+    /* ===================================================================== */
+    /* 1. Base SVG cursor fallback (active immediately before JS loads) */
+    html, body {
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 L20 10 L28 12 L22 17 L24 25 L16 21 L8 25 L10 17 L4 12 L12 10 Z' fill='%230f172a' stroke='%2310b981' stroke-width='1.5'/%3E%3Cpolygon points='16,4 18,10 14,10' fill='%23f59e0b'/%3E%3Ccircle cx='16' cy='14' r='2' fill='%2338bdf8'/%3E%3C/svg%3E") 16 16, auto;
+    }
+
+    /* 2. Hardware-accelerated dynamic DOM cursor */
+    body.gundam-cursor-enabled,
+    body.gundam-cursor-enabled * {
+      cursor: none !important;
+    }
+
+    #gundamCursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 48px;
+      height: 48px;
+      margin-left: -24px;
+      margin-top: -24px;
+      pointer-events: none;
+      z-index: 9999999;
+      will-change: transform;
+      transition: opacity 0.2s ease;
+      opacity: 0;
+    }
+
+    .cursor-suit, .cursor-flight {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+    }
+
+    /* Normal Mobile Suit (Emerald & Gundarium White) */
+    .cursor-suit {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+      filter: drop-shadow(0 0 6px rgba(16, 185, 129, 0.8));
+    }
+
+    /* Click State: Morphs into RED Gundam (Trans-Am / NT-D mode) for 1 second */
+    #gundamCursor.state-red .cursor-suit {
+      filter: drop-shadow(0 0 16px rgba(244, 63, 94, 0.95)) drop-shadow(0 0 24px rgba(245, 158, 11, 0.85));
+      transform: scale(1.18);
+    }
+    #gundamCursor.state-red .cursor-suit .eye-glow,
+    #gundamCursor.state-red .cursor-suit .psycho-core {
+      fill: #f43f5e !important;
+      stroke: #f43f5e !important;
+    }
+    #gundamCursor.state-red .cursor-suit .thruster-jet {
+      fill: #f43f5e !important;
+    }
+
+    /* Scroll State: Transforms into Spaceship / Zeta Wave Rider flight mode */
+    .cursor-flight {
+      opacity: 0;
+      transform: scale(0.6) translateY(12px);
+      filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.85));
+    }
+    #gundamCursor.state-flight .cursor-suit {
+      opacity: 0;
+      transform: scale(0.5) translateY(-12px) rotate(15deg);
+    }
+    #gundamCursor.state-flight .cursor-flight {
+      opacity: 1;
+      transform: scale(1.15) translateY(0);
+    }
+
+    /* Twin Jet Plasma Flame Flicker */
+    .plasma-flame {
+      animation: jetFlame 0.08s ease infinite alternate;
+      transform-origin: 50% 0%;
+    }
+    @keyframes jetFlame {
+      0% { transform: scaleY(0.9); opacity: 0.8; }
+      100% { transform: scaleY(1.4); opacity: 1; }
+    }
+
+    /* Tactical HUD Lock-On Reticle on Hover */
+    .cursor-lockon {
+      position: absolute;
+      inset: -4px;
+      pointer-events: none;
+      opacity: 0;
+      transform: scale(1.4) rotate(0deg);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    #gundamCursor.state-targeting .cursor-lockon {
+      opacity: 1;
+      transform: scale(1) rotate(45deg);
+    }
+    .lockon-corner {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-color: #10b981;
+    }
+    .lockon-corner.top-left { top: 0; left: 0; border-top: 2px solid; border-left: 2px solid; }
+    .lockon-corner.top-right { top: 0; right: 0; border-top: 2px solid; border-right: 2px solid; }
+    .lockon-corner.bottom-left { bottom: 0; left: 0; border-bottom: 2px solid; border-left: 2px solid; }
+    .lockon-corner.bottom-right { bottom: 0; right: 0; border-bottom: 2px solid; border-right: 2px solid; }
+    .lockon-text {
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-45deg);
+      font-size: 8px;
+      font-weight: bold;
+      color: #10b981;
+      font-family: monospace;
+      letter-spacing: 0.05em;
+    }
+
   </style>
 </head>
 
 <body class="selection:bg-psycho selection:text-void">
+
+  <!-- ===================================================================== -->
+  <!-- DYNAMIC TRANSFORMABLE GUNDAM CURSOR (Mobile Suit -> Red -> Wave Rider) -->
+  <!-- ===================================================================== -->
+  <div id="gundamCursor" aria-hidden="true" class="no-print">
+    <div class="cursor-lockon">
+      <div class="lockon-corner top-left"></div>
+      <div class="lockon-corner top-right"></div>
+      <div class="lockon-corner bottom-left"></div>
+      <div class="lockon-corner bottom-right"></div>
+      <span class="lockon-text">LOCK-ON</span>
+    </div>
+
+    <!-- State 1: Mobile Suit (Normal Emerald & Red NT-D Mode on Click) -->
+    <div class="cursor-suit">
+      <svg viewBox="0 0 64 64" width="42" height="42">
+        <g class="cursor-thrusters">
+          <polygon points="26,52 28,62 30,52" class="thruster-jet" fill="#38bdf8"/>
+          <polygon points="34,52 36,62 38,52" class="thruster-jet" fill="#38bdf8"/>
+          <circle cx="28" cy="52" r="2" fill="#ffffff"/>
+          <circle cx="36" cy="52" r="2" fill="#ffffff"/>
+        </g>
+        <g class="cursor-chassis">
+          <path d="M10,28 L24,20 L32,24 L40,20 L54,28 L48,38 L38,34 L32,38 L26,34 L16,38 Z" fill="#0f172a" stroke="#475569" stroke-width="1.5"/>
+          <path d="M24,26 L32,22 L40,26 L38,44 L32,48 L26,44 Z" class="psycho-core" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+          <line x1="27" y1="30" x2="30" y2="34" class="psycho-core" stroke="#10b981" stroke-width="1.5"/>
+          <line x1="37" y1="30" x2="34" y2="34" class="psycho-core" stroke="#10b981" stroke-width="1.5"/>
+          <rect x="30" y="36" width="4" height="6" fill="#f43f5e" rx="1"/>
+          <path d="M27,16 L32,10 L37,16 L35,24 L29,24 Z" fill="#f8fafc" stroke="#64748b" stroke-width="1.2"/>
+          <polygon points="28,18 31,18 30,20 28,19" class="eye-glow" fill="#10b981"/>
+          <polygon points="33,18 36,18 36,19 34,20" class="eye-glow" fill="#10b981"/>
+          <path d="M16,8 L32,18 L48,8 L38,17 L32,14 L26,17 Z" fill="#f59e0b" stroke="#b45309" stroke-width="1"/>
+          <polygon points="31,14 33,14 33,18 31,18" fill="#f43f5e"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- State 2: Wave Rider Spaceship (Flight Mode on Scroll) -->
+    <div class="cursor-flight">
+      <svg viewBox="0 0 64 64" width="44" height="44">
+        <g class="wr-thrusters">
+          <polygon points="25,48 28,63 31,48" class="plasma-flame" fill="#38bdf8"/>
+          <polygon points="33,48 36,63 39,48" class="plasma-flame" fill="#38bdf8"/>
+          <polygon points="26,48 28,57 30,48" fill="#ffffff"/>
+          <polygon points="34,48 36,57 38,48" fill="#ffffff"/>
+        </g>
+        <g class="wr-airframe">
+          <path d="M32,14 L58,42 L50,48 L36,40 L32,44 L28,40 L14,48 L6,42 Z" fill="#0f172a" stroke="#f43f5e" stroke-width="1.5"/>
+          <line x1="32" y1="14" x2="58" y2="42" stroke="#f59e0b" stroke-width="1.5"/>
+          <line x1="32" y1="14" x2="6" y2="42" stroke="#f59e0b" stroke-width="1.5"/>
+          <polygon points="32,4 40,28 32,24 24,28" fill="#f43f5e" stroke="#e11d48" stroke-width="1.5"/>
+          <polygon points="32,16 36,26 32,28 28,26" fill="#38bdf8" stroke="#ffffff" stroke-width="0.8" opacity="0.95"/>
+          <line x1="18" y1="36" x2="12" y2="44" stroke="#38bdf8" stroke-width="1.5"/>
+          <line x1="46" y1="36" x2="52" y2="44" stroke="#38bdf8" stroke-width="1.5"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+
 
   <!-- FULL-VIEWPORT INTERACTIVE DEEP SPACE, NEBULA & GN PARTICLE CANVAS -->
   <canvas id="cosmosCanvas" aria-hidden="true"></canvas>
@@ -405,11 +584,11 @@
   <!-- ===================================================================== -->
   <!-- 1. STICKY TOPBAR WITH RECRUITER MODE TOGGLE & SPACE SYNTH             -->
   <!-- ===================================================================== -->
-  <header class="sticky top-0 z-50 border-b border-slate-400/15 bg-void/85 backdrop-blur-2xl no-print">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
+    <header class="sticky top-0 z-50 border-b border-slate-400/15 bg-void/85 backdrop-blur-2xl no-print">
+    <div class="w-full max-w-7xl mx-auto px-3 sm:px-6 h-16 flex items-center justify-between gap-2 flex-nowrap">
       
       <!-- Left: Brand Identity -->
-      <div class="flex items-center gap-3 sm:gap-4">
+      <div class="flex items-center gap-3 shrink-0">
         <a href="#top" class="flex items-center gap-2.5 group">
           <div class="w-9 h-9 rounded-xl bg-slate-900 border border-psycho/50 flex flex-col items-center justify-center shadow-[0_0_16px_rgba(16,185,129,0.2)] group-hover:scale-105 transition">
             <span class="font-display font-bold text-[11px] text-vfin leading-none">HB-01</span>
@@ -425,8 +604,8 @@
         </a>
       </div>
 
-      <!-- Center: Quick Section Jump Links -->
-      <nav class="hidden xl:flex items-center gap-1 bg-slate-900/75 border border-slate-400/15 rounded-full p-1 text-[11px] font-mono">
+      <!-- Center: Quick Section Jump Links (visible on wide screens, never wraps) -->
+      <nav class="hidden 2xl:flex items-center gap-1 bg-slate-900/75 border border-slate-400/15 rounded-full p-1 text-[11px] font-mono shrink-0">
         <a href="#dossier" class="px-2.5 py-1 rounded-full text-slate-300 hover:text-white hover:bg-white/5 transition">01.DOSSIER</a>
         <a href="#armory" class="px-2.5 py-1 rounded-full text-slate-300 hover:text-white hover:bg-white/5 transition">02.LOADOUT</a>
         <a href="#funnelGame" class="px-2.5 py-1 rounded-full text-slate-300 hover:text-psycho hover:bg-white/5 transition">03.SORTIE_GAME</a>
@@ -436,31 +615,35 @@
         <button type="button" onclick="document.getElementById('globalTerminalToggleBtn').click()" class="px-2.5 py-1 rounded-full text-psycho hover:text-white hover:bg-psycho/20 transition flex items-center gap-1"><span>⌘</span> OPS-SH</button>
       </nav>
 
-      <!-- Right: Recruiter Mode Toggle, Space Synth, NT-D, XP & Edit -->
-      <div class="flex items-center gap-1.5 sm:gap-2">
-        <!-- Prominent Recruiter Brief Toggle -->
-        <button id="recruiterModeBtn" type="button" class="px-3 py-1.5 rounded-full font-mono text-[11px] font-semibold border border-skybeam/50 bg-skybeam/10 text-skybeam hover:bg-skybeam hover:text-void transition flex items-center gap-1.5" title="Switch between Interactive Hangar and 15-Second Recruiter Brief">
+      <!-- Right: Compact Controls & Actions (shrink-0, flex-nowrap) -->
+      <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <!-- Recruiter Brief Pill -->
+        <button id="recruiterModeBtn" type="button" class="shrink-0 px-2.5 sm:px-3 py-1.5 rounded-full font-mono text-[11px] font-semibold border border-skybeam/50 bg-skybeam/10 text-skybeam hover:bg-skybeam hover:text-void transition flex items-center gap-1.5" title="Switch between Interactive Hangar and 15-Second Recruiter Brief">
           <span>⇄</span>
-          <span id="recruiterModeLabel">MODE: INTERACTIVE HANGAR</span>
+          <span id="recruiterModeLabel" class="hidden sm:inline">RECRUITER BRIEF</span>
         </button>
 
-        <button id="spaceSynthBtn" type="button" class="btn-astral-secondary px-2.5 py-1.5 rounded-full font-mono text-[11px] hidden md:flex items-center gap-1" title="Toggle Space Synth Pad Ambience">
-          <span>✦ SYNTH:</span>
-          <b id="spaceSynthStatus" class="psycho-text">OFF</b>
-        </button>
+        <!-- Audio Hub: Synth + IBO OST grouped in a sleek capsule -->
+        <div class="hidden sm:flex items-center bg-slate-900/85 border border-slate-400/20 rounded-full p-0.5 text-[11px] font-mono shrink-0">
+          <button id="spaceSynthBtn" type="button" class="px-2 py-1 rounded-full text-slate-300 hover:text-white transition flex items-center gap-1" title="Toggle Space Synth Pad Ambience">
+            <span>✦ SYNTH:</span>
+            <b id="spaceSynthStatus" class="psycho-text">OFF</b>
+          </button>
+          <span class="text-slate-600 font-normal">|</span>
+          <button id="iboThemeBtn" type="button" class="px-2 py-1 rounded-full text-slate-300 hover:text-white transition flex items-center gap-1" title="Toggle Mobile Suit Gundam: Iron-Blooded Orphans OST ('Crescent Moon')">
+            <span>♫ IBO:</span>
+            <b id="iboThemeStatus" class="psycho-text">OFF</b>
+          </button>
+        </div>
 
-        <button id="iboThemeBtn" type="button" class="btn-astral-secondary px-2.5 py-1.5 rounded-full font-mono text-[11px] hidden sm:flex items-center gap-1" title="Toggle Mobile Suit Gundam: Iron-Blooded Orphans OST ('Crescent Moon')">
-          <span>♫ IBO OST:</span>
-          <b id="iboThemeStatus" class="psycho-text">OFF</b>
-        </button>
-
-        <button id="topNtdBtn" type="button" class="btn-astral-ntd px-3 py-1.5 rounded-full font-mono text-[11px] tracking-wider uppercase flex items-center gap-1" title="Engage NT-D / Trans-Am Psycho-Frame Mode">
+        <!-- NT-D Trigger -->
+        <button id="topNtdBtn" type="button" class="shrink-0 btn-astral-ntd px-2.5 sm:px-3 py-1.5 rounded-full font-mono text-[11px] tracking-wider uppercase flex items-center gap-1" title="Engage NT-D / Trans-Am Psycho-Frame Mode">
           <span>⚡</span>
-          <span id="topNtdText" class="hidden sm:inline">NT-D: OFF</span>
+          <span id="topNtdText" class="hidden md:inline">NT-D: OFF</span>
         </button>
 
         <!-- Pilot Level & XP -->
-        <div class="hidden lg:flex items-center gap-2 bg-slate-900/85 border border-slate-400/15 rounded-full px-3 py-1">
+        <div class="hidden xl:flex items-center gap-2 bg-slate-900/85 border border-slate-400/15 rounded-full px-2.5 py-1 shrink-0">
           <div class="text-right">
             <div class="flex items-center gap-1 font-mono text-[10px]">
               <span class="text-slate-400">LVL</span>
@@ -468,17 +651,19 @@
               <span class="text-slate-600">·</span>
               <span id="hudXP" class="text-paper font-semibold">450 XP</span>
             </div>
-            <div class="w-16 h-1 bg-slate-800 rounded-full overflow-hidden mt-0.5">
+            <div class="w-14 h-1 bg-slate-800 rounded-full overflow-hidden mt-0.5">
               <div id="hudXPBar" class="h-full bg-gradient-to-r from-psycho via-skybeam to-vfin transition-all duration-500" style="width: 45%"></div>
             </div>
           </div>
         </div>
 
-        <button id="soundToggleBtn" type="button" class="w-8 h-8 rounded-full bg-slate-900/85 border border-slate-400/15 hover:border-psycho text-xs font-mono text-slate-300 flex items-center justify-center transition" title="Toggle Sound Effects">
+        <!-- Sound FX Mute Toggle -->
+        <button id="soundToggleBtn" type="button" class="shrink-0 w-8 h-8 rounded-full bg-slate-900/85 border border-slate-400/15 hover:border-psycho text-xs font-mono text-slate-300 flex items-center justify-center transition" title="Toggle Sound Effects">
           <span id="soundIcon">🔊</span>
         </button>
 
-        <button id="openDossierBtn" type="button" class="px-3 py-1.5 rounded-full bg-white/10 hover:bg-vfin hover:text-void border border-white/15 font-mono font-semibold text-[11px] text-paper transition">
+        <!-- Edit Profile Trigger -->
+        <button id="openDossierBtn" type="button" class="shrink-0 px-2.5 sm:px-3 py-1.5 rounded-full bg-white/10 hover:bg-vfin hover:text-void border border-white/15 font-mono font-semibold text-[11px] text-paper transition">
           EDIT
         </button>
       </div>
