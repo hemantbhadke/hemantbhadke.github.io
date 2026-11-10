@@ -157,6 +157,18 @@ class OpsHandler(SimpleHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
         self.send_header('Access-Control-Allow-Headers', 'Content-Type, x-admin-token')
 
+    def end_headers(self):
+        self._cors()
+        self.send_header('Cache-Control', 'no-cache, no-store, must-revalidate')
+        super().end_headers()
+
+    def guess_type(self, path):
+        if path.endswith('.js') or path.endswith('.mjs'):
+            return 'application/javascript'
+        if path.endswith('.css'):
+            return 'text/css'
+        return super().guess_type(path)
+
     def do_OPTIONS(self):
         self.send_response(204)
         self._cors()
@@ -346,6 +358,12 @@ class OpsHandler(SimpleHTTPRequestHandler):
     def do_POST(self):
         parsed = urlparse(self.path)
         path = parsed.path.rstrip('/') or '/'
+
+        if path == '/api/client-error':
+            b = self._body()
+            print(f"[CLIENT-ERROR] {json.dumps(b)}", flush=True)
+            self._json({"ok": True})
+            return
 
         if path == '/api/contact':
             b = self._body()

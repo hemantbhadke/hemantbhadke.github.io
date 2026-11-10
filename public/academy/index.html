@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0c0d10" />
+    <meta name="theme-color" content="#070a12" />
     <meta name="description" content="DevSecOps Academy — 168-day intensive engineering roadmap and in-browser interactive terminal labs by Hemant Bhadke. Covers Linux, Git, Docker, Kubernetes, Helm, Istio, AWS, Terraform, DevSecOps security, and MLOps." />
     <meta property="og:title" content="DevSecOps Academy — 168-Day Hands-on Roadmap & Lab Simulator" />
     <meta property="og:description" content="Master DevSecOps through 168 daily micro-projects, interactive browser terminal labs, and production-grade curriculum by Hemant Bhadke." />
@@ -14,17 +14,79 @@
       html, body {
         height: 100%;
         margin: 0;
-        background-color: #0c0d10;
-        color: #eceef4;
+        background-color: #070a12;
+        color: #f1f5f9;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       }
       #root {
         min-height: 100%;
       }
+      .academy-preload {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background: #070a12;
+        color: #10b981;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        font-size: 15px;
+        gap: 12px;
+      }
+      .academy-preload-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 14px;
+        border-radius: 8px;
+        background: rgba(16, 185, 129, 0.1);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        color: #10b981;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+      }
     </style>
-    <script type="module" crossorigin src="./assets/index-BSoiQ6Kg.js"></script>
+    <script>
+      window.addEventListener('error', function(event) {
+        var msg = 'Runtime Error: ' + (event.error ? (event.error.stack || event.error.message) : event.message);
+        console.error('[DEVSECOPS ACADEMY ERROR]', msg);
+        try {
+          fetch('/api/client-error', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({type: 'window-error', message: msg, url: location.href})
+          }).catch(function(){});
+        } catch(e) {}
+        var banner = document.getElementById('academy-fatal-error');
+        if (!banner) {
+          banner = document.createElement('div');
+          banner.id = 'academy-fatal-error';
+          banner.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#991b1b;color:#fecaca;padding:16px;z-index:999999;font-family:monospace;font-size:13px;white-space:pre-wrap;box-shadow:0 4px 20px rgba(0,0,0,0.8);border-bottom:2px solid #ef4444;';
+          document.body.prepend(banner);
+        }
+        banner.textContent = msg;
+      });
+      window.addEventListener('unhandledrejection', function(event) {
+        var msg = 'Unhandled Rejection: ' + (event.reason ? (event.reason.stack || event.reason.message || event.reason) : 'Unknown reason');
+        console.error('[DEVSECOPS ACADEMY REJECTION]', msg);
+        try {
+          fetch('/api/client-error', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({type: 'unhandled-rejection', message: msg, url: location.href})
+          }).catch(function(){});
+        } catch(e) {}
+      });
+    </script>
+    <script type="module" crossorigin src="./assets/index-C4AHcQ9p.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/index-BXFm-liq.css">
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div class="academy-preload">
+        <div class="academy-preload-badge">⚡ HB-01 Ver.Ka // DevSecOps Academy</div>
+        <div style="color: #94a3b8; font-size: 13px;">Initializing 168-Day Training Engine & Simulator...</div>
+      </div>
+    </div>
   </body>
 </html>
