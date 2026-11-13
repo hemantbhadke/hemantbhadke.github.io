@@ -582,51 +582,47 @@
   <div class="workbench-grain" aria-hidden="true"></div>
 
   <!-- ===================================================================== -->
-  <!-- 1. STICKY TOPBAR WITH RECRUITER MODE TOGGLE & SPACE SYNTH             -->
   <!-- ===================================================================== -->
-    <header class="sticky top-0 z-40 border-b border-slate-400/15 bg-void/90 backdrop-blur-2xl no-print">
-    <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
+  <!-- 1. STICKY TOPBAR (CLEAN, SPACIOUS & UNCLUTTERED)                      -->
+  <!-- ===================================================================== -->
+  <header class="sticky top-0 z-40 border-b border-slate-400/15 bg-void/90 backdrop-blur-2xl no-print">
+    <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
       
       <!-- Left: Brand Identity -->
-      <div class="flex items-center gap-3 shrink-0">
-        <a href="#top" class="flex items-center gap-2.5 group">
-          <div class="w-9 h-9 rounded-xl bg-slate-900 border border-psycho/50 flex flex-col items-center justify-center shadow-[0_0_14px_rgba(16,185,129,0.25)] group-hover:scale-105 transition">
-            <span class="font-display font-bold text-[11px] text-vfin leading-none">HB-01</span>
-            <span class="font-mono text-[7.5px] psycho-text tracking-tighter mt-0.5">Ver.Ka</span>
+      <a href="#top" class="flex items-center gap-3 group shrink-0">
+        <div class="w-9 h-9 rounded-xl bg-slate-900 border border-psycho/50 flex flex-col items-center justify-center shadow-[0_0_12px_rgba(16,185,129,0.2)] group-hover:border-psycho group-hover:scale-105 transition">
+          <span class="font-display font-bold text-[11px] text-vfin leading-none">HB-01</span>
+          <span class="font-mono text-[7.5px] psycho-text tracking-tighter mt-0.5">Ver.Ka</span>
+        </div>
+        <div class="flex flex-col">
+          <div class="flex items-center gap-2">
+            <span class="font-display font-bold tracking-wider text-paper text-sm sm:text-base leading-none group-hover:text-white transition">HEMANT BHADKE</span>
+            <span id="hudModePill" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[8.5px] font-mono font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>SRE // DEVOPS</span>
+            </span>
           </div>
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="font-display font-bold tracking-wider text-paper text-sm sm:text-base leading-none">HEMANT BHADKE</span>
-              <span id="hudModePill" class="hidden sm:inline-block px-1.5 py-0.5 rounded-full text-[8.5px] font-mono font-semibold bg-psycho/15 psycho-text border border-psycho/35">EFSF-OPS</span>
-            </div>
-            <span class="font-mono text-[9.5px] text-slate-400 tracking-wider hidden sm:block mt-0.5">CLOUD & DEVOPS ENGINEER</span>
-          </div>
-        </a>
-      </div>
+          <span class="font-mono text-[9px] text-slate-400 tracking-wider hidden sm:block mt-0.5">CLOUD & DEVOPS ENGINEER · INFOSYS</span>
+        </div>
+      </a>
 
-      <!-- Right: Crucial Actions + Tactical Side Menu Trigger (Clean & Uncluttered) -->
+      <!-- Right: Minimalist & Spaced Actions (Zero Overcrowding) -->
       <div class="flex items-center gap-2 sm:gap-3 shrink-0 font-mono text-xs">
         
-        <!-- 1. Flagship Academy Link (Direct 1-Click Launch) -->
-        <a href="academy/" target="_blank" class="px-3 py-1.5 rounded-full font-semibold border border-amber-500/60 bg-amber-500/15 text-amber-300 hover:bg-amber-500 hover:text-void transition flex items-center gap-1.5 shadow-sm shadow-amber-500/20" title="Open 168-Day DevSecOps Academy Platform">
-          <span>⚡</span>
-          <span class="hidden sm:inline">ACADEMY</span>
+        <!-- 1. Flagship Academy Link -->
+        <a href="academy/" target="_blank" class="px-3.5 py-1.5 rounded-full font-semibold border border-amber-500/50 bg-amber-500/10 text-amber-300 hover:bg-amber-500 hover:text-void transition flex items-center gap-1.5 shadow-sm shadow-amber-500/10" title="Open 168-Day DevSecOps Academy Platform">
+          <span class="text-amber-400">⚡</span>
+          <span>ACADEMY</span>
         </a>
 
-        <!-- 2. Recruiter Brief Mode Toggle -->
-        <button id="recruiterModeBtn" type="button" class="px-3 py-1.5 rounded-full font-semibold border border-skybeam/50 bg-skybeam/10 text-skybeam hover:bg-skybeam hover:text-void transition flex items-center gap-1.5" title="Switch between Interactive Hangar and 15-Second Recruiter Brief">
-          <span>⇄</span>
-          <span id="recruiterModeLabel" class="hidden sm:inline">RECRUITER BRIEF</span>
-        </button>
+        <!-- 2. Direct Resume PDF Download / View -->
+        <a href="Resume.pdf" target="_blank" class="px-3.5 py-1.5 rounded-full font-semibold border border-slate-700 bg-slate-900/80 text-slate-200 hover:text-white hover:border-slate-500 hover:bg-slate-800 transition flex items-center gap-1.5" title="View & Download Official Resume PDF">
+          <span>📄</span>
+          <span class="hidden sm:inline">RESUME</span>
+        </a>
 
-        <!-- 3. NT-D Mode Engagement -->
-        <button id="topNtdBtn" type="button" class="btn-astral-ntd px-3 py-1.5 rounded-full tracking-wider uppercase flex items-center gap-1" title="Engage NT-D / Trans-Am Psycho-Frame Mode">
-          <span>⚡</span>
-          <span id="topNtdText" class="hidden md:inline">NT-D: OFF</span>
-        </button>
-
-        <!-- 4. Tactical Side Menu Hamburger Trigger -->
-        <button id="sideMenuToggleBtn" type="button" class="px-3 py-1.5 rounded-full bg-slate-900 border border-psycho/40 hover:border-psycho text-psycho hover:bg-psycho/15 transition flex items-center gap-2 font-semibold shadow-[0_0_12px_rgba(16,185,129,0.2)]" title="Open Tactical HUD Navigation & Operations Menu">
+        <!-- 3. Tactical Menu Drawer Trigger -->
+        <button id="sideMenuToggleBtn" type="button" class="px-3.5 py-1.5 rounded-full bg-slate-900 border border-psycho/40 hover:border-psycho text-psycho hover:bg-psycho/15 transition flex items-center gap-2 font-semibold shadow-[0_0_12px_rgba(16,185,129,0.15)]" title="Open Tactical HUD Navigation & Operations Menu">
           <span class="text-sm leading-none">☰</span>
           <span class="hidden sm:inline">MENU</span>
         </button>
@@ -677,6 +673,28 @@
         </div>
         <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
           <div id="hudXPBar" class="h-full bg-gradient-to-r from-psycho via-skybeam to-vfin transition-all duration-500" style="width: 45%"></div>
+        </div>
+      </div>
+
+      <!-- Tactical & Recruiter Modes -->
+      <div class="space-y-2">
+        <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Cockpit & Recruiter Modes</div>
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <!-- Recruiter Brief Mode Toggle -->
+          <button id="recruiterModeBtn" type="button" class="p-2.5 rounded-xl bg-slate-950/70 border border-skybeam/30 hover:border-skybeam text-left transition space-y-1 group" title="Toggle 15-Second Executive Recruiter Brief">
+            <div class="text-[10px] text-slate-400 flex items-center gap-1 group-hover:text-skybeam">
+              <span>⇄</span> RECRUITER
+            </div>
+            <div class="text-xs font-bold text-skybeam"><span id="recruiterModeLabel">RECRUITER BRIEF</span></div>
+          </button>
+          
+          <!-- NT-D Mode Engagement -->
+          <button id="topNtdBtn" type="button" class="p-2.5 rounded-xl bg-slate-950/70 border border-rose-500/30 hover:border-rose-500 text-left transition space-y-1 group btn-astral-ntd" title="Engage NT-D / Trans-Am Psycho-Frame Mode">
+            <div class="text-[10px] text-slate-400 flex items-center gap-1 group-hover:text-rose-400">
+              <span>⚡</span> PSYCHO-FRAME
+            </div>
+            <div class="text-xs font-bold text-rose-400"><span id="topNtdText">NT-D: OFF</span></div>
+          </button>
         </div>
       </div>
 
