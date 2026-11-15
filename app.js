@@ -3058,6 +3058,209 @@ function initGundamCursor() {
   requestAnimationFrame(renderCursorLoop);
 }
 
+// =====================================================================
+// SECTION 02.5: MECHS FIGHTING IN SPACE (SCROLL-DRIVEN ANIME CONTROLLER)
+// =====================================================================
+function initMechSpaceAnime() {
+  const track = document.getElementById('mechScrollTrack');
+  const video = document.getElementById('mechBattleVideo');
+  if (!track || !video) return;
+
+  const progressBar = document.getElementById('mechScrubProgress');
+  const scrubTrack = document.getElementById('mechScrubBar');
+  const timeDisplay = document.getElementById('mechTimeDisplay');
+  const autoPlayBtn = document.getElementById('mechAutoPlayBtn');
+  const autoPlayBtnTop = document.getElementById('mechAutoPlayBtnTop');
+  const soundBtn = document.getElementById('mechSoundBtn');
+  const fullScreenBtn = document.getElementById('mechFullScreenBtn');
+  const phasePill = document.getElementById('mechPhasePill');
+  const telemetryOutput = document.getElementById('mechTelemetryOutput');
+
+  const phaseCards = [
+    document.getElementById('mechPhaseCard1'),
+    document.getElementById('mechPhaseCard2'),
+    document.getElementById('mechPhaseCard3'),
+    document.getElementById('mechPhaseCard4'),
+  ].filter(Boolean);
+
+  let isAutoPlaying = false;
+  let targetProgress = 0;
+  let currentProgress = 0;
+  let animId = null;
+
+  const getDuration = () => (video.duration && !isNaN(video.duration) && video.duration > 0) ? video.duration : 14.93;
+
+  function updateHUD(progress) {
+    const dur = getDuration();
+    const curTime = progress * dur;
+    if (timeDisplay) {
+      const s = Math.floor(curTime);
+      const ms = Math.floor((curTime - s) * 100);
+      timeDisplay.textContent = `T+00:${s.toString().padStart(2, '0')}.${ms.toString().padStart(2, '0')}`;
+    }
+
+    if (progressBar) progressBar.style.width = `${(progress * 100).toFixed(1)}%`;
+
+    // Phase thresholding: 4 distinct stages of the space battle
+    let activePhaseIndex = 0;
+    if (progress < 0.25) activePhaseIndex = 0;
+    else if (progress < 0.52) activePhaseIndex = 1;
+    else if (progress < 0.78) activePhaseIndex = 2;
+    else activePhaseIndex = 3;
+
+    phaseCards.forEach((card, idx) => {
+      if (idx === activePhaseIndex) {
+        card.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+        card.classList.add('opacity-100', 'translate-y-0');
+      } else {
+        card.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+        card.classList.remove('opacity-100', 'translate-y-0');
+      }
+    });
+
+    if (phasePill) {
+      const phases = [
+        'PHASE 01: CATAPULT LAUNCH',
+        'PHASE 02: ORBITAL DOGFIGHT',
+        'PHASE 03: BEAM CLASH',
+        'PHASE 04: SECTOR SECURED'
+      ];
+      phasePill.textContent = phases[activePhaseIndex];
+    }
+
+    if (telemetryOutput) {
+      const metrics = [
+        'AHAB: 88% · THRUST: MACH 4.2 · SPREAD: NORMAL',
+        'AHAB: 98% · THRUST: MACH 9.8 · LOCK: TARGET [ZAKU-K8S]',
+        'AHAB: 120% OVERDRIVE · BEAM COHERENCE: 100% · PERMET: 6',
+        'AHAB: 90% STABILIZED · ALL PODS RECOVERED · SLO: 99.99%'
+      ];
+      telemetryOutput.textContent = metrics[activePhaseIndex];
+    }
+  }
+
+  function renderLoop() {
+    if (!isAutoPlaying) {
+      const diff = targetProgress - currentProgress;
+      if (Math.abs(diff) > 0.001) {
+        currentProgress += diff * 0.18;
+        if (!video.seeking && video.readyState >= 1) {
+          const targetTime = currentProgress * getDuration();
+          if (Math.abs(video.currentTime - targetTime) > 0.035) {
+            video.currentTime = targetTime;
+          }
+        }
+        updateHUD(currentProgress);
+      }
+    } else {
+      currentProgress = video.currentTime / getDuration();
+      updateHUD(currentProgress);
+    }
+    animId = requestAnimationFrame(renderLoop);
+  }
+
+  function onScroll() {
+    if (isAutoPlaying) return;
+    const rect = track.getBoundingClientRect();
+    const windowH = window.innerHeight;
+    const trackH = track.offsetHeight;
+    const scrollableDistance = trackH - windowH;
+    if (scrollableDistance <= 0) return;
+
+    const scrolled = -rect.top;
+    const p = Math.min(Math.max(scrolled / scrollableDistance, 0), 1);
+    targetProgress = p;
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+  animId = requestAnimationFrame(renderLoop);
+
+  video.addEventListener('loadedmetadata', () => {
+    updateHUD(currentProgress);
+  });
+
+  video.addEventListener('ended', () => {
+    if (isAutoPlaying) {
+      video.currentTime = 0;
+      video.play().catch(() => {});
+    }
+  });
+
+  function toggleAutoPlay() {
+    isAutoPlaying = !isAutoPlaying;
+    if (isAutoPlaying) {
+      video.play().catch(() => {});
+      if (autoPlayBtn) autoPlayBtn.innerHTML = '<span>❚❚</span> PAUSE';
+      if (autoPlayBtnTop) autoPlayBtnTop.innerHTML = '<span>❚❚</span> PAUSE';
+    } else {
+      video.pause();
+      if (autoPlayBtn) autoPlayBtn.innerHTML = '<span>▶</span> AUTO-PLAY';
+      if (autoPlayBtnTop) autoPlayBtnTop.innerHTML = '<span>▶</span> AUTO-PLAY';
+      onScroll();
+    }
+  }
+
+  if (autoPlayBtn) autoPlayBtn.onclick = toggleAutoPlay;
+  if (autoPlayBtnTop) autoPlayBtnTop.onclick = toggleAutoPlay;
+
+  if (soundBtn) {
+    soundBtn.onclick = () => {
+      video.muted = !video.muted;
+      soundBtn.innerHTML = video.muted ? '<span>🔇</span> MUTED' : '<span>🔊</span> SOUND ON';
+      if (!video.muted && !isAutoPlaying) {
+        toggleAutoPlay();
+      }
+    };
+  }
+
+  if (scrubTrack) {
+    const handleScrub = (e) => {
+      const rect = scrubTrack.getBoundingClientRect();
+      const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+      const pos = Math.min(Math.max((clientX - rect.left) / rect.width, 0), 1);
+      targetProgress = pos;
+      currentProgress = pos;
+      if (video.readyState >= 1) {
+        video.currentTime = pos * getDuration();
+      }
+      updateHUD(pos);
+
+      const trackTop = track.getBoundingClientRect().top + window.scrollY;
+      const scrollableDistance = track.offsetHeight - window.innerHeight;
+      window.scrollTo({
+        top: trackTop + pos * scrollableDistance,
+        behavior: 'smooth'
+      });
+    };
+    scrubTrack.addEventListener('click', handleScrub);
+  }
+
+  document.querySelectorAll('[data-jump-phase]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const phase = parseFloat(btn.getAttribute('data-jump-phase'));
+      const trackTop = track.getBoundingClientRect().top + window.scrollY;
+      const scrollableDistance = track.offsetHeight - window.innerHeight;
+      window.scrollTo({
+        top: trackTop + phase * scrollableDistance,
+        behavior: 'smooth'
+      });
+    });
+  });
+
+  if (fullScreenBtn) {
+    fullScreenBtn.onclick = () => {
+      const container = track.querySelector('.sticky');
+      if (!container) return;
+      if (!document.fullscreenElement) {
+        container.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    };
+  }
+}
+
 (async function boot() {
   loadState();
   state = structuredClone(state);
@@ -3073,6 +3276,7 @@ function initGundamCursor() {
   hxBoard();
   initGundamWorkbench();
   initArmory();
+  initMechSpaceAnime();
   initFunnelGame();
   initBridgeSim();
   initClusterLab();

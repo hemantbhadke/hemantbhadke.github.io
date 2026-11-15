@@ -746,6 +746,14 @@
           <span class="text-[10px] text-slate-400">Tech Stack →</span>
         </a>
 
+        <a href="#mechAnimeSection" class="side-drawer-nav-link flex items-center justify-between p-2.5 rounded-xl hover:bg-white/5 border border-transparent hover:border-rose-500/30 transition group">
+          <div class="flex items-center gap-2.5 text-xs text-rose-400 group-hover:text-white">
+            <span class="text-slate-500 text-[10px]">02.5</span>
+            <span class="font-semibold">MECHS IN SPACE</span>
+          </div>
+          <span class="text-[10px] text-rose-400 font-bold">Scroll Anime ↗</span>
+        </a>
+
         <a href="#funnelGame" class="side-drawer-nav-link flex items-center justify-between p-2.5 rounded-xl hover:bg-white/5 border border-transparent hover:border-psycho/30 transition group">
           <div class="flex items-center gap-2.5 text-xs text-psycho group-hover:text-white">
             <span class="text-slate-500 text-[10px]">03</span>
@@ -924,6 +932,9 @@
           <div class="flex flex-wrap items-center gap-3 pt-1 no-print">
             <a href="academy/" target="_blank" class="btn-astral-primary px-5 py-3 rounded-2xl font-mono text-xs tracking-wider uppercase flex items-center gap-2 border-amber-500/70 bg-gradient-to-r from-amber-500/25 via-orange-500/20 to-amber-500/25 text-amber-300 hover:text-white hover:border-amber-400 shadow-xl shadow-amber-500/15">
               <span>⚡</span> <span>168-DAY DEVSECOPS ACADEMY LABS</span>
+            </a>
+            <a href="#mechAnimeSection" class="btn-astral-secondary px-4 py-3 rounded-2xl font-mono text-xs tracking-wider uppercase flex items-center gap-2 border-rose-500/50 text-rose-300 hover:bg-rose-500/20 hover:text-white transition">
+              <span>🎬</span> <span>MECHS IN SPACE (SCROLL ANIME)</span>
             </a>
             <a href="#funnelGame" class="btn-astral-secondary px-4 py-3 rounded-2xl font-mono text-xs tracking-wider uppercase flex items-center gap-2">
               <span>▶ LAUNCH ORBITAL SORTIE GAME</span>
@@ -1508,6 +1519,223 @@
     </section>
 
     <!-- =================================================================== -->
+    <!-- 4.5. SECTION 02.5: MECHS FIGHTING IN SPACE — SCROLL-DRIVEN ANIME     -->
+    <!-- =================================================================== -->
+    <section id="mechAnimeSection" class="space-y-6 no-print scroll-mt-24">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-400/15 pb-5">
+        <div>
+          <div class="flex items-center gap-2 font-mono text-xs psycho-text uppercase tracking-widest">
+            <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+            <span class="text-rose-400 font-bold">02.5 // SCROLL-DRIVEN ANIME CINEMATIC</span>
+            <span class="text-slate-600">·</span>
+            <span class="text-vfin">1080P ORBITAL FLIGHT RECORDER</span>
+          </div>
+          <h2 class="font-display font-bold text-3xl sm:text-5xl text-paper mt-1 uppercase tracking-tight">
+            MECHS FIGHTING IN SPACE: <span class="text-transparent bg-clip-text bg-gradient-to-r from-rose-500 via-amber-400 to-skybeam">ORBITAL SORTIE CINEMATIC.</span>
+          </h2>
+        </div>
+        <div class="flex flex-wrap items-center gap-2 font-mono text-xs">
+          <span class="px-2.5 py-1 rounded-full bg-rose-500/15 border border-rose-500/40 text-rose-300 font-semibold flex items-center gap-1.5">
+            <span>📜</span> SCROLL TO SCRUB TIMELINE
+          </span>
+          <button id="mechAutoPlayBtnTop" type="button" class="px-3 py-1 rounded-full bg-skybeam/15 border border-skybeam/40 text-skybeam hover:bg-skybeam hover:text-void font-bold transition flex items-center gap-1.5 shadow-sm shadow-skybeam/20">
+            <span>▶</span> AUTO-PLAY
+          </button>
+        </div>
+      </div>
+
+      <!-- 320vh Scroll Container Track -->
+      <div id="mechScrollTrack" class="relative h-[320vh] w-full">
+        <!-- Sticky Cockpit Viewport -->
+        <div class="sticky top-20 h-[80vh] sm:h-[84vh] w-full rounded-3xl border-2 border-slate-700/60 bg-slate-950 overflow-hidden shadow-[0_0_60px_rgba(244,63,94,0.18)] flex flex-col justify-between group select-none">
+          
+          <!-- Background Video Player -->
+          <video id="mechBattleVideo" src="mechs-space-battle.mp4" playsinline muted preload="auto" class="absolute inset-0 w-full h-full object-cover filter brightness-[0.88] contrast-[1.08]"></video>
+
+          <!-- Cockpit Vignette & Scanline Overlay -->
+          <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/95 via-transparent to-slate-950/85"></div>
+          <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(7,10,18,0.75)_100%)]"></div>
+
+          <!-- Futuristic Cockpit Corner Brackets -->
+          <div class="pointer-events-none absolute top-4 left-4 w-6 h-6 border-t-2 border-l-2 border-rose-500/60"></div>
+          <div class="pointer-events-none absolute top-4 right-4 w-6 h-6 border-t-2 border-r-2 border-rose-500/60"></div>
+          <div class="pointer-events-none absolute bottom-4 left-4 w-6 h-6 border-b-2 border-l-2 border-rose-500/60"></div>
+          <div class="pointer-events-none absolute bottom-4 right-4 w-6 h-6 border-b-2 border-r-2 border-rose-500/60"></div>
+
+          <!-- Top HUD Header Bar -->
+          <div class="relative z-10 px-4 sm:px-6 py-3.5 bg-slate-950/80 backdrop-blur-md border-b border-white/10 flex flex-wrap items-center justify-between gap-3 font-mono text-xs">
+            <div class="flex items-center gap-3">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 font-bold border border-rose-500/40 text-[11px]">
+                <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+                <span>REC // EFSF-CAM-01</span>
+              </span>
+              <span class="text-slate-400 hidden sm:inline">CALLSIGN: <b class="text-paper">HB-01 "ASTRAL-K8S"</b></span>
+              <span class="text-slate-600 hidden md:inline">·</span>
+              <span class="text-slate-400 hidden md:inline">SECTOR 04 DEEP SPACE ORBIT</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span id="mechPhasePill" class="px-3 py-1 rounded-full text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 tracking-wider">
+                PHASE 01: CATAPULT LAUNCH
+              </span>
+              <span id="mechTimeDisplay" class="px-2.5 py-1 rounded-lg bg-black/60 border border-white/15 text-skybeam font-mono text-xs font-bold">
+                T+00:00.00
+              </span>
+            </div>
+
+            <div class="flex items-center gap-1.5">
+              <button id="mechAutoPlayBtn" type="button" class="px-3 py-1 rounded-lg bg-white/10 hover:bg-skybeam hover:text-void border border-white/15 text-paper text-xs font-bold transition flex items-center gap-1">
+                <span>▶</span> AUTO-PLAY
+              </button>
+              <button id="mechSoundBtn" type="button" class="px-3 py-1 rounded-lg bg-white/10 hover:bg-vfin hover:text-void border border-white/15 text-paper text-xs font-bold transition flex items-center gap-1" title="Toggle Battle Sound Effects">
+                <span>🔇</span> MUTED
+              </button>
+              <button id="mechFullScreenBtn" type="button" class="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 border border-white/15 text-paper text-xs transition" title="Toggle Fullscreen">
+                ⛶
+              </button>
+            </div>
+          </div>
+
+          <!-- Center Cockpit Viewport & Dynamic Narrative Cards -->
+          <div class="relative z-10 flex-1 flex flex-col justify-end p-4 sm:p-8 pointer-events-none">
+            
+            <!-- Targeting Crosshairs (Center Reticle) -->
+            <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-40">
+              <div class="w-32 h-32 rounded-full border border-skybeam/30 flex items-center justify-center relative">
+                <div class="w-16 h-16 rounded-full border border-dashed border-rose-500/40 animate-spin" style="animation-duration: 20s"></div>
+                <div class="w-2 h-2 rounded-full bg-skybeam/70"></div>
+                <div class="absolute -top-3 text-[9px] font-mono text-skybeam/70">VECTOR 048°</div>
+                <div class="absolute -bottom-3 text-[9px] font-mono text-rose-400/70">LOCK: ACQUIRED</div>
+              </div>
+            </div>
+
+            <!-- Dynamic Narrative Cards (Cross-fade depending on scroll progress) -->
+            <div class="relative max-w-xl pointer-events-auto">
+              
+              <!-- Phase 1: Catapult Launch -->
+              <div id="mechPhaseCard1" class="transition-all duration-500 transform p-4 sm:p-5 rounded-2xl bg-slate-950/85 backdrop-blur-xl border border-rose-500/40 shadow-2xl space-y-2">
+                <div class="flex items-center gap-2 font-mono text-xs">
+                  <span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-bold">SORTIE 01 // LAUNCH</span>
+                  <span class="text-slate-400">T+00:00 – T+00:03</span>
+                </div>
+                <h3 class="font-display font-bold text-xl sm:text-2xl text-paper uppercase tracking-tight">
+                  High-Velocity Sortie: Catapult Ejection
+                </h3>
+                <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+                  Unit HB-01 clears the orbital catapult with twin Ahab reactors at full synchronization. Intercepting anomalous rogue DDoS signals approaching production Kubernetes clusters in deep space.
+                </p>
+                <div class="pt-1 flex items-center gap-2 font-mono text-[11px] text-skybeam">
+                  <span>⚡ SRE PARALLEL:</span>
+                  <span class="text-slate-400">Zero-touch automated canary rollouts & instant incident sortie.</span>
+                </div>
+              </div>
+
+              <!-- Phase 2: Orbital Dogfight -->
+              <div id="mechPhaseCard2" class="opacity-0 pointer-events-none translate-y-4 transition-all duration-500 transform p-4 sm:p-5 rounded-2xl bg-slate-950/85 backdrop-blur-xl border border-skybeam/40 shadow-2xl space-y-2 absolute inset-0">
+                <div class="flex items-center gap-2 font-mono text-xs">
+                  <span class="px-2 py-0.5 rounded bg-skybeam/20 text-skybeam font-bold">ENGAGEMENT 02 // DOGFIGHT</span>
+                  <span class="text-slate-400">T+00:04 – T+00:07</span>
+                </div>
+                <h3 class="font-display font-bold text-xl sm:text-2xl text-paper uppercase tracking-tight">
+                  Orbital Dogfight: Thruster Vectors & Funnel Matrix
+                </h3>
+                <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+                  Thrusters burn at Mach 9.8 in zero-G vector bursts. Fin funnels deploy in hexagonal formation to intercept incoming missile swarms, keeping communications channels clear.
+                </p>
+                <div class="pt-1 flex items-center gap-2 font-mono text-[11px] text-emerald">
+                  <span>⚡ SRE PARALLEL:</span>
+                  <span class="text-slate-400">Istio mTLS service mesh, smart rate-limiting & perimeter defense.</span>
+                </div>
+              </div>
+
+              <!-- Phase 3: Beam Saber Clash -->
+              <div id="mechPhaseCard3" class="opacity-0 pointer-events-none translate-y-4 transition-all duration-500 transform p-4 sm:p-5 rounded-2xl bg-slate-950/85 backdrop-blur-xl border border-amber-500/40 shadow-2xl space-y-2 absolute inset-0">
+                <div class="flex items-center gap-2 font-mono text-xs">
+                  <span class="px-2 py-0.5 rounded bg-amber-500/20 text-vfin font-bold">CLIMAX 03 // BEAM CLASH</span>
+                  <span class="text-slate-400">T+00:08 – T+00:11</span>
+                </div>
+                <h3 class="font-display font-bold text-xl sm:text-2xl text-paper uppercase tracking-tight">
+                  Point-Blank Combat: Psycho-Frame Overdrive
+                </h3>
+                <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+                  Twin beam sabers ignite. Point-blank clash repelling opposing hostile combat frames. Self-healing node controllers instantly spin up replacement pods without dropping a single packet.
+                </p>
+                <div class="pt-1 flex items-center gap-2 font-mono text-[11px] text-vfin">
+                  <span>⚡ SRE PARALLEL:</span>
+                  <span class="text-slate-400">Real-time OpenTelemetry tracing & sub-second self-healing nodes.</span>
+                </div>
+              </div>
+
+              <!-- Phase 4: Sector Secured -->
+              <div id="mechPhaseCard4" class="opacity-0 pointer-events-none translate-y-4 transition-all duration-500 transform p-4 sm:p-5 rounded-2xl bg-slate-950/85 backdrop-blur-xl border border-emerald-500/40 shadow-2xl space-y-2 absolute inset-0">
+                <div class="flex items-center gap-2 font-mono text-xs">
+                  <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">RESOLUTION 04 // SECURED</span>
+                  <span class="text-slate-400">T+00:12 – T+00:15</span>
+                </div>
+                <h3 class="font-display font-bold text-xl sm:text-2xl text-paper uppercase tracking-tight">
+                  Sector 04 Secured: Mission Accomplished
+                </h3>
+                <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+                  Hostile vector neutralized. Cluster integrity 100%. All Ahab reactors stabilized in nominal state. Telemetry metrics confirm zero downtime and 99.99% SLO adherence.
+                </p>
+                <div class="pt-1 flex items-center justify-between font-mono text-[11px]">
+                  <span class="text-emerald font-bold">✓ ALL SYSTEMS OPERATIONAL</span>
+                  <a href="#funnelGame" class="text-amber-400 hover:text-white underline font-semibold flex items-center gap-1">
+                    <span>PLAY ARCADE MISSION ↓</span>
+                  </a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Bottom Cockpit HUD Control Deck -->
+          <div class="relative z-10 px-4 sm:px-6 py-3 bg-slate-950/85 backdrop-blur-md border-t border-white/10 space-y-2 font-mono text-xs">
+            
+            <!-- Scrub Bar -->
+            <div class="flex items-center gap-3">
+              <span class="text-[10px] text-slate-400 font-bold">SCRUB TIMELINE:</span>
+              <div id="mechScrubBar" class="flex-1 h-3 bg-slate-800/80 rounded-full cursor-pointer relative overflow-hidden group/bar border border-white/10" title="Click or drag to scrub video timeline">
+                <!-- Buffered / Progress track -->
+                <div id="mechScrubProgress" class="h-full bg-gradient-to-r from-rose-500 via-amber-400 to-skybeam transition-all duration-75 relative" style="width: 0%">
+                  <!-- Glowing Knobs -->
+                  <div class="absolute right-0 top-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full bg-white shadow-[0_0_10px_#fff]"></div>
+                </div>
+              </div>
+              <span class="text-[11px] text-slate-400">00:15</span>
+            </div>
+
+            <!-- Bottom Quick Jump Anchors & Telemetry -->
+            <div class="flex flex-wrap items-center justify-between gap-2 pt-0.5 text-[11px]">
+              
+              <!-- 4 Phase Quick Jumps -->
+              <div class="flex items-center gap-1.5">
+                <span class="text-slate-500 text-[10px]">JUMP:</span>
+                <button type="button" data-jump-phase="0.05" class="px-2 py-0.5 rounded bg-slate-900 border border-slate-700 hover:border-rose-400 hover:text-rose-300 text-slate-300 transition">01 LAUNCH</button>
+                <button type="button" data-jump-phase="0.35" class="px-2 py-0.5 rounded bg-slate-900 border border-slate-700 hover:border-skybeam hover:text-skybeam text-slate-300 transition">02 DOGFIGHT</button>
+                <button type="button" data-jump-phase="0.65" class="px-2 py-0.5 rounded bg-slate-900 border border-slate-700 hover:border-amber-400 hover:text-amber-300 text-slate-300 transition">03 CLASH</button>
+                <button type="button" data-jump-phase="0.95" class="px-2 py-0.5 rounded bg-slate-900 border border-slate-700 hover:border-emerald-400 hover:text-emerald-300 text-slate-300 transition">04 SECURED</button>
+              </div>
+
+              <!-- Live Telemetry Stream -->
+              <div class="flex items-center gap-2">
+                <span id="mechTelemetryOutput" class="text-skybeam font-semibold hidden md:inline">
+                  AHAB: 88% · THRUST: MACH 4.2 · SPREAD: NORMAL
+                </span>
+                <a href="#funnelGame" class="px-3 py-1 rounded-lg bg-emerald-500/20 hover:bg-emerald-500 hover:text-void border border-emerald-500/40 text-emerald-300 font-bold transition flex items-center gap-1 text-[10.5px]">
+                  <span>▶</span> LAUNCH SORTIE GAME ↓
+                </a>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
     <!-- 5. SECTION 03: WORKING GAME 1 — "ORBITAL SORTIE: FIN FUNNEL DEFENSE"-->
     <!-- =================================================================== -->
     <section id="funnelGame" class="space-y-6 no-print">
@@ -1522,7 +1750,7 @@
           </h2>
         </div>
         <p class="text-slate-400 text-sm max-w-md">
-          Defend the central Production Kubernetes Core and <strong class="text-paper">6 orbiting Worker Node satellites</strong> against rogue DDoS Zaku Drones, Memory-Leak Cruisers, and Deadlock Missiles.
+          Following the <strong class="text-rose-400">Mechs Fighting in Space</strong> anime dogfight above, take active command of the central Kubernetes Core and <strong class="text-paper">6 orbiting Worker Node satellites</strong> against rogue DDoS Zaku Drones, Memory-Leak Cruisers, and Deadlock Missiles.
         </p>
       </div>
 

@@ -160,6 +160,7 @@ class OpsHandler(SimpleHTTPRequestHandler):
     def end_headers(self):
         self._cors()
         self.send_header('Cache-Control', 'no-cache, no-store, must-revalidate')
+        self.send_header('Accept-Ranges', 'bytes')
         super().end_headers()
 
     def guess_type(self, path):
@@ -167,6 +168,8 @@ class OpsHandler(SimpleHTTPRequestHandler):
             return 'application/javascript'
         if path.endswith('.css'):
             return 'text/css'
+        if path.endswith('.mp4'):
+            return 'video/mp4'
         return super().guess_type(path)
 
     def do_OPTIONS(self):
@@ -310,6 +313,45 @@ class OpsHandler(SimpleHTTPRequestHandler):
                 "questions": [f"Walk me through a production incident where {x['name']} was central. What did you change afterwards?" for x in top[:3]]
             })
             return
+
+        # Range request support for media streaming and smooth scrubbing
+        range_header = self.headers.get('Range')
+        if range_header and range_header.startswith('bytes='):
+            local_path = self.translate_path(self.path)
+            if os.path.isfile(local_path):
+                file_size = os.path.getsize(local_path)
+                try:
+                    range_spec = range_header[6:].strip().split(',')[0]
+                    parts = range_spec.split('-')
+                    start = int(parts[0]) if parts[0] else 0
+                    end = int(parts[1]) if parts[1] else file_size - 1
+                    if start >= file_size:
+                        self.send_error(416, "Requested Range Not Satisfiable")
+                        return
+                    end = min(end, file_size - 1)
+                    length = end - start + 1
+
+                    self.send_response(206)
+                    self.send_header('Content-Type', self.guess_type(local_path))
+                    self.send_header('Content-Range', f'bytes {start}-{end}/{file_size}')
+                    self.send_header('Content-Length', str(length))
+                    self.send_header('Accept-Ranges', 'bytes')
+                    self._cors()
+                    super().end_headers()
+
+                    with open(local_path, 'rb') as f:
+                        f.seek(start)
+                        remaining = length
+                        while remaining > 0:
+                            chunk_size = min(remaining, 64 * 1024)
+                            chunk = f.read(chunk_size)
+                            if not chunk:
+                                break
+                            self.wfile.write(chunk)
+                            remaining -= len(chunk)
+                    return
+                except Exception:
+                    pass
 
         # Static assets
         return super().do_GET()
