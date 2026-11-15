@@ -3081,6 +3081,7 @@ function initMechSpaceAnime() {
     document.getElementById('mechPhaseCard2'),
     document.getElementById('mechPhaseCard3'),
     document.getElementById('mechPhaseCard4'),
+    document.getElementById('mechPhaseCard5'),
   ].filter(Boolean);
 
   let isAutoPlaying = false;
@@ -3101,12 +3102,13 @@ function initMechSpaceAnime() {
 
     if (progressBar) progressBar.style.width = `${(progress * 100).toFixed(1)}%`;
 
-    // Phase thresholding: 4 distinct stages of the space battle
+    // Phase thresholding: 5 distinct acts of the master space battle narrative
     let activePhaseIndex = 0;
-    if (progress < 0.25) activePhaseIndex = 0;
-    else if (progress < 0.52) activePhaseIndex = 1;
-    else if (progress < 0.78) activePhaseIndex = 2;
-    else activePhaseIndex = 3;
+    if (progress < 0.20) activePhaseIndex = 0;
+    else if (progress < 0.42) activePhaseIndex = 1;
+    else if (progress < 0.65) activePhaseIndex = 2;
+    else if (progress < 0.85) activePhaseIndex = 3;
+    else activePhaseIndex = 4;
 
     phaseCards.forEach((card, idx) => {
       if (idx === activePhaseIndex) {
@@ -3120,22 +3122,24 @@ function initMechSpaceAnime() {
 
     if (phasePill) {
       const phases = [
-        'PHASE 01: CATAPULT LAUNCH',
-        'PHASE 02: ORBITAL DOGFIGHT',
-        'PHASE 03: BEAM CLASH',
-        'PHASE 04: SECTOR SECURED'
+        'ACT 01 // CATAPULT SORTIE: PILOT IDENT',
+        'ACT 02 // CLOUD ARSENAL: WEAPONS LOADOUT',
+        'ACT 03 // PRODUCTION WARFARE: SRE COMBAT',
+        'ACT 04 // FLAGSHIP SYSTEM: 168-DAY ACADEMY',
+        'ACT 05 // SECTOR SECURED: VERIFIED CREDS'
       ];
-      phasePill.textContent = phases[activePhaseIndex];
+      phasePill.textContent = phases[activePhaseIndex] || phases[0];
     }
 
     if (telemetryOutput) {
       const metrics = [
-        'AHAB: 88% · THRUST: MACH 4.2 · SPREAD: NORMAL',
-        'AHAB: 98% · THRUST: MACH 9.8 · LOCK: TARGET [ZAKU-K8S]',
-        'AHAB: 120% OVERDRIVE · BEAM COHERENCE: 100% · PERMET: 6',
-        'AHAB: 90% STABILIZED · ALL PODS RECOVERED · SLO: 99.99%'
+        'PILOT: HEMANT BHADKE · EFSF CALLSIGN: HB-01 · BIO-SYNC: 99.4%',
+        'ARSENAL: AWS + AZURE + K8S + TERRAFORM + ARGOCD · COHERENCE: 100%',
+        'COMBAT: -40% PIPELINE FAILS · MTTR < 8 MIN · 99.99% SLO DEFENDED',
+        'PLATFORM: 168-DAY DEVSECOPS ACADEMY · 24 WEEKS · INTERACTIVE LABS',
+        'SECTOR SECURED: RHCSA + OCI · PUNE, IN · DEPLOYMENT READY'
       ];
-      telemetryOutput.textContent = metrics[activePhaseIndex];
+      telemetryOutput.textContent = metrics[activePhaseIndex] || metrics[0];
     }
   }
 
