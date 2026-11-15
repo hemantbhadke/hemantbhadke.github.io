@@ -3084,12 +3084,28 @@ function initMechSpaceAnime() {
     document.getElementById('mechPhaseCard5'),
   ].filter(Boolean);
 
-  let isAutoPlaying = false;
+  let isAutoPlaying = true;
   let targetProgress = 0;
   let currentProgress = 0;
   let animId = null;
+  let isHoveredOnCards = false;
 
+  const actKeyframeTimes = [0.0, 3.2, 6.8, 10.2, 12.8];
   const getDuration = () => (video.duration && !isNaN(video.duration) && video.duration > 0) ? video.duration : 14.93;
+
+  // Start video playing by default for instant 1080p anime engagement
+  video.autoplay = true;
+  video.loop = true;
+  video.muted = true;
+  video.play().catch(() => {});
+  if (autoPlayBtn) autoPlayBtn.innerHTML = '<span>❚❚</span> PAUSE';
+  if (autoPlayBtnTop) autoPlayBtnTop.innerHTML = '<span>❚❚</span> PAUSE';
+
+  const cardsContainer = document.querySelector('.relative.w-full.max-w-2xl');
+  if (cardsContainer) {
+    cardsContainer.addEventListener('mouseenter', () => { isHoveredOnCards = true; });
+    cardsContainer.addEventListener('mouseleave', () => { isHoveredOnCards = false; });
+  }
 
   function updateHUD(progress) {
     const dur = getDuration();
@@ -3120,6 +3136,17 @@ function initMechSpaceAnime() {
       }
     });
 
+    // Update active state on chapter tabs
+    document.querySelectorAll('[data-jump-act]').forEach((btn, idx) => {
+      if (idx === activePhaseIndex) {
+        btn.classList.add('active', 'bg-rose-500/25', 'text-rose-300', 'border-rose-500/50', 'shadow-sm');
+        btn.classList.remove('text-slate-300', 'border-transparent');
+      } else {
+        btn.classList.remove('active', 'bg-rose-500/25', 'text-rose-300', 'border-rose-500/50', 'shadow-sm');
+        btn.classList.add('text-slate-300', 'border-transparent');
+      }
+    });
+
     if (phasePill) {
       const phases = [
         'ACT 01 // CATAPULT SORTIE: PILOT IDENT',
@@ -3143,6 +3170,27 @@ function initMechSpaceAnime() {
     }
   }
 
+  function jumpToAct(idx) {
+    if (idx < 0 || idx >= 5) return;
+    const dur = getDuration();
+    const t = actKeyframeTimes[idx] || 0;
+    try {
+      video.currentTime = t;
+    } catch (_) {}
+    currentProgress = t / dur;
+    targetProgress = currentProgress;
+    updateHUD(currentProgress);
+    if (window.sfx && sfx.keyThock) sfx.keyThock();
+  }
+
+  document.querySelectorAll('[data-jump-act]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const actIdx = parseInt(btn.getAttribute('data-jump-act'), 10);
+      jumpToAct(actIdx);
+    });
+  });
+
   function renderLoop() {
     if (!isAutoPlaying) {
       const diff = targetProgress - currentProgress;
@@ -3150,7 +3198,7 @@ function initMechSpaceAnime() {
         currentProgress += diff * 0.18;
         if (!video.seeking && video.readyState >= 1) {
           const targetTime = currentProgress * getDuration();
-          if (Math.abs(video.currentTime - targetTime) > 0.035) {
+          if (Math.abs(video.currentTime - targetTime) > 0.04) {
             video.currentTime = targetTime;
           }
         }
@@ -3158,13 +3206,14 @@ function initMechSpaceAnime() {
       }
     } else {
       currentProgress = video.currentTime / getDuration();
-      updateHUD(currentProgress);
+      if (!isHoveredOnCards) {
+        updateHUD(currentProgress);
+      }
     }
     animId = requestAnimationFrame(renderLoop);
   }
 
   function onScroll() {
-    if (isAutoPlaying) return;
     const rect = track.getBoundingClientRect();
     const windowH = window.innerHeight;
     const trackH = track.offsetHeight;
@@ -3172,8 +3221,14 @@ function initMechSpaceAnime() {
     if (scrollableDistance <= 0) return;
 
     const scrolled = -rect.top;
-    const p = Math.min(Math.max(scrolled / scrollableDistance, 0), 1);
-    targetProgress = p;
+    if (scrolled >= 0 && scrolled <= scrollableDistance) {
+      const p = Math.min(Math.max(scrolled / scrollableDistance, 0), 1);
+      targetProgress = p;
+      if (!isAutoPlaying) {
+        currentProgress = p;
+        updateHUD(p);
+      }
+    }
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
@@ -3185,10 +3240,8 @@ function initMechSpaceAnime() {
   });
 
   video.addEventListener('ended', () => {
-    if (isAutoPlaying) {
-      video.currentTime = 0;
-      video.play().catch(() => {});
-    }
+    video.currentTime = 0;
+    video.play().catch(() => {});
   });
 
   function toggleAutoPlay() {
@@ -3212,8 +3265,8 @@ function initMechSpaceAnime() {
     soundBtn.onclick = () => {
       video.muted = !video.muted;
       soundBtn.innerHTML = video.muted ? '<span>🔇</span> MUTED' : '<span>🔊</span> SOUND ON';
-      if (!video.muted && !isAutoPlaying) {
-        toggleAutoPlay();
+      if (!video.muted && video.paused) {
+        video.play().catch(() => {});
       }
     };
   }
@@ -3229,13 +3282,6 @@ function initMechSpaceAnime() {
         video.currentTime = pos * getDuration();
       }
       updateHUD(pos);
-
-      const trackTop = track.getBoundingClientRect().top + window.scrollY;
-      const scrollableDistance = track.offsetHeight - window.innerHeight;
-      window.scrollTo({
-        top: trackTop + pos * scrollableDistance,
-        behavior: 'smooth'
-      });
     };
     scrubTrack.addEventListener('click', handleScrub);
   }
@@ -3243,12 +3289,13 @@ function initMechSpaceAnime() {
   document.querySelectorAll('[data-jump-phase]').forEach(btn => {
     btn.addEventListener('click', () => {
       const phase = parseFloat(btn.getAttribute('data-jump-phase'));
-      const trackTop = track.getBoundingClientRect().top + window.scrollY;
-      const scrollableDistance = track.offsetHeight - window.innerHeight;
-      window.scrollTo({
-        top: trackTop + phase * scrollableDistance,
-        behavior: 'smooth'
-      });
+      targetProgress = phase;
+      currentProgress = phase;
+      if (video.readyState >= 1) {
+        video.currentTime = phase * getDuration();
+      }
+      updateHUD(phase);
+      if (window.sfx && sfx.keyThock) sfx.keyThock();
     });
   });
 
@@ -3265,53 +3312,40 @@ function initMechSpaceAnime() {
   }
 }
 
-(async function boot() {
-  loadState();
-  state = structuredClone(state);
+// =====================================================================
+// PILOT HUD QUICK-DOCK NAVIGATION OBSERVER
+// =====================================================================
+function initPilotQuickDock() {
+  const dockLinks = document.querySelectorAll('.dock-link');
+  if (!dockLinks.length) return;
 
-  // 1. Immediately render fallback / default content synchronously
-  //    Guarantees that Experience, Certs, Projects, Skills, HUD, and Vault render immediately
-  profile = { ...DEFAULT_PROFILE, ...(profile || {}) };
-  hxRecord(DEFAULT_CONTENT);
-  renderProfileUI();
-  hxModes();
-  renderHUD();
-  renderCareerVault();
-  hxBoard();
-  initGundamWorkbench();
-  initArmory();
-  initMechSpaceAnime();
-  initFunnelGame();
-  initBridgeSim();
-  initClusterLab();
-  initUniverseMap();
-  initGlobalTerminal();
-  initGundamCursor();
-  hxWire();
+  const targetIds = Array.from(dockLinks).map(l => l.getAttribute('data-dock') || l.getAttribute('href').replace('#', ''));
+  const sectionEls = targetIds.map(id => document.getElementById(id)).filter(Boolean);
 
-  // Unlock audio context on first user click or keypress
-  window.addEventListener('pointerdown', () => sfx && sfx.init(), { once: true });
-  window.addEventListener('keydown', () => sfx && sfx.init(), { once: true });
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        dockLinks.forEach(link => {
+          const tid = link.getAttribute('data-dock') || link.getAttribute('href').replace('#', '');
+          if (tid === id) {
+            link.classList.add('active-dock', 'bg-skybeam/20', 'text-skybeam', 'border', 'border-skybeam/40', 'font-bold');
+            link.classList.remove('text-slate-300');
+          } else {
+            link.classList.remove('active-dock', 'bg-skybeam/20', 'text-skybeam', 'border', 'border-skybeam/40', 'font-bold');
+            if (!link.classList.contains('text-amber-300') && !link.classList.contains('text-emerald-400')) {
+              link.classList.add('text-slate-300');
+            }
+          }
+        });
+      }
+    });
+  }, {
+    threshold: 0.15,
+    rootMargin: '-80px 0px -40% 0px'
+  });
 
-  // 2. Asynchronously fetch live backend state and profile updates if available
-  try {
-    const r = await hxApi('/state/' + hxPid);
-    if (r && r.state && r.state.xp > state.xp) {
-      localStorage.setItem(STORAGE_KEY_GAME, JSON.stringify(r.state));
-      loadState();
-      renderHUD();
-      renderCareerVault();
-    }
-  } catch (e) {}
+  sectionEls.forEach(el => observer.observe(el));
+}
 
-  try {
-    const r = await hxApi('/profile');
-    if (r && r.profile) {
-      profile = { ...DEFAULT_PROFILE, ...r.profile };
-      renderProfileUI();
-    }
-    if (r) {
-      hxRecord(r);
-    }
-  } catch (e) {}
-})();
+

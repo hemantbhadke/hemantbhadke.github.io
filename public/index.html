@@ -632,6 +632,51 @@
   </header>
 
   <!-- ===================================================================== -->
+  <!-- PERMANENT PILOT HUD QUICK-DOCK (INSTANT ACCESS TO ALL 9 STATIONS)    -->
+  <!-- ===================================================================== -->
+  <nav id="pilotQuickDock" class="sticky top-16 z-30 border-b border-slate-400/20 bg-void/90 backdrop-blur-2xl no-print shadow-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-11 flex items-center justify-between gap-2 overflow-x-auto no-scrollbar font-mono text-xs">
+      <div class="flex items-center gap-2 shrink-0 pr-2 border-r border-slate-700/60">
+        <span class="w-2 h-2 rounded-full bg-psycho animate-ping"></span>
+        <span class="text-vfin font-bold text-[11px] tracking-wider hidden lg:inline">HB-01 DOCK</span>
+      </div>
+      <div class="flex items-center gap-1 sm:gap-1.5 shrink-0">
+        <a href="#mechAnimeSection" data-dock="mechAnimeSection" class="dock-link px-2.5 py-1 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition flex items-center gap-1.5 text-[11px]">
+          <span>🚀</span> <span class="hidden sm:inline">SORTIE</span>
+        </a>
+        <a href="#funnelGame" data-dock="funnelGame" class="dock-link px-2.5 py-1 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition flex items-center gap-1.5 text-[11px]">
+          <span>🕹</span> <span>ARCADE</span>
+        </a>
+        <a href="#bridgeSim" data-dock="bridgeSim" class="dock-link px-2.5 py-1 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition flex items-center gap-1.5 text-[11px]">
+          <span>⚔</span> <span>WAR ROOM</span>
+        </a>
+        <a href="#clusterLab" data-dock="clusterLab" class="dock-link px-2.5 py-1 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition flex items-center gap-1.5 text-[11px]">
+          <span>⎈</span> <span>K8S LAB</span>
+        </a>
+        <a href="#workbench" data-dock="workbench" class="dock-link px-2.5 py-1 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition flex items-center gap-1.5 text-[11px]">
+          <span>🤖</span> <span>VER.KA</span>
+        </a>
+        <a href="#dossier" data-dock="dossier" class="dock-link px-2.5 py-1 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition flex items-center gap-1.5 text-[11px]">
+          <span>📋</span> <span>DOSSIER</span>
+        </a>
+        <a href="#armory" data-dock="armory" class="dock-link px-2.5 py-1 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition flex items-center gap-1.5 text-[11px]">
+          <span>🛠</span> <span>STACK</span>
+        </a>
+        <a href="#academyLab" data-dock="academyLab" class="dock-link px-2.5 py-1 rounded-xl text-amber-300 hover:text-white hover:bg-amber-500/20 border border-amber-500/30 transition flex items-center gap-1.5 text-[11px] font-bold">
+          <span>⚡</span> <span>ACADEMY</span>
+        </a>
+        <a href="#universeMap" data-dock="universeMap" class="dock-link px-2.5 py-1 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition flex items-center gap-1.5 text-[11px]">
+          <span>🌐</span> <span class="hidden sm:inline">3D MAP</span>
+        </a>
+        <a href="#hrDesk" data-dock="hrDesk" class="dock-link px-2.5 py-1 rounded-xl text-emerald-400 hover:text-white hover:bg-emerald-500/20 border border-emerald-500/30 transition flex items-center gap-1.5 text-[11px] font-bold">
+          <span>✉</span> <span>CONTACT</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- ===================================================================== -->
   <!-- TACTICAL SIDE MENU DRAWER (SLIDE-OUT HUD NAVIGATION & AMBIENCE DECK) -->
   <!-- ===================================================================== -->
   <div id="sideMenuBackdrop" class="fixed inset-0 bg-void/80 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300 no-print" aria-hidden="true"></div>
@@ -911,10 +956,10 @@
       </div>
 
       <!-- 520vh Master Scroll Container Track -->
-      <div id="mechScrollTrack" class="relative h-[520vh] w-full">
+      <div id="mechScrollTrack" class="relative h-[175vh] w-full">
         
         <!-- Sticky Cockpit Viewport -->
-        <div class="sticky top-16 sm:top-20 h-[84vh] sm:h-[88vh] w-full rounded-3xl border-2 border-slate-700/60 bg-slate-950 overflow-hidden shadow-[0_0_80px_rgba(244,63,94,0.22)] flex flex-col justify-between group select-none">
+        <div class="sticky top-28 sm:top-28 h-[80vh] sm:h-[82vh] w-full rounded-3xl border-2 border-slate-700/60 bg-slate-950 overflow-hidden shadow-[0_0_80px_rgba(244,63,94,0.22)] flex flex-col justify-between group select-none">
           
           <!-- Background Video Player (1080p Space Combat) -->
           <video id="mechBattleVideo" src="mechs-space-battle.mp4" playsinline muted preload="auto" class="absolute inset-0 w-full h-full object-cover filter brightness-[0.85] contrast-[1.10]"></video>
@@ -954,6 +999,25 @@
             
             <!-- Left / Center: Dynamic Narrative Cards (Cross-fade across 5 Acts) -->
             <div class="relative w-full max-w-2xl pointer-events-auto">
+              
+              <!-- Interactive Chapter Tabs (One-click instant switch) -->
+              <div class="flex items-center gap-1.5 p-1 rounded-2xl bg-black/80 border border-white/15 backdrop-blur-md mb-2.5 w-fit overflow-x-auto no-scrollbar">
+                <button type="button" data-jump-act="0" class="cockpit-act-btn active px-3 py-1.5 rounded-xl font-mono text-[11px] font-bold transition flex items-center gap-1.5 bg-rose-500/25 text-rose-300 border border-rose-500/50 shadow-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-rose-400 animate-ping"></span> 01 SORTIE
+                </button>
+                <button type="button" data-jump-act="1" class="cockpit-act-btn px-3 py-1.5 rounded-xl font-mono text-[11px] font-bold transition flex items-center gap-1.5 text-slate-300 hover:text-skybeam hover:bg-white/10 border border-transparent">
+                  02 ARSENAL
+                </button>
+                <button type="button" data-jump-act="2" class="cockpit-act-btn px-3 py-1.5 rounded-xl font-mono text-[11px] font-bold transition flex items-center gap-1.5 text-slate-300 hover:text-amber-300 hover:bg-white/10 border border-transparent">
+                  03 WAR RECORD
+                </button>
+                <button type="button" data-jump-act="3" class="cockpit-act-btn px-3 py-1.5 rounded-xl font-mono text-[11px] font-bold transition flex items-center gap-1.5 text-slate-300 hover:text-cyan-300 hover:bg-white/10 border border-transparent">
+                  04 ACADEMY
+                </button>
+                <button type="button" data-jump-act="4" class="cockpit-act-btn px-3 py-1.5 rounded-xl font-mono text-[11px] font-bold transition flex items-center gap-1.5 text-slate-300 hover:text-emerald-300 hover:bg-white/10 border border-transparent">
+                  05 CREDS
+                </button>
+              </div>
               
               <!-- Card 1: Act 01 // Catapult Sortie & Pilot Profile -->
               <div id="mechPhaseCard1" class="transition-all duration-500 transform p-5 sm:p-6 rounded-2xl bg-slate-950/90 backdrop-blur-xl border border-rose-500/40 shadow-2xl space-y-3.5">
@@ -1035,11 +1099,17 @@
                   <button id="heroSketchBtn" type="button" class="btn-astral-secondary px-3 py-2 rounded-xl font-mono text-[11px] tracking-wider uppercase flex items-center gap-1.5 border-vfin/40 text-vfin">
                     <span>✎ VER.KA NOTES</span>
                   </button>
+                  <a href="#hangarDeck" class="px-3.5 py-2 rounded-xl font-mono text-[11px] font-bold tracking-wider uppercase flex items-center gap-1.5 bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 hover:bg-emerald-500 hover:text-void transition shadow-md">
+                    <span>▼</span> <span>EXPLORE STATIONS</span>
+                  </a>
                 </div>
 
-                <div class="flex items-center gap-2 pt-1 font-mono text-[10.5px] text-amber-300">
-                  <span class="animate-bounce">▼</span>
-                  <span>SCROLL DOWN TO PROGRESS SORTIE & UNLOCK DEVOPS ARSENAL</span>
+                <div class="flex items-center justify-between pt-1 font-mono text-[10.5px] text-amber-300">
+                  <span class="flex items-center gap-1.5">
+                    <span class="animate-bounce">▼</span>
+                    <span>SCROLL OR CLICK TABS ABOVE TO TOUR MISSION</span>
+                  </span>
+                  <a href="#funnelGame" class="text-skybeam hover:text-white underline hidden sm:inline">Or Jump Direct to Arcade Game ↓</a>
                 </div>
               </div>
 
@@ -1297,27 +1367,182 @@
     <!-- =================================================================== -->
     <!-- COMMAND HANGAR DECK // INTERACTIVE WORKBENCHES & COMBAT STATIONS   -->
     <!-- =================================================================== -->
-    <div id="hangarDeck" class="py-8 px-6 text-center border-y border-slate-400/20 bg-gradient-to-r from-obsidian/60 via-skybeam/10 to-obsidian/60 backdrop-blur-xl rounded-3xl space-y-3 relative overflow-hidden">
-      <div class="flex items-center justify-center gap-2 font-mono text-xs text-skybeam uppercase tracking-widest">
-        <span class="w-2.5 h-2.5 rounded-full bg-psycho animate-ping"></span>
-        <span class="font-bold">ORBITAL RECOVERY CONFIRMED // ENTERING COMMAND HANGAR DECK</span>
+    <div id="hangarDeck" class="py-8 px-5 sm:px-8 border-y border-slate-400/20 bg-gradient-to-b from-obsidian/80 via-slate-950/90 to-obsidian/80 backdrop-blur-xl rounded-3xl space-y-6 relative overflow-hidden shadow-2xl">
+      
+      <!-- Deck Header -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-700/60 pb-5">
+        <div>
+          <div class="flex items-center gap-2 font-mono text-xs text-skybeam uppercase tracking-widest">
+            <span class="w-2.5 h-2.5 rounded-full bg-psycho animate-ping"></span>
+            <span class="font-bold">ORBITAL RECOVERY COMPLETE // COMMAND HANGAR DECK</span>
+            <span class="text-slate-600">·</span>
+            <span class="text-vfin">9 ACTIVE OPERATIONAL STATIONS</span>
+          </div>
+          <h2 class="font-display font-bold text-2xl sm:text-4xl text-paper uppercase tracking-tight mt-1">
+            EXPLORE INTERACTIVE STATIONS & <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald via-skybeam to-vfin">ENGINEERING SYSTEMS.</span>
+          </h2>
+        </div>
+        <p class="font-mono text-xs text-slate-400 max-w-md">
+          Zero friction: Jump straight into playable mini-games, real SRE war room triage, cluster deployment labs, or the 168-day academy.
+        </p>
       </div>
-      <h2 class="font-display font-bold text-2xl sm:text-4xl text-paper uppercase tracking-tight">
-        INTERACTIVE COMMAND STATIONS & <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald via-skybeam to-vfin">MISSION REPOSITORY.</span>
-      </h2>
-      <p class="font-mono text-xs sm:text-sm text-slate-300 max-w-2xl mx-auto leading-relaxed">
-        Test pilot skills in the 60FPS defense game, triage live P1 outages in the SRE War Room, scale Kubernetes pods, inspect the RX-99 Ver.Ka rig, or master 168 days of DevSecOps.
-      </p>
-      <div class="flex flex-wrap items-center justify-center gap-2 pt-1 font-mono text-[11px]">
-        <a href="#funnelGame" class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-psycho text-slate-300 hover:text-white transition">01 SORTIE GAME ↓</a>
-        <a href="#bridgeSim" class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-vfin text-slate-300 hover:text-white transition">02 WAR ROOM ↓</a>
-        <a href="#clusterLab" class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-skybeam text-slate-300 hover:text-white transition">03 K8S LAB ↓</a>
-        <a href="#workbench" class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-vfin text-slate-300 hover:text-white transition">04 VER.KA WORKBENCH ↓</a>
-        <a href="#dossier" class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-emerald text-slate-300 hover:text-white transition">05 DOSSIER ↓</a>
-        <a href="#armory" class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-skybeam text-slate-300 hover:text-white transition">06 ARMORY ↓</a>
-        <a href="#academyLab" class="px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/40 text-amber-300 hover:bg-amber-500/20 transition">07 ACADEMY ↓</a>
-        <a href="#universeMap" class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-purple-400 text-slate-300 hover:text-white transition">08 3D MAP ↓</a>
-        <a href="#hrDesk" class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-emerald text-slate-300 hover:text-white transition">09 COMM / HIRE ↓</a>
+
+      <!-- 9-Station Visual Launcher Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 font-mono">
+        
+        <!-- Station 01: Arcade Sortie Game -->
+        <a href="#funnelGame" class="station-card group p-4 rounded-2xl bg-slate-900/80 hover:bg-slate-900 border border-slate-700/60 hover:border-psycho transition flex flex-col justify-between space-y-3 shadow-lg hover:shadow-psycho/10">
+          <div class="space-y-1">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-psycho font-bold flex items-center gap-1.5"><span>🕹</span> STATION 01</span>
+              <span class="px-2 py-0.5 rounded-full bg-psycho/15 text-psycho text-[10px] font-bold border border-psycho/30">PLAYABLE 60FPS</span>
+            </div>
+            <h3 class="font-display font-bold text-lg text-paper group-hover:text-psycho transition uppercase">Fin Funnel Defense Game</h3>
+            <p class="text-slate-400 text-xs leading-relaxed">
+              Pilot the RX-99 core, launch fin funnels, and defend Kubernetes nodes against DDoS drone swarms with retro sound effects.
+            </p>
+          </div>
+          <div class="pt-2 flex items-center text-xs text-psycho font-bold group-hover:translate-x-1 transition-transform">
+            <span>LAUNCH MINI-GAME →</span>
+          </div>
+        </a>
+
+        <!-- Station 02: SRE War Room -->
+        <a href="#bridgeSim" class="station-card group p-4 rounded-2xl bg-slate-900/80 hover:bg-slate-900 border border-slate-700/60 hover:border-vfin transition flex flex-col justify-between space-y-3 shadow-lg hover:shadow-vfin/10">
+          <div class="space-y-1">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-vfin font-bold flex items-center gap-1.5"><span>⚔</span> STATION 02</span>
+              <span class="px-2 py-0.5 rounded-full bg-vfin/15 text-vfin text-[10px] font-bold border border-vfin/30">INCIDENT SIM</span>
+            </div>
+            <h3 class="font-display font-bold text-lg text-paper group-hover:text-vfin transition uppercase">SRE War Room Simulator</h3>
+            <p class="text-slate-400 text-xs leading-relaxed">
+              Triage real production P1 incidents: API 502 error spikes, node disk saturation, memory leaks, and SSL expiration under pressure.
+            </p>
+          </div>
+          <div class="pt-2 flex items-center text-xs text-vfin font-bold group-hover:translate-x-1 transition-transform">
+            <span>ENTER WAR ROOM →</span>
+          </div>
+        </a>
+
+        <!-- Station 03: K8s Cluster Lab -->
+        <a href="#clusterLab" class="station-card group p-4 rounded-2xl bg-slate-900/80 hover:bg-slate-900 border border-slate-700/60 hover:border-skybeam transition flex flex-col justify-between space-y-3 shadow-lg hover:shadow-skybeam/10">
+          <div class="space-y-1">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-skybeam font-bold flex items-center gap-1.5"><span>⎈</span> STATION 03</span>
+              <span class="px-2 py-0.5 rounded-full bg-skybeam/15 text-skybeam text-[10px] font-bold border border-skybeam/30">LIVE LAB</span>
+            </div>
+            <h3 class="font-display font-bold text-lg text-paper group-hover:text-skybeam transition uppercase">K8s & CI/CD Cluster Lab</h3>
+            <p class="text-slate-400 text-xs leading-relaxed">
+              Scale live replica pods (1–12), trigger automated CI/CD pipeline rollouts, inspect raw YAML specs, and monitor stream logs.
+            </p>
+          </div>
+          <div class="pt-2 flex items-center text-xs text-skybeam font-bold group-hover:translate-x-1 transition-transform">
+            <span>OPERATE CLUSTERS →</span>
+          </div>
+        </a>
+
+        <!-- Station 04: Ver.Ka Workbench -->
+        <a href="#workbench" class="station-card group p-4 rounded-2xl bg-slate-900/80 hover:bg-slate-900 border border-slate-700/60 hover:border-vfin transition flex flex-col justify-between space-y-3 shadow-lg hover:shadow-vfin/10">
+          <div class="space-y-1">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-vfin font-bold flex items-center gap-1.5"><span>🤖</span> STATION 04</span>
+              <span class="px-2 py-0.5 rounded-full bg-vfin/15 text-vfin text-[10px] font-bold border border-vfin/30">3D SVG RIG</span>
+            </div>
+            <h3 class="font-display font-bold text-lg text-paper group-hover:text-vfin transition uppercase">RX-99 Gundam Ver.Ka Rig</h3>
+            <p class="text-slate-400 text-xs leading-relaxed">
+              Explore the interactive mobile suit rig: open the cockpit bio-monitor, toggle handwritten engineering sketches, and activate NT-D overdrive.
+            </p>
+          </div>
+          <div class="pt-2 flex items-center text-xs text-vfin font-bold group-hover:translate-x-1 transition-transform">
+            <span>INSPECT WORKBENCH →</span>
+          </div>
+        </a>
+
+        <!-- Station 05: Operator Dossier -->
+        <a href="#dossier" class="station-card group p-4 rounded-2xl bg-slate-900/80 hover:bg-slate-900 border border-slate-700/60 hover:border-emerald transition flex flex-col justify-between space-y-3 shadow-lg hover:shadow-emerald/10">
+          <div class="space-y-1">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-emerald font-bold flex items-center gap-1.5"><span>📋</span> STATION 05</span>
+              <span class="px-2 py-0.5 rounded-full bg-emerald/15 text-emerald text-[10px] font-bold border border-emerald/30">EXPERIENCE</span>
+            </div>
+            <h3 class="font-display font-bold text-lg text-paper group-hover:text-emerald transition uppercase">Operator Dossier & Tenures</h3>
+            <p class="text-slate-400 text-xs leading-relaxed">
+              3+ years at Infosys on Ricoh enterprise cloud. Production outcomes: -40% provisioning failures, +35% telemetry coverage, ESP32 hardware maker lab.
+            </p>
+          </div>
+          <div class="pt-2 flex items-center text-xs text-emerald font-bold group-hover:translate-x-1 transition-transform">
+            <span>READ CAMPAIGNS →</span>
+          </div>
+        </a>
+
+        <!-- Station 06: Weapons Armory -->
+        <a href="#armory" class="station-card group p-4 rounded-2xl bg-slate-900/80 hover:bg-slate-900 border border-slate-700/60 hover:border-skybeam transition flex flex-col justify-between space-y-3 shadow-lg hover:shadow-skybeam/10">
+          <div class="space-y-1">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-skybeam font-bold flex items-center gap-1.5"><span>🛠</span> STATION 06</span>
+              <span class="px-2 py-0.5 rounded-full bg-skybeam/15 text-skybeam text-[10px] font-bold border border-skybeam/30">TECH ARSENAL</span>
+            </div>
+            <h3 class="font-display font-bold text-lg text-paper group-hover:text-skybeam transition uppercase">Weapons & Skills Armory</h3>
+            <p class="text-slate-400 text-xs leading-relaxed">
+              Interactive cloud inventory: AWS, Azure, Terraform, Helm, ArgoCD, Prometheus, Docker, Linux system internals, and Neovim/Tmux toolchains.
+            </p>
+          </div>
+          <div class="pt-2 flex items-center text-xs text-skybeam font-bold group-hover:translate-x-1 transition-transform">
+            <span>VIEW TECH LOADOUT →</span>
+          </div>
+        </a>
+
+        <!-- Station 07: DevSecOps Academy -->
+        <a href="#academyLab" class="station-card group p-4 rounded-2xl bg-amber-500/10 hover:bg-amber-500/15 border border-amber-500/30 hover:border-amber-400 transition flex flex-col justify-between space-y-3 shadow-lg hover:shadow-amber-500/10">
+          <div class="space-y-1">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-amber-300 font-bold flex items-center gap-1.5"><span>⚡</span> STATION 07</span>
+              <span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-bold border border-amber-500/40">FLAGSHIP PLATFORM</span>
+            </div>
+            <h3 class="font-display font-bold text-lg text-paper group-hover:text-amber-300 transition uppercase">168-Day DevSecOps Academy</h3>
+            <p class="text-slate-300 text-xs leading-relaxed">
+              Author of the 24-week open-source zero-to-production learning platform with interactive Unix CTF challenges and production configs.
+            </p>
+          </div>
+          <div class="pt-2 flex items-center text-xs text-amber-300 font-bold group-hover:translate-x-1 transition-transform">
+            <span>OPEN ACADEMY LABS →</span>
+          </div>
+        </a>
+
+        <!-- Station 08: 3D Universe Map -->
+        <a href="#universeMap" class="station-card group p-4 rounded-2xl bg-slate-900/80 hover:bg-slate-900 border border-slate-700/60 hover:border-purple-400 transition flex flex-col justify-between space-y-3 shadow-lg hover:shadow-purple-400/10">
+          <div class="space-y-1">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-purple-300 font-bold flex items-center gap-1.5"><span>🌐</span> STATION 08</span>
+              <span class="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 text-[10px] font-bold border border-purple-500/40">3D WEBGL GRAPH</span>
+            </div>
+            <h3 class="font-display font-bold text-lg text-paper group-hover:text-purple-300 transition uppercase">3D Universe Map & Vault</h3>
+            <p class="text-slate-400 text-xs leading-relaxed">
+              Interactive Three.js 3D constellations mapping cloud infrastructure sectors, security audits, and field-tested competencies in zero-G.
+            </p>
+          </div>
+          <div class="pt-2 flex items-center text-xs text-purple-300 font-bold group-hover:translate-x-1 transition-transform">
+            <span>EXPLORE 3D UNIVERSE →</span>
+          </div>
+        </a>
+
+        <!-- Station 09: Secure Comm & Recruiter Desk -->
+        <a href="#hrDesk" class="station-card group p-4 rounded-2xl bg-slate-900/80 hover:bg-slate-900 border border-slate-700/60 hover:border-emerald transition flex flex-col justify-between space-y-3 shadow-lg hover:shadow-emerald/10">
+          <div class="space-y-1">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-emerald font-bold flex items-center gap-1.5"><span>✉</span> STATION 09</span>
+              <span class="px-2 py-0.5 rounded-full bg-emerald/15 text-emerald text-[10px] font-bold border border-emerald/30">RECRUITER DESK</span>
+            </div>
+            <h3 class="font-display font-bold text-lg text-paper group-hover:text-emerald transition uppercase">Secure Comm & Recruiter Desk</h3>
+            <p class="text-slate-400 text-xs leading-relaxed">
+              Instant candidate brief, official verified certifications (RHCSA, OCI), 1-click Resume PDF download, and direct communication channel.
+            </p>
+          </div>
+          <div class="pt-2 flex items-center text-xs text-emerald font-bold group-hover:translate-x-1 transition-transform">
+            <span>GET IN TOUCH / HIRE →</span>
+          </div>
+        </a>
+
       </div>
     </div>
 <section id="funnelGame" class="space-y-6 no-print">
