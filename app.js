@@ -2958,106 +2958,6 @@ function hxWire() {
   });
 }
 
-/* -------------------------------------------------------------------------
-   12. MASTER BOOT SEQUENCE
-   ------------------------------------------------------------------------- */
-
-/* -------------------------------------------------------------------------
-   CUSTOM TRANSFORMABLE GUNDAM CURSOR (Mobile Suit -> Red -> Wave Rider)
-   ------------------------------------------------------------------------- */
-function initGundamCursor() {
-  const cursorEl = document.getElementById('gundamCursor');
-  if (!cursorEl) return;
-
-  // Immediately activate cursor style on body
-  document.body.classList.add('gundam-cursor-enabled');
-
-  let mouseX = window.innerWidth / 2;
-  let mouseY = window.innerHeight / 2;
-  let curX = mouseX;
-  let curY = mouseY;
-  let lastX = mouseX;
-  let lastY = mouseY;
-  let vx = 0;
-  let angle = 0;
-  let scrollTimeout = null;
-  let redClickTimeout = null;
-  let isScrolling = false;
-
-  const updatePos = (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    cursorEl.style.opacity = '1';
-  };
-
-  window.addEventListener('pointermove', updatePos, { passive: true });
-  window.addEventListener('mousemove', updatePos, { passive: true });
-
-  window.addEventListener('pointerleave', () => {
-    cursorEl.style.opacity = '0';
-  });
-
-  // 1. CLICK: Morph into Red Gundam (NT-D Mode) for 1 second!
-  const onPointerDown = () => {
-    cursorEl.classList.add('state-red');
-    if (typeof sfx !== 'undefined' && sfx.tone) sfx.tone(880, 'triangle', 0.12, 0.08, 1760);
-    clearTimeout(redClickTimeout);
-    redClickTimeout = setTimeout(() => {
-      cursorEl.classList.remove('state-red');
-    }, 1000);
-  };
-  window.addEventListener('pointerdown', onPointerDown);
-  window.addEventListener('mousedown', onPointerDown);
-
-  // 2. SCROLL: Transform into Spaceship / Wave Rider flight mode!
-  const onScrollActivity = () => {
-    if (!isScrolling) {
-      isScrolling = true;
-      cursorEl.classList.add('state-flight');
-      if (typeof sfx !== 'undefined' && sfx.tone) sfx.tone(220, 'sawtooth', 0.08, 0.04, 440);
-    }
-    clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(() => {
-      isScrolling = false;
-      cursorEl.classList.remove('state-flight');
-      if (typeof sfx !== 'undefined' && sfx.tone) sfx.tone(440, 'sine', 0.05, 0.03, 330);
-    }, 400);
-  };
-
-  window.addEventListener('wheel', onScrollActivity, { passive: true });
-  window.addEventListener('scroll', onScrollActivity, { passive: true });
-
-  // 3. TARGETING: Lock-on HUD when hovering clickable elements
-  const targetables = 'a, button, input, textarea, select, [role="button"], .armory-card';
-  document.addEventListener('pointerover', (e) => {
-    if (e.target && e.target.closest && e.target.closest(targetables)) {
-      cursorEl.classList.add('state-targeting');
-    }
-  });
-  document.addEventListener('pointerout', (e) => {
-    if (e.target && e.target.closest && e.target.closest(targetables)) {
-      cursorEl.classList.remove('state-targeting');
-    }
-  });
-
-  // 4. Smooth 60 FPS Render loop with subtle banking
-  function renderCursorLoop() {
-    curX += (mouseX - curX) * 0.35;
-    curY += (mouseY - curY) * 0.35;
-
-    vx = curX - lastX;
-    lastX = curX;
-    lastY = curY;
-
-    const targetAngle = isScrolling ? 0 : Math.max(-25, Math.min(25, vx * 2.2));
-    angle += (targetAngle - angle) * 0.2;
-
-    cursorEl.style.transform = `translate3d(${curX}px, ${curY}px, 0) rotate(${angle}deg)`;
-    requestAnimationFrame(renderCursorLoop);
-  }
-  requestAnimationFrame(renderCursorLoop);
-}
-
 // =====================================================================
 // SECTION 02.5: MECHS FIGHTING IN SPACE (SCROLL-DRIVEN ANIME CONTROLLER)
 // =====================================================================
@@ -3110,11 +3010,13 @@ function initMechSpaceAnime() {
     primeVideo();
   } else {
     video.addEventListener('loadedmetadata', primeVideo, { once: true });
+    try { video.load(); } catch (_) {}
   }
 
   // High-performance video seeker using seeked-event lock
+  let lastSetTime = 0;
   function seekVideo(time) {
-    if (video.readyState < 2) return;
+    if (video.readyState < 1) return;
     if (isSeeking) {
       pendingSeekTime = time;
       return;
@@ -3123,14 +3025,11 @@ function initMechSpaceAnime() {
     const clampedTime = Math.max(0, Math.min(time, dur - 0.05));
     if (Math.abs(video.currentTime - clampedTime) > 0.02) {
       isSeeking = true;
-      if ('fastSeek' in video) {
-        try {
-          video.fastSeek(clampedTime);
-        } catch (_) {
-          video.currentTime = clampedTime;
-        }
-      } else {
+      lastSetTime = clampedTime;
+      try {
         video.currentTime = clampedTime;
+      } catch (_) {
+        isSeeking = false;
       }
     }
   }
@@ -3143,6 +3042,18 @@ function initMechSpaceAnime() {
       seekVideo(nextTime);
     }
   });
+
+  // Watchdog release in case browser drops or delays seeked event
+  setInterval(() => {
+    if (isSeeking && Math.abs(video.currentTime - lastSetTime) < 0.05) {
+      isSeeking = false;
+      if (pendingSeekTime !== null) {
+        const nextTime = pendingSeekTime;
+        pendingSeekTime = null;
+        seekVideo(nextTime);
+      }
+    }
+  }, 100);
 
   function updateHUD(progress) {
     const dur = getDuration();
@@ -3240,6 +3151,7 @@ function initMechSpaceAnime() {
     const scrolled = -(rect.top - stickyTop);
     const p = Math.min(Math.max(scrolled / scrollableDistance, 0), 1);
     targetProgress = p;
+    updateHUD(p);
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
@@ -3418,5 +3330,59 @@ function initPilotQuickDock() {
 
   sectionEls.forEach(el => observer.observe(el));
 }
+
+/* -------------------------------------------------------------------------
+   12. MASTER BOOT SEQUENCE
+   ------------------------------------------------------------------------- */
+(async function boot() {
+  loadState();
+  state = structuredClone(state);
+
+  // 1. Immediately render fallback / default content synchronously
+  //    Guarantees that Experience, Certs, Projects, Skills, HUD, and Vault render immediately
+  profile = { ...DEFAULT_PROFILE, ...(profile || {}) };
+  hxRecord(DEFAULT_CONTENT);
+  renderProfileUI();
+  hxModes();
+  renderHUD();
+  renderCareerVault();
+  hxBoard();
+  initGundamWorkbench();
+  initArmory();
+  initFunnelGame();
+  initBridgeSim();
+  initClusterLab();
+  initUniverseMap();
+  initGlobalTerminal();
+  initMechSpaceAnime();
+  initPilotQuickDock();
+  hxWire();
+
+  // Unlock audio context on first user click or keypress
+  window.addEventListener('pointerdown', () => sfx && sfx.init(), { once: true });
+  window.addEventListener('keydown', () => sfx && sfx.init(), { once: true });
+
+  // 2. Asynchronously fetch live backend state and profile updates if available
+  try {
+    const r = await hxApi('/state/' + hxPid);
+    if (r && r.state && r.state.xp > state.xp) {
+      localStorage.setItem(STORAGE_KEY_GAME, JSON.stringify(r.state));
+      loadState();
+      renderHUD();
+      renderCareerVault();
+    }
+  } catch (e) {}
+
+  try {
+    const r = await hxApi('/profile');
+    if (r && r.profile) {
+      profile = { ...DEFAULT_PROFILE, ...r.profile };
+      renderProfileUI();
+    }
+    if (r) {
+      hxRecord(r);
+    }
+  } catch (e) {}
+})();
 
 
