@@ -392,6 +392,11 @@
       body { background: #fff !important; color: #0f172a !important; }
       .astral-panel { border: 1px solid #cbd5e1 !important; box-shadow: none !important; background: #fff !important; color: #0f172a !important; }
     }
+
+    /* Transparent Cockpit HUD Glassmorphism */
+    .cockpit-glass-card {
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+    }
   </style>
 </head>
 
@@ -783,33 +788,33 @@
         <div class="sticky top-28 sm:top-28 h-[80vh] sm:h-[82vh] w-full rounded-3xl border-2 border-slate-700/60 bg-slate-950 overflow-hidden shadow-[0_0_80px_rgba(244,63,94,0.22)] flex flex-col justify-between group select-none">
           
           <!-- Background Video Player (1080p Space Combat) -->
-          <video id="mechBattleVideo" src="mechs-space-battle.mp4" playsinline muted preload="auto" class="absolute inset-0 w-full h-full object-cover filter brightness-[0.85] contrast-[1.10]"></video>
+          <video id="mechBattleVideo" src="mechs-space-battle.mp4" playsinline muted preload="auto" class="absolute inset-0 w-full h-full object-cover filter brightness-[0.95] contrast-[1.05]"></video>
           
           <!-- Scanline & Vignette Shaders -->
-          <div class="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(6,9,19,0.75)_100%)]"></div>
-          <div class="absolute inset-0 pointer-events-none opacity-[0.06] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.5)_50%)] bg-[length:100%_4px]"></div>
+          <div class="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_center,transparent_55%,rgba(6,9,19,0.55)_100%)]"></div>
+          <div class="absolute inset-0 pointer-events-none opacity-[0.05] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.5)_50%)] bg-[length:100%_4px]"></div>
 
-          <!-- Top Cockpit HUD Bar -->
-          <div class="relative z-10 px-4 sm:px-6 py-3 bg-slate-950/80 backdrop-blur-md border-b border-white/10 flex items-center justify-between font-mono text-xs">
+          <!-- Top Cockpit HUD Bar (Transparent Glassmorphic) -->
+          <div class="relative z-10 px-4 sm:px-6 py-3 bg-slate-950/40 backdrop-blur-md border-b border-white/10 flex items-center justify-between font-mono text-xs">
             <div class="flex items-center gap-3">
               <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping"></span>
-              <span class="text-rose-400 font-bold hidden sm:inline">COCKPIT CAM 01 // ORBITAL INTERCEPT</span>
-              <span id="mechPhasePill" class="px-3 py-1 rounded-full text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 tracking-wider">
+              <span class="text-rose-400 font-bold hidden sm:inline drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">COCKPIT CAM 01 // ORBITAL INTERCEPT</span>
+              <span id="mechPhasePill" class="px-3 py-1 rounded-full text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 tracking-wider backdrop-blur-sm shadow-sm">
                 ACT 01 // CATAPULT SORTIE: PILOT IDENT
               </span>
             </div>
 
             <div class="flex items-center gap-2 sm:gap-3">
-              <span id="mechTimeDisplay" class="px-2.5 py-1 rounded-lg bg-black/60 border border-white/15 text-skybeam font-mono text-xs font-bold shadow-inner">
+              <span id="mechTimeDisplay" class="px-2.5 py-1 rounded-lg bg-black/50 border border-white/15 text-skybeam font-mono text-xs font-bold shadow-inner backdrop-blur-sm">
                 T+00:00.00
               </span>
-              <button id="mechAutoPlayBtn" type="button" class="px-3 py-1 rounded-lg bg-white/10 hover:bg-skybeam hover:text-void border border-white/15 text-paper text-xs font-bold transition flex items-center gap-1">
+              <button id="mechAutoPlayBtn" type="button" class="px-3 py-1 rounded-lg bg-white/10 hover:bg-skybeam hover:text-void border border-white/15 text-paper text-xs font-bold transition flex items-center gap-1 backdrop-blur-sm">
                 <span>▶</span> AUTO-PLAY
               </button>
-              <button id="mechSoundBtn" type="button" class="px-3 py-1 rounded-lg bg-white/10 hover:bg-vfin hover:text-void border border-white/15 text-paper text-xs font-bold transition flex items-center gap-1" title="Toggle Battle Sound Effects">
+              <button id="mechSoundBtn" type="button" class="px-3 py-1 rounded-lg bg-white/10 hover:bg-vfin hover:text-void border border-white/15 text-paper text-xs font-bold transition flex items-center gap-1 backdrop-blur-sm" title="Toggle Battle Sound Effects">
                 <span>🔊</span> SOUND ON
               </button>
-              <button id="mechFullScreenBtn" type="button" class="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 border border-white/15 text-paper text-xs transition" title="Toggle Fullscreen">
+              <button id="mechFullScreenBtn" type="button" class="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 border border-white/15 text-paper text-xs transition backdrop-blur-sm" title="Toggle Fullscreen">
                 ⛶
               </button>
             </div>
@@ -821,8 +826,8 @@
             <!-- Left / Center: Dynamic Narrative Cards (Cross-fade across 5 Acts) -->
             <div class="relative w-full max-w-2xl pointer-events-auto">
               
-              <!-- Interactive Chapter Tabs (One-click instant switch) -->
-              <div class="flex items-center gap-1.5 p-1 rounded-2xl bg-black/80 border border-white/15 backdrop-blur-md mb-2.5 w-fit overflow-x-auto no-scrollbar">
+              <!-- Interactive Chapter Tabs (Transparent Glass) -->
+              <div class="flex items-center gap-1.5 p-1 rounded-2xl bg-black/40 border border-white/15 backdrop-blur-md mb-2.5 w-fit overflow-x-auto no-scrollbar shadow-lg">
                 <button type="button" data-jump-act="0" class="cockpit-act-btn active px-3 py-1.5 rounded-xl font-mono text-[11px] font-bold transition flex items-center gap-1.5 bg-rose-500/25 text-rose-300 border border-rose-500/50 shadow-sm">
                   <span class="w-1.5 h-1.5 rounded-full bg-rose-400 animate-ping"></span> 01 SORTIE
                 </button>
@@ -840,8 +845,8 @@
                 </button>
               </div>
               
-              <!-- Card 1: Act 01 // Catapult Sortie & Pilot Profile -->
-              <div id="mechPhaseCard1" class="transition-all duration-500 transform p-5 sm:p-6 rounded-2xl bg-slate-950/90 backdrop-blur-xl border border-rose-500/40 shadow-2xl space-y-3.5">
+              <!-- Card 1: Act 01 // Catapult Sortie & Pilot Profile (Transparent Glassmorphic) -->
+              <div id="mechPhaseCard1" class="cockpit-glass-card transition-all duration-500 transform p-5 sm:p-6 rounded-2xl bg-slate-950/30 backdrop-blur-md border border-rose-500/35 shadow-[0_8px_32px_rgba(0,0,0,0.6)] space-y-3.5">
                 <div class="flex flex-wrap items-center gap-2">
                   <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-psycho/15 border border-psycho/40 backdrop-blur-md font-mono text-[11px]">
                     <span class="w-2 h-2 rounded-full bg-psycho animate-ping"></span>
@@ -863,40 +868,40 @@
                   </h1>
                 </div>
 
-                <p id="heroBio" class="text-slate-200 text-xs sm:text-sm leading-relaxed max-w-xl font-normal">
+                <p id="heroBio" class="text-slate-200 text-xs sm:text-sm leading-relaxed max-w-xl font-normal drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
                   I build and automate cloud infrastructure across AWS and Azure so deployments feel boring and predictable—even when traffic spikes at 3 AM. Off the clock, I'm into tactical games, Gundam builds, Linux wargames, and soldering ESP32 hardware.
                 </p>
 
                 <div class="flex flex-wrap items-center gap-2 font-mono text-[11px]">
-                  <span class="px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-400/20 text-slate-200 flex items-center gap-1.5">
+                  <span class="px-3 py-1.5 rounded-xl bg-black/35 backdrop-blur-sm border border-slate-400/20 text-slate-200 flex items-center gap-1.5">
                     <span>📍</span> <span id="heroLocation">Pune, India</span>
                   </span>
-                  <span class="px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-400/20 text-slate-200 flex items-center gap-1.5">
+                  <span class="px-3 py-1.5 rounded-xl bg-black/35 backdrop-blur-sm border border-slate-400/20 text-slate-200 flex items-center gap-1.5">
                     <span>☁️</span> <span>Stack: <b class="text-skybeam">AWS · Azure · K8s · Terraform</b></span>
                   </span>
-                  <span class="px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-400/20 text-slate-200 flex items-center gap-1.5">
+                  <span class="px-3 py-1.5 rounded-xl bg-black/35 backdrop-blur-sm border border-slate-400/20 text-slate-200 flex items-center gap-1.5">
                     <span>🔧</span> <span>Bench: <b class="text-vfin">ESP32-C3 + Neovim + Tmux</b></span>
                   </span>
                 </div>
 
                 <!-- 4 Real-World Metrics -->
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 font-mono">
-                  <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-400/15">
+                  <div class="p-2.5 rounded-xl bg-black/35 backdrop-blur-sm border border-slate-400/15">
                     <div class="text-[9.5px] text-slate-400 uppercase">EXPERIENCE</div>
                     <div class="font-display font-bold text-xl text-paper mt-0.5">3+<span class="psycho-text text-xs"> YRS</span></div>
                     <div class="text-[9.5px] text-emerald mt-0.5">● INFOSYS</div>
                   </div>
-                  <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-400/15">
+                  <div class="p-2.5 rounded-xl bg-black/35 backdrop-blur-sm border border-slate-400/15">
                     <div class="text-[9.5px] text-slate-400 uppercase">PIPELINE FAILS</div>
                     <div class="font-display font-bold text-xl text-paper mt-0.5">-40<span class="text-vfin text-xs">%</span></div>
                     <div class="text-[9.5px] text-slate-400 mt-0.5">TERRAFORM</div>
                   </div>
-                  <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-400/15">
+                  <div class="p-2.5 rounded-xl bg-black/35 backdrop-blur-sm border border-slate-400/15">
                     <div class="text-[9.5px] text-slate-400 uppercase">OBSERVABILITY</div>
                     <div class="font-display font-bold text-xl text-paper mt-0.5">+35<span class="text-skybeam text-xs">%</span></div>
                     <div class="text-[9.5px] text-slate-400 mt-0.5">PROMETHEUS</div>
                   </div>
-                  <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-400/15">
+                  <div class="p-2.5 rounded-xl bg-black/35 backdrop-blur-sm border border-slate-400/15">
                     <div class="text-[9.5px] text-slate-400 uppercase">PILOT RANK</div>
                     <div id="heroRankName" class="font-display font-bold text-xs text-vfin mt-0.5 truncate">FIELD ENGINEER</div>
                     <div id="heroPermetText" class="text-[9.5px] text-slate-400 mt-0.5 truncate">GN-DRIVE STABLE</div>
@@ -934,8 +939,8 @@
                 </div>
               </div>
 
-              <!-- Card 2: Act 02 // Cloud Arsenal & Weapons Loadout -->
-              <div id="mechPhaseCard2" class="opacity-0 pointer-events-none translate-y-4 transition-all duration-500 transform p-5 sm:p-6 rounded-2xl bg-slate-950/90 backdrop-blur-xl border border-skybeam/40 shadow-2xl space-y-3.5 absolute inset-0">
+              <!-- Card 2: Act 02 // Cloud Arsenal & Weapons Loadout (Transparent Glassmorphic) -->
+              <div id="mechPhaseCard2" class="cockpit-glass-card opacity-0 pointer-events-none translate-y-4 transition-all duration-500 transform p-5 sm:p-6 rounded-2xl bg-slate-950/30 backdrop-blur-md border border-skybeam/35 shadow-[0_8px_32px_rgba(0,0,0,0.6)] space-y-3.5 absolute inset-0">
                 <div class="flex items-center justify-between font-mono text-xs">
                   <span class="px-2.5 py-0.5 rounded-full bg-skybeam/20 text-skybeam font-bold border border-skybeam/40">ACT 02 // CLOUD ARSENAL & WEAPONS LOADOUT</span>
                   <span class="text-slate-400 text-[11px]">T+00:03 – T+00:06</span>
@@ -945,28 +950,28 @@
                 </h3>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 font-mono text-xs">
-                  <div class="p-3 rounded-xl bg-slate-900/85 border border-skybeam/20 space-y-1">
+                  <div class="p-3 rounded-xl bg-black/35 backdrop-blur-sm border border-skybeam/30 space-y-1">
                     <div class="flex items-center justify-between text-[11px]">
                       <span class="text-skybeam font-bold">AWS & AZURE FLEET</span>
                       <span class="text-emerald">99.99% SLO</span>
                     </div>
                     <p class="text-[11px] text-slate-300">EKS, AKS, VPC Peering, IAM Policies, ALB Ingress, Multi-region peering.</p>
                   </div>
-                  <div class="p-3 rounded-xl bg-slate-900/85 border border-skybeam/20 space-y-1">
+                  <div class="p-3 rounded-xl bg-black/35 backdrop-blur-sm border border-skybeam/30 space-y-1">
                     <div class="flex items-center justify-between text-[11px]">
                       <span class="text-vfin font-bold">TERRAFORM & IaC</span>
                       <span class="text-vfin">-40% FAILS</span>
                     </div>
                     <p class="text-[11px] text-slate-300">Modular blueprints, Terragrunt DRY patterns, S3/DynamoDB state locking.</p>
                   </div>
-                  <div class="p-3 rounded-xl bg-slate-900/85 border border-skybeam/20 space-y-1">
+                  <div class="p-3 rounded-xl bg-black/35 backdrop-blur-sm border border-skybeam/30 space-y-1">
                     <div class="flex items-center justify-between text-[11px]">
                       <span class="text-emerald font-bold">KUBERNETES & GITOPS</span>
                       <span class="text-skybeam">ARGOCD</span>
                     </div>
                     <p class="text-[11px] text-slate-300">ArgoCD continuous sync, Helm charts, Docker multi-stage security scans.</p>
                   </div>
-                  <div class="p-3 rounded-xl bg-slate-900/85 border border-skybeam/20 space-y-1">
+                  <div class="p-3 rounded-xl bg-black/35 backdrop-blur-sm border border-skybeam/30 space-y-1">
                     <div class="flex items-center justify-between text-[11px]">
                       <span class="text-rose-400 font-bold">SRE OBSERVABILITY</span>
                       <span class="text-emerald">+35% COVER</span>
@@ -983,8 +988,8 @@
                 </div>
               </div>
 
-              <!-- Card 3: Act 03 // Production Warfare & SRE Combat Record -->
-              <div id="mechPhaseCard3" class="opacity-0 pointer-events-none translate-y-4 transition-all duration-500 transform p-5 sm:p-6 rounded-2xl bg-slate-950/90 backdrop-blur-xl border border-amber-500/40 shadow-2xl space-y-3.5 absolute inset-0">
+              <!-- Card 3: Act 03 // Production Warfare & SRE Combat Record (Transparent Glassmorphic) -->
+              <div id="mechPhaseCard3" class="cockpit-glass-card opacity-0 pointer-events-none translate-y-4 transition-all duration-500 transform p-5 sm:p-6 rounded-2xl bg-slate-950/30 backdrop-blur-md border border-amber-500/35 shadow-[0_8px_32px_rgba(0,0,0,0.6)] space-y-3.5 absolute inset-0">
                 <div class="flex items-center justify-between font-mono text-xs">
                   <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-vfin font-bold border border-amber-500/40">ACT 03 // PRODUCTION WARFARE & SRE COMBAT</span>
                   <span class="text-slate-400 text-[11px]">T+00:07 – T+00:10</span>
@@ -994,7 +999,7 @@
                 </h3>
 
                 <div class="space-y-2 font-mono text-xs">
-                  <div class="p-3 rounded-xl bg-slate-900/85 border border-amber-500/20 flex items-start gap-3">
+                  <div class="p-3 rounded-xl bg-black/35 backdrop-blur-sm border border-amber-500/30 flex items-start gap-3">
                     <span class="text-rose-400 text-base leading-none mt-0.5">⚔</span>
                     <div class="space-y-0.5">
                       <strong class="text-paper text-[11px] block">INFOSYS (RICOH) PRODUCTION DEFENSE:</strong>
@@ -1002,11 +1007,11 @@
                     </div>
                   </div>
                   <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    <div class="p-2.5 rounded-xl bg-slate-900/85 border border-white/10">
+                    <div class="p-2.5 rounded-xl bg-black/35 backdrop-blur-sm border border-white/15">
                       <span class="text-emerald font-bold text-[11px] block">ZERO-DOWNTIME ROLLING UPGRADES</span>
                       <p class="text-[10.5px] text-slate-400 mt-0.5">Migrated monolithic workloads to EKS with zero dropped sessions.</p>
                     </div>
-                    <div class="p-2.5 rounded-xl bg-slate-900/85 border border-white/10">
+                    <div class="p-2.5 rounded-xl bg-black/35 backdrop-blur-sm border border-white/15">
                       <span class="text-vfin font-bold text-[11px] block">SELF-HEALING POD REPLICAS</span>
                       <p class="text-[10.5px] text-slate-400 mt-0.5">Kubernetes liveness/readiness probes auto-quarantined failing nodes.</p>
                     </div>
@@ -1021,8 +1026,8 @@
                 </div>
               </div>
 
-              <!-- Card 4: Act 04 // Flagship System: 168-Day Academy -->
-              <div id="mechPhaseCard4" class="opacity-0 pointer-events-none translate-y-4 transition-all duration-500 transform p-5 sm:p-6 rounded-2xl bg-slate-950/90 backdrop-blur-xl border border-cyan-500/40 shadow-2xl space-y-3.5 absolute inset-0">
+              <!-- Card 4: Act 04 // Flagship System: 168-Day Academy (Transparent Glassmorphic) -->
+              <div id="mechPhaseCard4" class="cockpit-glass-card opacity-0 pointer-events-none translate-y-4 transition-all duration-500 transform p-5 sm:p-6 rounded-2xl bg-slate-950/30 backdrop-blur-md border border-cyan-500/35 shadow-[0_8px_32px_rgba(0,0,0,0.6)] space-y-3.5 absolute inset-0">
                 <div class="flex items-center justify-between font-mono text-xs">
                   <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-500/40">ACT 04 // FLAGSHIP SYSTEM: 168-DAY ACADEMY</span>
                   <span class="text-slate-400 text-[11px]">T+00:10 – T+00:12</span>
@@ -1031,20 +1036,20 @@
                   168-DAY DEVSECOPS <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-orange-400 to-skybeam">ACADEMY PLATFORM.</span>
                 </h3>
 
-                <p class="text-slate-200 text-xs sm:text-sm leading-relaxed">
+                <p class="text-slate-200 text-xs sm:text-sm leading-relaxed drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
                   Author of the comprehensive 6-month, 24-week interactive zero-to-production DevSecOps curriculum. Open-source platform engineered to train developers through real hands-on Linux terminal challenges, container topologies, and automated grading.
                 </p>
 
                 <div class="grid grid-cols-3 gap-2 font-mono text-center text-xs">
-                  <div class="p-2 rounded-xl bg-slate-900/85 border border-cyan-500/20">
+                  <div class="p-2 rounded-xl bg-black/35 backdrop-blur-sm border border-cyan-500/30">
                     <div class="text-amber-400 font-bold text-base">24 WEEKS</div>
                     <div class="text-[9.5px] text-slate-400">STRUCTURED TRACKS</div>
                   </div>
-                  <div class="p-2 rounded-xl bg-slate-900/85 border border-cyan-500/20">
+                  <div class="p-2 rounded-xl bg-black/35 backdrop-blur-sm border border-cyan-500/30">
                     <div class="text-skybeam font-bold text-base">168 DAYS</div>
                     <div class="text-[9.5px] text-slate-400">DAILY HANDS-ON LABS</div>
                   </div>
-                  <div class="p-2 rounded-xl bg-slate-900/85 border border-cyan-500/20">
+                  <div class="p-2 rounded-xl bg-black/35 backdrop-blur-sm border border-cyan-500/30">
                     <div class="text-emerald font-bold text-base">100% FREE</div>
                     <div class="text-[9.5px] text-slate-400">OPEN SOURCE GITHUB</div>
                   </div>
@@ -1060,8 +1065,8 @@
                 </div>
               </div>
 
-              <!-- Card 5: Act 05 // Sector Secured & Verified Credentials -->
-              <div id="mechPhaseCard5" class="opacity-0 pointer-events-none translate-y-4 transition-all duration-500 transform p-5 sm:p-6 rounded-2xl bg-slate-950/90 backdrop-blur-xl border border-emerald-500/40 shadow-2xl space-y-3.5 absolute inset-0">
+              <!-- Card 5: Act 05 // Sector Secured & Verified Credentials (Transparent Glassmorphic) -->
+              <div id="mechPhaseCard5" class="cockpit-glass-card opacity-0 pointer-events-none translate-y-4 transition-all duration-500 transform p-5 sm:p-6 rounded-2xl bg-slate-950/30 backdrop-blur-md border border-emerald-500/35 shadow-[0_8px_32px_rgba(0,0,0,0.6)] space-y-3.5 absolute inset-0">
                 <div class="flex items-center justify-between font-mono text-xs">
                   <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/40">ACT 05 // SECTOR SECURED & VERIFIED CREDS</span>
                   <span class="text-slate-400 text-[11px]">T+00:13 – T+00:15</span>
@@ -1071,21 +1076,21 @@
                 </h3>
 
                 <div class="space-y-2 font-mono text-xs">
-                  <div class="p-3 rounded-xl bg-slate-900/85 border border-emerald-500/20 flex items-center justify-between">
+                  <div class="p-3 rounded-xl bg-black/35 backdrop-blur-sm border border-emerald-500/30 flex items-center justify-between">
                     <div>
                       <strong class="text-paper text-[11px] block">RED HAT CERTIFIED SYSTEM ADMINISTRATOR (RHCSA)</strong>
                       <span class="text-slate-400 text-[10px]">Verification ID: 230-221-171 · Enterprise Linux Kernels & Security</span>
                     </div>
                     <span class="text-emerald text-sm font-bold">✓ VERIFIED</span>
                   </div>
-                  <div class="p-3 rounded-xl bg-slate-900/85 border border-skybeam/20 flex items-center justify-between">
+                  <div class="p-3 rounded-xl bg-black/35 backdrop-blur-sm border border-skybeam/30 flex items-center justify-between">
                     <div>
                       <strong class="text-paper text-[11px] block">ORACLE CLOUD INFRASTRUCTURE (OCI) ASSOCIATE</strong>
                       <span class="text-slate-400 text-[10px]">Foundations 2023 · High Availability & Cloud Architecture</span>
                     </div>
                     <span class="text-skybeam text-sm font-bold">✓ CERTIFIED</span>
                   </div>
-                  <div class="p-3 rounded-xl bg-slate-900/85 border border-white/10 flex items-center justify-between">
+                  <div class="p-3 rounded-xl bg-black/35 backdrop-blur-sm border border-white/15 flex items-center justify-between">
                     <div>
                       <strong class="text-paper text-[11px] block">B.E. IN INFORMATION TECHNOLOGY</strong>
                       <span class="text-slate-400 text-[10px]">Savitribai Phule Pune University (SPPU Pune)</span>
@@ -1111,7 +1116,7 @@
 
             <!-- Right: Tactical Brackets & Radar Overlay -->
             <div class="hidden lg:flex flex-col items-end gap-3 pointer-events-none opacity-85 text-right font-mono">
-              <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-slate-700/60 backdrop-blur-md space-y-1.5 shadow-xl">
+              <div class="p-3.5 rounded-2xl bg-black/35 border border-slate-700/60 backdrop-blur-md space-y-1.5 shadow-xl">
                 <div class="flex items-center justify-end gap-2 text-[10px] text-slate-400">
                   <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                   <span>AHAB FREQ: 1420.4 MHz</span>
@@ -1121,7 +1126,7 @@
                 <div class="text-[10px] text-vfin">GN-DRIVE: 100% SYNCHRONIZED</div>
               </div>
 
-              <div class="p-3 rounded-2xl bg-slate-950/80 border border-slate-700/60 backdrop-blur-md space-y-1 shadow-xl text-[10px]">
+              <div class="p-3 rounded-2xl bg-black/35 border border-slate-700/60 backdrop-blur-md space-y-1 shadow-xl text-[10px]">
                 <div class="text-slate-400">VECTOR DYNAMICS</div>
                 <div class="text-paper font-bold text-sm">MACH 9.8 BURST</div>
                 <div class="text-emerald">SLO: 99.99% SECURED</div>
@@ -1131,7 +1136,7 @@
           </div>
 
           <!-- Bottom Cockpit HUD Control Deck -->
-          <div class="relative z-10 px-4 sm:px-6 py-3 bg-slate-950/85 backdrop-blur-md border-t border-white/10 space-y-2 font-mono text-xs">
+          <div class="relative z-10 px-4 sm:px-6 py-3 bg-slate-950/45 backdrop-blur-md border-t border-white/10 space-y-2 font-mono text-xs">
             
             <!-- Scrub Bar -->
             <div class="flex items-center gap-3">
