@@ -3084,32 +3084,69 @@ function initMechSpaceAnime() {
     document.getElementById('mechPhaseCard5'),
   ].filter(Boolean);
 
-  let isAutoPlaying = true;
+  let isAutoPlaying = false;
   let targetProgress = 0;
   let currentProgress = 0;
+  let isSeeking = false;
+  let pendingSeekTime = null;
   let animId = null;
-  let isHoveredOnCards = false;
 
   const actKeyframeTimes = [0.0, 3.2, 6.8, 10.2, 12.8];
+  const actScrollProgress = [0.02, 0.28, 0.52, 0.74, 0.94];
   const getDuration = () => (video.duration && !isNaN(video.duration) && video.duration > 0) ? video.duration : 14.93;
 
-  // Start video playing by default for instant 1080p anime engagement
-  video.autoplay = true;
-  video.loop = true;
+  // Prime video element for smooth hardware-accelerated scrubbing
   video.muted = true;
-  video.play().catch(() => {});
-  if (autoPlayBtn) autoPlayBtn.innerHTML = '<span>❚❚</span> PAUSE';
-  if (autoPlayBtnTop) autoPlayBtnTop.innerHTML = '<span>❚❚</span> PAUSE';
+  video.playsInline = true;
 
-  const cardsContainer = document.querySelector('.relative.w-full.max-w-2xl');
-  if (cardsContainer) {
-    cardsContainer.addEventListener('mouseenter', () => { isHoveredOnCards = true; });
-    cardsContainer.addEventListener('mouseleave', () => { isHoveredOnCards = false; });
+  function primeVideo() {
+    video.play().then(() => {
+      video.pause();
+      seekVideo(0.01);
+    }).catch(() => {});
   }
+
+  if (video.readyState >= 1) {
+    primeVideo();
+  } else {
+    video.addEventListener('loadedmetadata', primeVideo, { once: true });
+  }
+
+  // High-performance video seeker using seeked-event lock
+  function seekVideo(time) {
+    if (video.readyState < 2) return;
+    if (isSeeking) {
+      pendingSeekTime = time;
+      return;
+    }
+    const dur = getDuration();
+    const clampedTime = Math.max(0, Math.min(time, dur - 0.05));
+    if (Math.abs(video.currentTime - clampedTime) > 0.02) {
+      isSeeking = true;
+      if ('fastSeek' in video) {
+        try {
+          video.fastSeek(clampedTime);
+        } catch (_) {
+          video.currentTime = clampedTime;
+        }
+      } else {
+        video.currentTime = clampedTime;
+      }
+    }
+  }
+
+  video.addEventListener('seeked', () => {
+    isSeeking = false;
+    if (pendingSeekTime !== null) {
+      const nextTime = pendingSeekTime;
+      pendingSeekTime = null;
+      seekVideo(nextTime);
+    }
+  });
 
   function updateHUD(progress) {
     const dur = getDuration();
-    const curTime = progress * dur;
+    const curTime = Math.min(progress * dur, dur);
     if (timeDisplay) {
       const s = Math.floor(curTime);
       const ms = Math.floor((curTime - s) * 100);
@@ -3170,82 +3207,61 @@ function initMechSpaceAnime() {
     }
   }
 
-  function jumpToAct(idx) {
-    if (idx < 0 || idx >= 5) return;
-    const dur = getDuration();
-    const t = actKeyframeTimes[idx] || 0;
-    try {
-      video.currentTime = t;
-    } catch (_) {}
-    currentProgress = t / dur;
-    targetProgress = currentProgress;
-    updateHUD(currentProgress);
-    if (window.sfx && sfx.keyThock) sfx.keyThock();
-  }
-
-  document.querySelectorAll('[data-jump-act]').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const actIdx = parseInt(btn.getAttribute('data-jump-act'), 10);
-      jumpToAct(actIdx);
-    });
-  });
-
+  // Animation render loop: drives video scrubbing with smooth lerp physics
   function renderLoop() {
     if (!isAutoPlaying) {
       const diff = targetProgress - currentProgress;
-      if (Math.abs(diff) > 0.001) {
-        currentProgress += diff * 0.18;
-        if (!video.seeking && video.readyState >= 1) {
-          const targetTime = currentProgress * getDuration();
-          if (Math.abs(video.currentTime - targetTime) > 0.04) {
-            video.currentTime = targetTime;
-          }
-        }
+      if (Math.abs(diff) > 0.0008) {
+        currentProgress += diff * 0.22;
+        const targetTime = currentProgress * getDuration();
+        seekVideo(targetTime);
         updateHUD(currentProgress);
       }
     } else {
       currentProgress = video.currentTime / getDuration();
-      if (!isHoveredOnCards) {
-        updateHUD(currentProgress);
-      }
+      updateHUD(currentProgress);
     }
     animId = requestAnimationFrame(renderLoop);
   }
 
+  // Scroll listener: Computes progress directly from scroll position
   function onScroll() {
+    if (isAutoPlaying) {
+      toggleAutoPlay(false);
+    }
+
     const rect = track.getBoundingClientRect();
     const windowH = window.innerHeight;
     const trackH = track.offsetHeight;
+    const stickyTop = 112; // top-28 offset below header and dock
     const scrollableDistance = trackH - windowH;
     if (scrollableDistance <= 0) return;
 
-    const scrolled = -rect.top;
-    if (scrolled >= 0 && scrolled <= scrollableDistance) {
-      const p = Math.min(Math.max(scrolled / scrollableDistance, 0), 1);
-      targetProgress = p;
-      if (!isAutoPlaying) {
-        currentProgress = p;
-        updateHUD(p);
-      }
-    }
+    const scrolled = -(rect.top - stickyTop);
+    const p = Math.min(Math.max(scrolled / scrollableDistance, 0), 1);
+    targetProgress = p;
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
+  currentProgress = targetProgress;
+  updateHUD(currentProgress);
   animId = requestAnimationFrame(renderLoop);
 
-  video.addEventListener('loadedmetadata', () => {
-    updateHUD(currentProgress);
-  });
-
   video.addEventListener('ended', () => {
-    video.currentTime = 0;
-    video.play().catch(() => {});
+    if (isAutoPlaying) {
+      video.currentTime = 0;
+      video.play().catch(() => {});
+    }
   });
 
-  function toggleAutoPlay() {
-    isAutoPlaying = !isAutoPlaying;
+  function toggleAutoPlay(forcedState) {
+    if (typeof forcedState === 'boolean') {
+      isAutoPlaying = forcedState;
+    } else {
+      isAutoPlaying = !isAutoPlaying;
+    }
+
     if (isAutoPlaying) {
       video.play().catch(() => {});
       if (autoPlayBtn) autoPlayBtn.innerHTML = '<span>❚❚</span> PAUSE';
@@ -3258,29 +3274,74 @@ function initMechSpaceAnime() {
     }
   }
 
-  if (autoPlayBtn) autoPlayBtn.onclick = toggleAutoPlay;
-  if (autoPlayBtnTop) autoPlayBtnTop.onclick = toggleAutoPlay;
+  if (autoPlayBtn) autoPlayBtn.onclick = () => toggleAutoPlay();
+  if (autoPlayBtnTop) autoPlayBtnTop.onclick = () => toggleAutoPlay();
 
   if (soundBtn) {
     soundBtn.onclick = () => {
       video.muted = !video.muted;
       soundBtn.innerHTML = video.muted ? '<span>🔇</span> MUTED' : '<span>🔊</span> SOUND ON';
-      if (!video.muted && video.paused) {
-        video.play().catch(() => {});
+      if (!video.muted && !isAutoPlaying) {
+        toggleAutoPlay(true);
       }
     };
   }
 
+  // Jump to act via chapter tabs: Smoothly scrolls to that chapter's position
+  function jumpToAct(actIdx) {
+    if (actIdx < 0 || actIdx >= 5) return;
+    toggleAutoPlay(false);
+
+    const p = actScrollProgress[actIdx];
+    const trackH = track.offsetHeight;
+    const windowH = window.innerHeight;
+    const scrollableDistance = trackH - windowH;
+    const stickyTop = 112;
+    const trackTop = track.getBoundingClientRect().top + window.scrollY;
+    const targetScrollY = trackTop - stickyTop + (p * scrollableDistance);
+
+    window.scrollTo({
+      top: targetScrollY,
+      behavior: 'smooth'
+    });
+
+    targetProgress = p;
+    seekVideo(p * getDuration());
+    updateHUD(p);
+    if (window.sfx && sfx.keyThock) sfx.keyThock();
+  }
+
+  document.querySelectorAll('[data-jump-act]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const actIdx = parseInt(btn.getAttribute('data-jump-act'), 10);
+      jumpToAct(actIdx);
+    });
+  });
+
+  // Scrub bar interaction
   if (scrubTrack) {
     const handleScrub = (e) => {
+      toggleAutoPlay(false);
       const rect = scrubTrack.getBoundingClientRect();
       const clientX = e.clientX || (e.touches && e.touches[0].clientX);
       const pos = Math.min(Math.max((clientX - rect.left) / rect.width, 0), 1);
+      
+      const trackH = track.offsetHeight;
+      const windowH = window.innerHeight;
+      const scrollableDistance = trackH - windowH;
+      const stickyTop = 112;
+      const trackTop = track.getBoundingClientRect().top + window.scrollY;
+      const targetScrollY = trackTop - stickyTop + (pos * scrollableDistance);
+
+      window.scrollTo({
+        top: targetScrollY,
+        behavior: 'smooth'
+      });
+
       targetProgress = pos;
       currentProgress = pos;
-      if (video.readyState >= 1) {
-        video.currentTime = pos * getDuration();
-      }
+      seekVideo(pos * getDuration());
       updateHUD(pos);
     };
     scrubTrack.addEventListener('click', handleScrub);
@@ -3289,11 +3350,22 @@ function initMechSpaceAnime() {
   document.querySelectorAll('[data-jump-phase]').forEach(btn => {
     btn.addEventListener('click', () => {
       const phase = parseFloat(btn.getAttribute('data-jump-phase'));
+      toggleAutoPlay(false);
+      const trackH = track.offsetHeight;
+      const windowH = window.innerHeight;
+      const scrollableDistance = trackH - windowH;
+      const stickyTop = 112;
+      const trackTop = track.getBoundingClientRect().top + window.scrollY;
+      const targetScrollY = trackTop - stickyTop + (phase * scrollableDistance);
+
+      window.scrollTo({
+        top: targetScrollY,
+        behavior: 'smooth'
+      });
+
       targetProgress = phase;
       currentProgress = phase;
-      if (video.readyState >= 1) {
-        video.currentTime = phase * getDuration();
-      }
+      seekVideo(phase * getDuration());
       updateHUD(phase);
       if (window.sfx && sfx.keyThock) sfx.keyThock();
     });
@@ -3311,7 +3383,6 @@ function initMechSpaceAnime() {
     };
   }
 }
-
 // =====================================================================
 // PILOT HUD QUICK-DOCK NAVIGATION OBSERVER
 // =====================================================================
